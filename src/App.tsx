@@ -1,7 +1,11 @@
 import './App.css';
+
+import '@twa-dev/sdk';
+
 import { TonConnectButton } from '@tonconnect/ui-react';
 import { useTonConnect } from './hooks/useTonConnect';
 import { useCounterContract } from './hooks/useCounterContract';
+
 
 function App() {
   const { connected } = useTonConnect();
