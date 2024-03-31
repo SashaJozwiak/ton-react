@@ -6,8 +6,10 @@ export const Go = () => {
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
         clientSecret: import.meta.env.VITE_SECRET_KEY,
-        redirectUri: 'https://sashajozwiak.github.io/ton-react'
+        redirectUri: 'http://localhost:5173/ton-react/' //change
     });
+
+    //console.log(import.meta.env.VITE_SECRET_KEY);
 
     async function handleLogin() {
         try {
