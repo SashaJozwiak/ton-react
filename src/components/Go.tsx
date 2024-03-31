@@ -6,7 +6,7 @@ export const Go = () => {
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
         clientSecret: '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',
-        redirectUri: 'http://localhost:5173/ton-react/'
+        redirectUri: 'https://sashajozwiak.github.io/ton-react'
     });
 
     async function handleLogin() {
