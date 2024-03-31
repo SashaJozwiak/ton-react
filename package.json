@@ -18,10 +18,8 @@
     "@twa-dev/sdk": "^7.0.0",
     "axios": "^1.6.8",
     "google-auth-library": "^9.7.0",
-    "googleapis": "^134.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-google-login": "^5.2.2",
     "vite-plugin-node-polyfills": "^0.21.0"
   },
   "devDependencies": {
