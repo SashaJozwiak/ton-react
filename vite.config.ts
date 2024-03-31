@@ -6,8 +6,4 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills'
 export default defineConfig({
   plugins: [react(), nodePolyfills()],
   base: '/ton-react/',
-  optimizeDeps: {
-    exclude: ['vite.svg'], // исключаем vite.svg
-    include: ['icon.png'] // добавляем newFile.svg
-  }
 });

@@ -5,13 +5,14 @@ import '@twa-dev/sdk';
 import { TonConnectButton } from '@tonconnect/ui-react';
 import { useTonConnect } from './hooks/useTonConnect';
 import { useCounterContract } from './hooks/useCounterContract';
+import { Go } from './components/Go';
 
 
 function App() {
   const { connected } = useTonConnect();
   const { value, address, sendIncrement } = useCounterContract();
 
-  console.log(value, address);
+  //console.log(value, address);
   return (
     <div className='App'>
       <div className='Container'>
@@ -37,6 +38,8 @@ function App() {
           Increment
         </a>
       </div>
+      <Go />
+      {/* <GoogleAuthButton /> */}
     </div>
   );
 }
