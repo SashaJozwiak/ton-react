@@ -5,7 +5,7 @@ export const Go = () => {
 
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
-        clientSecret: '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',
+        clientSecret: import.meta.env.VITE_SECRET_KEY,
         redirectUri: 'https://sashajozwiak.github.io/ton-react'
     });
 
