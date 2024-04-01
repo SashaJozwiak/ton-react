@@ -29,7 +29,7 @@ export const Go = () => {
                 {
                     "aggregateBy": [{
                         "dataTypeName": "com.google.step_count.delta",
-                        //"dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+                        "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
                     }],
                     "bucketByTime": {
                         "durationMillis": 86400000 // 1 день в миллисекундах
@@ -45,7 +45,7 @@ export const Go = () => {
                 }
             )
 
-            console.log('steps:', steps.data.bucket[0].dataset[0].point[0].value[0].intVal);
+            console.log('steps:', steps.data.bucket[0].dataset[0]);
             setSteps(steps.data.bucket[0].dataset[0].point[0].value[0].intVal)
 
             console.log('User data from Google Fit:', response.data);
