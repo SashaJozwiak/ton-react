@@ -81,10 +81,7 @@ export const Go = () => {
         const storedToken = localStorage.getItem('accessToken');
         if (storedToken === 'true') {
             setIsLoggedIn(true);
-        }
-    }, []);
-
-    React.useEffect(() => {
+        } else {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
 
@@ -109,6 +106,7 @@ export const Go = () => {
                 fetchDataFromGoogleFit(JSON.parse(storedToken));
                 setIsLoggedIn(true);
             }
+        }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
