@@ -61,8 +61,8 @@ export const Go = () => {
                 scope: 'https://www.googleapis.com/auth/fitness.activity.read'
             });
 
-            //window.location.href = url;
-            window.open(url, '_blank');
+            window.location.href = url;
+            //window.open(url, '_blank');
             //window.close();
         } catch (error) {
             console.log(error);
