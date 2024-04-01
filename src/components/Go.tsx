@@ -3,7 +3,7 @@ import { OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 
 export const Go = () => {
-    const [accessToken, setAccessToken] = React.useState(null);
+    const [accessToken, setAccessToken] = React.useState({});
 
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
