@@ -78,6 +78,13 @@ export const Go = () => {
     }
 
     React.useEffect(() => {
+        const storedToken = localStorage.getItem('accessToken');
+        if (storedToken === 'true') {
+            setIsLoggedIn(true);
+        }
+    }, []);
+
+    React.useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
 
