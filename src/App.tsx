@@ -7,6 +7,10 @@ import { TonConnectButton } from '@tonconnect/ui-react';
 //import { useCounterContract } from './hooks/useCounterContract';
 import { Go } from './components/Go/Go';
 
+import eruda from 'eruda'
+
+eruda.init();
+
 
 function App() {
   //const { connected } = useTonConnect();
