@@ -3,22 +3,23 @@ import './App.css';
 import '@twa-dev/sdk';
 
 import { TonConnectButton } from '@tonconnect/ui-react';
-import { useTonConnect } from './hooks/useTonConnect';
-import { useCounterContract } from './hooks/useCounterContract';
+//import { useTonConnect } from './hooks/useTonConnect';
+//import { useCounterContract } from './hooks/useCounterContract';
 import { Go } from './components/Go';
 
 
 function App() {
-  const { connected } = useTonConnect();
-  const { value, address, sendIncrement } = useCounterContract();
+  //const { connected } = useTonConnect();
+  //const { value, address, sendIncrement } = useCounterContract();
 
   //console.log(value, address);
   return (
     <div className='App'>
+
       <div className='Container'>
         <TonConnectButton />
 
-        <div className='Card'>
+        {/*  <div className='Card'>
           <b>Counter Address</b>
           <div className='Hint'>{address?.slice(0, 20) + '...'}</div>
         </div>
@@ -30,14 +31,14 @@ function App() {
 
         <a
           className={`Button ${connected ? 'Active' : 'Disabled'}`}
-          /* style={{ border: '1px solid gray', padding: '1%' }} */
           onClick={() => {
             sendIncrement();
           }}
         >
           Increment
-        </a>
+        </a> */}
       </div>
+
       <Go />
       {/* <GoogleAuthButton /> */}
     </div>

@@ -1,9 +1,12 @@
 import React from 'react'
-import { OAuth2Client } from 'google-auth-library';
+import { Credentials, OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 
 export const Go = () => {
-    const [accessToken, setAccessToken] = React.useState({});
+    const [, setAccessToken] = React.useState<Credentials | null>(null);
+    const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+    const [steps, setSteps] = React.useState(0);
 
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
@@ -40,7 +43,8 @@ export const Go = () => {
                 }
             )
 
-            console.log('steps:', steps.data);
+            console.log('steps:', steps.data.bucket[0].dataset[0].point[0].value[0].intVal);
+            setSteps(steps.data.bucket[0].dataset[0].point[0].value[0].intVal)
 
             console.log('User data from Google Fit:', response.data);
         } catch (error) {
@@ -59,7 +63,14 @@ export const Go = () => {
         } catch (error) {
             console.log(error);
         }
+    }
 
+    function handleLogout() {
+        // Очищаем токен доступа из localStorage и состояния
+        localStorage.removeItem('accessToken');
+        setAccessToken(null);
+        setIsLoggedIn(false);
+        setSteps(0);
     }
 
     React.useEffect(() => {
@@ -73,17 +84,17 @@ export const Go = () => {
                     setAccessToken(response.tokens);
                     localStorage.setItem('accessToken', JSON.stringify(response.tokens));
                     fetchDataFromGoogleFit(response.tokens);
+                    window.history.replaceState({}, document.title, window.location.pathname);
+                    setIsLoggedIn(true);
                 })
                 .catch((error) => console.error('Error:', error));
-
-        } else if (urlParams.has('error')) {
-            console.error('Authorization error:', urlParams.get('error'));
 
         } else {
             const storedToken = localStorage.getItem('accessToken');
             if (storedToken) {
                 setAccessToken(JSON.parse(storedToken));
                 fetchDataFromGoogleFit(JSON.parse(storedToken));
+                setIsLoggedIn(true);
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -91,9 +102,12 @@ export const Go = () => {
 
     return (
         <>
-            <div>Go</div>
-            <button onClick={handleLogin}>Login with Google</button>
-
+            <div>{steps}</div>
+            {isLoggedIn ? (
+                <button onClick={handleLogout}>Log out</button>
+            ) : (
+                <button onClick={handleLogin}>Login with Google</button>
+            )}
         </>
     )
 }
