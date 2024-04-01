@@ -2,17 +2,35 @@ import React from 'react';
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 
+import { useCloudStorage } from "@vkruglikov/react-telegram-web-app";
+
 export const Go = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [, setAccessToken] = React.useState<Credentials | null>(null);
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [steps, setSteps] = React.useState(0);
 
+    const [TGstorage, setTGStorage] = React.useState(null);
+
+    const storage = useCloudStorage();
+
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
         clientSecret: import.meta.env.VITE_SECRET_KEY,
         redirectUri: 'https://t.me/ton_react_bot/ton_react'
     });
+
+    async function setStorage() {
+        await storage.setItem("testuseCloudStorage", JSON.stringify('some value'));
+    }
+
+
+    setStorage()
+
+    async function getStorage() {
+        setTGStorage(JSON.parse(await storage.getItem('testuseCloudStorage')));
+    }
+
 
     localStorage.setItem('test', 'test');
 
@@ -98,6 +116,11 @@ export const Go = () => {
         <>
             <div>{steps}</div>
             <div>state: {isLoggedIn.toString()}</div>
+
+            <div>{TGstorage}</div>
+
+            <button onClick={getStorage}>save in storage</button>
+
             {isLoggedIn ? (
                 <button onClick={handleLogout}>Log out</button>
             ) : (

@@ -16,6 +16,7 @@
     "@ton/ton": "^13.11.1",
     "@tonconnect/ui-react": "^2.0.0",
     "@twa-dev/sdk": "^7.0.0",
+    "@vkruglikov/react-telegram-web-app": "^2.1.9",
     "axios": "^1.6.8",
     "eruda": "^3.0.1",
     "google-auth-library": "^9.7.0",
