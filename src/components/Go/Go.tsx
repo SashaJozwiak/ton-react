@@ -14,6 +14,8 @@ export const Go = () => {
         redirectUri: 'https://t.me/ton_react_bot/ton_react'
     });
 
+    localStorage.setItem('test', 'test');
+
     async function fetchDataFromGoogleFit(token: Credentials) {
         try {
             const response = await axios.get('https://www.googleapis.com/fitness/v1/users/me/dataSources', {
