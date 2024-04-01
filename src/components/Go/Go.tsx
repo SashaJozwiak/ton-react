@@ -8,10 +8,12 @@ export const Go = () => {
 
     const [steps, setSteps] = React.useState(0);
 
+    //getChatId();
+
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
         clientSecret: import.meta.env.VITE_SECRET_KEY,
-        redirectUri: 'https://sashajozwiak.github.io/ton-react/' //change
+        redirectUri: 'http://localhost:5173/ton-react/' //change
     });
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -56,10 +58,12 @@ export const Go = () => {
         try {
             const url = client.generateAuthUrl({
                 access_type: 'offline',
-                scope: 'https://www.googleapis.com/auth/fitness.activity.read'
+                scope: 'https://t.me/ton_react_bot/ton_react'
             });
 
-            window.location.href = url;
+            //window.location.href = url;
+            window.open(url, '_blank');
+            //window.close();
         } catch (error) {
             console.log(error);
         }
@@ -108,6 +112,7 @@ export const Go = () => {
             ) : (
                 <button onClick={handleLogin}>Login with Google</button>
             )}
+
         </>
     )
 }
