@@ -58,7 +58,7 @@ export const Go = () => {
         try {
             const url = client.generateAuthUrl({
                 access_type: 'offline',
-                scope: 'https://t.me/ton_react_bot/ton_react'
+                scope: 'https://www.googleapis.com/auth/fitness.activity.read'
             });
 
             //window.location.href = url;
