@@ -1,23 +1,20 @@
-import React from 'react'
+import React from 'react';
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 
 export const Go = () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [, setAccessToken] = React.useState<Credentials | null>(null);
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-
     const [steps, setSteps] = React.useState(0);
-
-    //getChatId();
 
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
         clientSecret: import.meta.env.VITE_SECRET_KEY,
-        redirectUri: 'https://t.me/ton_react_bot/ton_react' //change
+        redirectUri: 'https://t.me/ton_react_bot/ton_react'
     });
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    async function fetchDataFromGoogleFit(token: any) {
+    async function fetchDataFromGoogleFit(token: Credentials) {
         try {
             const response = await axios.get('https://www.googleapis.com/fitness/v1/users/me/dataSources', {
                 headers: {
@@ -25,29 +22,25 @@ export const Go = () => {
                 },
             });
 
-            const steps = await axios.post('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate',
-                {
-                    "aggregateBy": [{
-                        "dataTypeName": "com.google.step_count.delta",
-                        "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
-                    }],
-                    "bucketByTime": {
-                        "durationMillis": 86400000 // 1 день в миллисекундах
-                    },
-                    "startTimeMillis": new Date().setHours(0, 0, 0, 0), // начало текущего дня
-                    "endTimeMillis": new Date().getTime() // текущее время
+            const stepsResponse = await axios.post('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate', {
+                "aggregateBy": [{
+                    "dataTypeName": "com.google.step_count.delta",
+                    "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+                }],
+                "bucketByTime": {
+                    "durationMillis": 86400000
                 },
-                {
-                    headers: {
-                        'Authorization': `Bearer ${token.access_token}`,
-                        'Content-Type': 'application/json'
-                    }
+                "startTimeMillis": new Date().setHours(0, 0, 0, 0),
+                "endTimeMillis": new Date().getTime()
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token.access_token}`,
+                    'Content-Type': 'application/json'
                 }
-            )
+            });
 
-            console.log('steps:', steps.data.bucket[0].dataset[0]);
-            setSteps(steps.data.bucket[0].dataset[0].point[0].value[0].intVal)
-
+            console.log('steps:', stepsResponse.data.bucket[0].dataset[0].point[0].value[0].intVal);
+            setSteps(stepsResponse.data.bucket[0].dataset[0].point[0].value[0].intVal);
             console.log('User data from Google Fit:', response.data);
         } catch (error) {
             console.error('Error fetching user data from Google Fit:', error);
@@ -60,17 +53,13 @@ export const Go = () => {
                 access_type: 'offline',
                 scope: 'https://www.googleapis.com/auth/fitness.activity.read'
             });
-
-            //window.location.href = url;
             window.open(url, '_blank');
-            //window.close();
         } catch (error) {
             console.log(error);
         }
     }
 
     function handleLogout() {
-        // Очищаем токен доступа из localStorage и состояния
         localStorage.removeItem('accessToken');
         setAccessToken(null);
         setIsLoggedIn(false);
@@ -78,10 +67,6 @@ export const Go = () => {
     }
 
     React.useEffect(() => {
-        const storedToken = localStorage.getItem('accessToken');
-        if (storedToken === 'true') {
-            setIsLoggedIn(true);
-        } else {
         const urlParams = new URLSearchParams(window.location.search);
         const code = urlParams.get('code');
 
@@ -93,20 +78,16 @@ export const Go = () => {
                     localStorage.setItem('accessToken', JSON.stringify(response.tokens));
                     fetchDataFromGoogleFit(response.tokens);
                     window.history.replaceState({}, document.title, window.location.pathname);
-                    localStorage.setItem('isLoggedIn', 'true'); // Set isLoggedIn to true in localStorage
                     setIsLoggedIn(true);
                 })
                 .catch((error) => console.error('Error:', error));
-
         } else {
             const storedToken = localStorage.getItem('accessToken');
-            const storedIsLoggedIn = localStorage.getItem('isLoggedIn');// Get isLoggedIn from localStorage
-            if (storedToken && storedIsLoggedIn === 'true') {
+            if (storedToken) {
                 setAccessToken(JSON.parse(storedToken));
                 fetchDataFromGoogleFit(JSON.parse(storedToken));
                 setIsLoggedIn(true);
             }
-        }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -114,12 +95,12 @@ export const Go = () => {
     return (
         <>
             <div>{steps}</div>
+            <div>state: {isLoggedIn.toString()}</div>
             {isLoggedIn ? (
                 <button onClick={handleLogout}>Log out</button>
             ) : (
                 <button onClick={handleLogin}>Login with Google</button>
             )}
-
         </>
-    )
-}
+    );
+};
