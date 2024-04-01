@@ -61,8 +61,8 @@ export const Go = () => {
                 scope: 'https://www.googleapis.com/auth/fitness.activity.read'
             });
 
-            window.location.href = url;
-            //window.open(url, '_blank');
+            //window.location.href = url;
+            window.open(url, '_blank');
             //window.close();
         } catch (error) {
             console.log(error);
@@ -89,13 +89,15 @@ export const Go = () => {
                     localStorage.setItem('accessToken', JSON.stringify(response.tokens));
                     fetchDataFromGoogleFit(response.tokens);
                     window.history.replaceState({}, document.title, window.location.pathname);
+                    localStorage.setItem('isLoggedIn', 'true'); // Set isLoggedIn to true in localStorage
                     setIsLoggedIn(true);
                 })
                 .catch((error) => console.error('Error:', error));
 
         } else {
             const storedToken = localStorage.getItem('accessToken');
-            if (storedToken) {
+            const storedIsLoggedIn = localStorage.getItem('isLoggedIn');// Get isLoggedIn from localStorage
+            if (storedToken && storedIsLoggedIn === 'true') {
                 setAccessToken(JSON.parse(storedToken));
                 fetchDataFromGoogleFit(JSON.parse(storedToken));
                 setIsLoggedIn(true);
