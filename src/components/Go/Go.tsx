@@ -142,7 +142,7 @@ export const Go = () => {
                     setAccessToken(response.tokens);
                     localStorage.setItem('accessToken', JSON.stringify(response.tokens));
                     fetchDataFromGoogleFit(response.tokens);
-                    window.history.replaceState({}, document.title, window.location.pathname);
+                    //window.history.replaceState({}, document.title, window.location.pathname);
                     setIsLoggedIn(true);
                 })
                 .catch((error) => console.error('Error:', error));
