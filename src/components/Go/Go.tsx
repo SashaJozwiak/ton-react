@@ -81,7 +81,7 @@ export const Go = () => {
         if (code) {
             client.getToken(code)
                 .then((response) => {
-                    console.log('Token:', response);
+                    //console.log('Token:', response);
                     setAccessToken(response.tokens);
                     localStorage.setItem('accessToken', JSON.stringify(response.tokens));
                     fetchDataFromGoogleFit(response.tokens);
