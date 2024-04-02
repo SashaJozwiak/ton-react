@@ -44,7 +44,7 @@ export const Go = () => {
         alert('Объект скопирован в буфер обмена!');
     };
 
-    const handlePasteFromClipboard = () => {
+    /* const handlePasteFromClipboard = () => {
         navigator.clipboard.readText().then(text => {
             try {
                 const parsedObject = JSON.parse(text);
@@ -65,7 +65,7 @@ export const Go = () => {
             console.error('Ошибка при чтении текста из буфера обмена:', error);
             alert('Ошибка при чтении текста из буфера обмена!');
         });
-    };
+    }; */
 
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
