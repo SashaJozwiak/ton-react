@@ -31,26 +31,36 @@ export const Go = () => {
     };
 
     const handlePasteFromClipboard = () => {
-        navigator.clipboard.readText().then(text => {
-            try {
-                const parsedObject = JSON.parse(text);
-                //setYourObject(parsedObject);
-
-                setAccessToken(parsedObject);
-                localStorage.setItem('accessToken', JSON.stringify(parsedObject));
-                fetchDataFromGoogleFit(parsedObject);
-                window.history.replaceState({}, document.title, window.location.pathname);
-                setIsLoggedIn(true);
-
-                alert('Объект успешно загружен из буфера обмена!');
-            } catch (error) {
-                console.error('Ошибка при парсинге объекта из буфера обмена:', error);
-                alert('Ошибка при загрузке объекта из буфера обмена!');
-            }
-        }).catch(error => {
-            console.error('Ошибка при чтении текста из буфера обмена:', error);
-            alert('Ошибка при чтении текста из буфера обмена!');
-        });
+        if ('permissions' in navigator) {
+            navigator.permissions.query({ name: 'clipboard-read' as PermissionName }).then(result => {
+                if (result.state === 'granted' || result.state === 'prompt') {
+                    navigator.clipboard.readText().then(text => {
+                        try {
+                            const parsedObject = JSON.parse(text);
+                            setAccessToken(parsedObject);
+                            localStorage.setItem('accessToken', JSON.stringify(parsedObject));
+                            fetchDataFromGoogleFit(parsedObject);
+                            window.history.replaceState({}, document.title, window.location.pathname);
+                            setIsLoggedIn(true);
+                            alert('Объект успешно загружен из буфера обмена!');
+                        } catch (error) {
+                            console.error('Ошибка при парсинге объекта из буфера обмена:', error);
+                            alert('Ошибка при загрузке объекта из буфера обмена!');
+                        }
+                    }).catch(error => {
+                        console.error('Ошибка при чтении текста из буфера обмена:', error);
+                        alert('Ошибка при чтении текста из буфера обмена!');
+                    });
+                } else {
+                    alert('Разрешение на чтение из буфера обмена отклонено.');
+                }
+            }).catch(error => {
+                console.error('Ошибка при запросе разрешения на чтение из буфера обмена:', error);
+                alert('Ошибка при запросе разрешения на чтение из буфера обмена!');
+            });
+        } else {
+            alert('API Permissions не поддерживается в вашем браузере.');
+        }
     };
 
     const client = new OAuth2Client({
