@@ -100,6 +100,7 @@ export const Go = () => {
                 }
             });
 
+            console.log(stepsResponse.data)
             console.log('steps:', stepsResponse.data.bucket[0].dataset[0].point[0].value[0].intVal);
             setSteps(stepsResponse.data.bucket[0].dataset[0].point[0].value[0].intVal);
             console.log('User data from Google Fit:', response.data);
