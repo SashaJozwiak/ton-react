@@ -2,6 +2,8 @@ import React from 'react';
 import { Credentials, OAuth2Client } from 'google-auth-library';
 import axios from 'axios';
 
+import copy from 'copy-to-clipboard';
+
 //import { useCloudStorage } from "@vkruglikov/react-telegram-web-app";
 
 export const Go = () => {
@@ -10,7 +12,46 @@ export const Go = () => {
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
     const [steps, setSteps] = React.useState(0);
 
+    const [yourStateObject, setYourStateObject] = React.useState({});
+
     //const storage = useCloudStorage();
+
+    const copyObjectToClipboard = () => {
+        // Здесь вы получаете ваш объект из состояния
+        const objectToCopy = yourStateObject;
+
+        // Преобразуйте объект в строку JSON
+        const jsonString = JSON.stringify(objectToCopy);
+
+        // Копируем строку JSON в буфер обмена
+        copy(jsonString);
+
+        // Можно добавить обратную связь для пользователя
+        alert('Объект скопирован в буфер обмена!');
+    };
+
+    const handlePasteFromClipboard = () => {
+        navigator.clipboard.readText().then(text => {
+            try {
+                const parsedObject = JSON.parse(text);
+                //setYourObject(parsedObject);
+
+                setAccessToken(parsedObject);
+                localStorage.setItem('accessToken', JSON.stringify(parsedObject));
+                fetchDataFromGoogleFit(parsedObject);
+                window.history.replaceState({}, document.title, window.location.pathname);
+                setIsLoggedIn(true);
+
+                alert('Объект успешно загружен из буфера обмена!');
+            } catch (error) {
+                console.error('Ошибка при парсинге объекта из буфера обмена:', error);
+                alert('Ошибка при загрузке объекта из буфера обмена!');
+            }
+        }).catch(error => {
+            console.error('Ошибка при чтении текста из буфера обмена:', error);
+            alert('Ошибка при чтении текста из буфера обмена!');
+        });
+    };
 
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
@@ -82,6 +123,8 @@ export const Go = () => {
             client.getToken(code)
                 .then((response) => {
                     //console.log('Token:', response);
+                    setYourStateObject(response.tokens)
+
                     setAccessToken(response.tokens);
                     localStorage.setItem('accessToken', JSON.stringify(response.tokens));
                     fetchDataFromGoogleFit(response.tokens);
@@ -110,6 +153,9 @@ export const Go = () => {
             ) : (
                 <button onClick={handleLogin}>Login with Google</button>
             )}
+
+            <button onClick={copyObjectToClipboard}>Скопировать объект</button>
+            <button onClick={handlePasteFromClipboard}>вставить объект</button>
         </>
     );
 };
