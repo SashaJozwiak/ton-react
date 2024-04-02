@@ -16,6 +16,20 @@ export const Go = () => {
 
     //const storage = useCloudStorage();
 
+    const [onChageState, setOnChangeState] = React.useState('');
+
+    const handleOnChange = () => {
+        const parsedObject = JSON.parse(onChageState);
+        setYourStateObject(parsedObject)
+        setAccessToken(parsedObject);
+        localStorage.setItem('accessToken', JSON.stringify(parsedObject));
+        fetchDataFromGoogleFit(parsedObject);
+        window.history.replaceState({}, document.title, window.location.pathname);
+        setIsLoggedIn(true);
+
+    }
+
+
     const copyObjectToClipboard = () => {
         // Здесь вы получаете ваш объект из состояния
         const objectToCopy = yourStateObject;
@@ -31,36 +45,26 @@ export const Go = () => {
     };
 
     const handlePasteFromClipboard = () => {
-        if ('permissions' in navigator) {
-            navigator.permissions.query({ name: 'clipboard-read' as PermissionName }).then(result => {
-                if (result.state === 'granted' || result.state === 'prompt') {
-                    navigator.clipboard.readText().then(text => {
-                        try {
-                            const parsedObject = JSON.parse(text);
-                            setAccessToken(parsedObject);
-                            localStorage.setItem('accessToken', JSON.stringify(parsedObject));
-                            fetchDataFromGoogleFit(parsedObject);
-                            window.history.replaceState({}, document.title, window.location.pathname);
-                            setIsLoggedIn(true);
-                            alert('Объект успешно загружен из буфера обмена!');
-                        } catch (error) {
-                            console.error('Ошибка при парсинге объекта из буфера обмена:', error);
-                            alert('Ошибка при загрузке объекта из буфера обмена!');
-                        }
-                    }).catch(error => {
-                        console.error('Ошибка при чтении текста из буфера обмена:', error);
-                        alert('Ошибка при чтении текста из буфера обмена!');
-                    });
-                } else {
-                    alert('Разрешение на чтение из буфера обмена отклонено.');
-                }
-            }).catch(error => {
-                console.error('Ошибка при запросе разрешения на чтение из буфера обмена:', error);
-                alert('Ошибка при запросе разрешения на чтение из буфера обмена!');
-            });
-        } else {
-            alert('API Permissions не поддерживается в вашем браузере.');
-        }
+        navigator.clipboard.readText().then(text => {
+            try {
+                const parsedObject = JSON.parse(text);
+                //setYourObject(parsedObject);
+
+                setAccessToken(parsedObject);
+                localStorage.setItem('accessToken', JSON.stringify(parsedObject));
+                fetchDataFromGoogleFit(parsedObject);
+                window.history.replaceState({}, document.title, window.location.pathname);
+                setIsLoggedIn(true);
+
+                alert('Объект успешно загружен из буфера обмена!');
+            } catch (error) {
+                console.error('Ошибка при парсинге объекта из буфера обмена:', error);
+                alert('Ошибка при загрузке объекта из буфера обмена!');
+            }
+        }).catch(error => {
+            console.error('Ошибка при чтении текста из буфера обмена:', error);
+            alert('Ошибка при чтении текста из буфера обмена!');
+        });
     };
 
     const client = new OAuth2Client({
@@ -165,7 +169,11 @@ export const Go = () => {
             )}
 
             <button onClick={copyObjectToClipboard}>Скопировать объект</button>
-            <button onClick={handlePasteFromClipboard}>вставить объект</button>
+
+            <input type="text" value={onChageState}
+                placeholder="Enter key" onChange={(e) => setOnChangeState(e.target.value)} />
+            <input type="button" value='Apply' onClick={handleOnChange} />
+
         </>
     );
 };
