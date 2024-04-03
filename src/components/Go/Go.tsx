@@ -82,17 +82,27 @@ export const Go = () => {
                     Authorization: `Bearer ${token.access_token}`,
                 },
             });
+            // Установка временных интервалов для запроса данных о шагах
+            const start = new Date().setHours(0, 0, 0, 0);
+            const end = new Date().getTime();
 
+            // Вывод временных интервалов для отладки
+            console.log({
+                start: new Date(start).toLocaleString(),
+                startMillis: start,
+                end: new Date(end).toLocaleString(),
+                endMillis: end
+            });
             const stepsResponse = await axios.post('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate', {
                 "aggregateBy": [{
                     "dataTypeName": "com.google.step_count.delta",
-                    "dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+                    //"dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
                 }],
                 "bucketByTime": {
                     "durationMillis": 86400000
                 },
-                "startTimeMillis": new Date().setHours(0, 0, 0, 0),
-                "endTimeMillis": new Date().getTime()
+                "startTimeMillis": start,
+                "endTimeMillis": end,
             }, {
                 headers: {
                     'Authorization': `Bearer ${token.access_token}`,
@@ -113,7 +123,8 @@ export const Go = () => {
         try {
             const url = client.generateAuthUrl({
                 access_type: 'offline',
-                scope: 'https://www.googleapis.com/auth/fitness.activity.read'
+                scope: 'https://www.googleapis.com/auth/fitness.activity.read',
+                prompt: 'consent' // Добавляем параметр prompt со значением consent, чтобы пользователь мог выбрать разрешения
             });
             window.open(url, '_blank');
         } catch (error) {
@@ -127,6 +138,38 @@ export const Go = () => {
         setIsLoggedIn(false);
         setSteps(0);
     }
+
+    async function refreshToken(refreshToken: string) {
+        console.log(refreshToken)
+        try {
+            const requestBody = {
+                client_id: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
+                client_secret: import.meta.env.VITE_SECRET_KEY,
+                refresh_token: refreshToken,
+                grant_type: 'refresh_token'
+            };
+
+            // Отправляем POST запрос к серверу авторизации
+            const response = await axios.post('https://oauth2.googleapis.com/token', requestBody);
+
+            // Обрабатываем ответ и обновляем данные о токене
+            const newAccessToken: Credentials = {
+                access_token: response.data.access_token,
+                refresh_token: refreshToken,
+                // Обновляем другие поля токена при необходимости
+            };
+            console.log(newAccessToken)
+            setAccessToken(newAccessToken);
+
+            localStorage.setItem('accessToken', JSON.stringify(newAccessToken));
+            setIsLoggedIn(true);
+            fetchDataFromGoogleFit(newAccessToken);
+        } catch (error) {
+            console.error('Error refreshing token:', error);
+            alert('Ошибка при обновлении токена доступа. Пожалуйста, повторите попытку позже.');
+        }
+    }
+
 
     React.useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -143,18 +186,27 @@ export const Go = () => {
                     setAccessToken(response.tokens);
                     localStorage.setItem('accessToken', JSON.stringify(response.tokens));
                     fetchDataFromGoogleFit(response.tokens);
-                    //window.history.replaceState({}, document.title, window.location.pathname);
+                    window.history.replaceState({}, document.title, window.location.pathname);
                     setIsLoggedIn(true);
                 })
                 .catch((error) => console.error('Error:', error));
         } else {
             const storedToken = localStorage.getItem('accessToken');
             if (storedToken) {
-                setAccessToken(JSON.parse(storedToken));
-                fetchDataFromGoogleFit(JSON.parse(storedToken));
-                setIsLoggedIn(true);
+                const parsedToken = JSON.parse(storedToken);
+                console.log(parsedToken, Date.now())
+                if (parsedToken.expiry_date > Date.now()) {
+                    setAccessToken(parsedToken);
+                    fetchDataFromGoogleFit(parsedToken);
+                    setIsLoggedIn(true);
+                } else {
+                    //вот здесь refresh токен, надо с помощью него изменить access токен на актуальный 
+                    console.log(parsedToken.refresh_token)
+                    refreshToken(parsedToken.refresh_token)
+                }
             }
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
