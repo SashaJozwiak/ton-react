@@ -4,8 +4,6 @@ import axios from 'axios';
 
 import copy from 'copy-to-clipboard';
 
-//import { useCloudStorage } from "@vkruglikov/react-telegram-web-app";
-
 export const Go = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [, setAccessToken] = React.useState<Credentials | null>(null);
@@ -13,8 +11,6 @@ export const Go = () => {
     const [steps, setSteps] = React.useState(0);
 
     const [yourStateObject, setYourStateObject] = React.useState({});
-
-    //const storage = useCloudStorage();
 
     const [onChageState, setOnChangeState] = React.useState('');
 
@@ -26,9 +22,7 @@ export const Go = () => {
         fetchDataFromGoogleFit(parsedObject);
         window.history.replaceState({}, document.title, window.location.pathname);
         setIsLoggedIn(true);
-
     }
-
 
     const copyObjectToClipboard = () => {
         // Здесь вы получаете ваш объект из состояния
@@ -44,29 +38,6 @@ export const Go = () => {
         alert('Объект скопирован в буфер обмена!');
     };
 
-    /* const handlePasteFromClipboard = () => {
-        navigator.clipboard.readText().then(text => {
-            try {
-                const parsedObject = JSON.parse(text);
-                //setYourObject(parsedObject);
-
-                setAccessToken(parsedObject);
-                localStorage.setItem('accessToken', JSON.stringify(parsedObject));
-                fetchDataFromGoogleFit(parsedObject);
-                window.history.replaceState({}, document.title, window.location.pathname);
-                setIsLoggedIn(true);
-
-                alert('Объект успешно загружен из буфера обмена!');
-            } catch (error) {
-                console.error('Ошибка при парсинге объекта из буфера обмена:', error);
-                alert('Ошибка при загрузке объекта из буфера обмена!');
-            }
-        }).catch(error => {
-            console.error('Ошибка при чтении текста из буфера обмена:', error);
-            alert('Ошибка при чтении текста из буфера обмена!');
-        });
-    }; */
-
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
         clientSecret: import.meta.env.VITE_SECRET_KEY,
@@ -77,7 +48,7 @@ export const Go = () => {
 
     async function fetchDataFromGoogleFit(token: Credentials) {
         try {
-            const response = await axios.get('https://www.googleapis.com/fitness/v1/users/me/dataSources', {
+            const response = await axios.get('https://www.googleapis.com/fitness/v1/users/me/dataSources/watch', {
                 headers: {
                     Authorization: `Bearer ${token.access_token}`,
                 },
