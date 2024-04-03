@@ -48,7 +48,7 @@ export const Go = () => {
 
     async function fetchDataFromGoogleFit(token: Credentials) {
         try {
-            const response = await axios.get('https://www.googleapis.com/fitness/v1/users/me/dataSources/watch', {
+            const response = await axios.get('https://www.googleapis.com/fitness/v1/users/me/dataSources', {
                 headers: {
                     Authorization: `Bearer ${token.access_token}`,
                 },
