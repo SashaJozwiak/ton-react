@@ -25,16 +25,9 @@ export const Go = () => {
     }
 
     const copyObjectToClipboard = () => {
-        // Здесь вы получаете ваш объект из состояния
         const objectToCopy = yourStateObject;
-
-        // Преобразуйте объект в строку JSON
         const jsonString = JSON.stringify(objectToCopy);
-
-        // Копируем строку JSON в буфер обмена
         copy(jsonString);
-
-        // Можно добавить обратную связь для пользователя
         alert('Объект скопирован в буфер обмена!');
     };
 
@@ -44,8 +37,6 @@ export const Go = () => {
         redirectUri: 'https://sashajozwiak.github.io/ton-react/'
     });
 
-    localStorage.setItem('test', 'test');
-
     async function fetchDataFromGoogleFit(token: Credentials) {
         try {
             const response = await axios.get('https://www.googleapis.com/fitness/v1/users/me/dataSources', {
@@ -53,11 +44,10 @@ export const Go = () => {
                     Authorization: `Bearer ${token.access_token}`,
                 },
             });
-            // Установка временных интервалов для запроса данных о шагах
+
             const start = new Date().setHours(0, 0, 0, 0);
             const end = new Date().getTime();
 
-            // Вывод временных интервалов для отладки
             console.log({
                 start: new Date(start).toLocaleString(),
                 startMillis: start,
@@ -70,7 +60,7 @@ export const Go = () => {
                     //"dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
                 }],
                 "bucketByTime": {
-                    "durationMillis": 86400000
+                    "durationMillis": 3600000
                 },
                 "startTimeMillis": start,
                 "endTimeMillis": end,
@@ -82,6 +72,18 @@ export const Go = () => {
             });
 
             console.log(stepsResponse.data)
+
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const totalSteps = stepsResponse.data.bucket.reduce((total: any, bucket: { dataset: { point: any[]; }[]; }) => {
+                // Для каждой корзины с шагами, добавляем количество шагов к общей сумме
+                return total + bucket.dataset[0].point.reduce((sum, point) => {
+                    // Суммируем значения шагов для каждого часа
+                    return sum + (point.value[0].intVal || 0); // Обрабатываем случай отсутствия значений
+                }, 0);
+            }, 0);
+
+            console.log(totalSteps)
+
             console.log('steps:', stepsResponse.data.bucket[0].dataset[0].point[0].value[0].intVal);
             setSteps(stepsResponse.data.bucket[0].dataset[0].point[0].value[0].intVal);
             console.log('User data from Google Fit:', response.data);
@@ -94,8 +96,8 @@ export const Go = () => {
         try {
             const url = client.generateAuthUrl({
                 access_type: 'offline',
-                scope: 'https://www.googleapis.com/auth/fitness.activity.read',
-                prompt: 'consent' // Добавляем параметр prompt со значением consent, чтобы пользователь мог выбрать разрешения
+                scope: 'https://www.googleapis.com/auth/fitness.activity.read'
+                //prompt: 'consent' // Добавляем параметр prompt со значением consent, чтобы пользователь мог выбрать разрешения
             });
             window.open(url, '_blank');
         } catch (error) {
@@ -120,15 +122,13 @@ export const Go = () => {
                 grant_type: 'refresh_token'
             };
 
-            // Отправляем POST запрос к серверу авторизации
             const response = await axios.post('https://oauth2.googleapis.com/token', requestBody);
 
-            // Обрабатываем ответ и обновляем данные о токене
             const newAccessToken: Credentials = {
                 access_token: response.data.access_token,
                 refresh_token: refreshToken,
-                // Обновляем другие поля токена при необходимости
             };
+
             console.log(newAccessToken)
             setAccessToken(newAccessToken);
 
@@ -151,11 +151,11 @@ export const Go = () => {
         if (code) {
             client.getToken(code)
                 .then((response) => {
-                    //console.log('Token:', response);
                     setYourStateObject(response.tokens)
 
                     setAccessToken(response.tokens);
                     localStorage.setItem('accessToken', JSON.stringify(response.tokens));
+
                     fetchDataFromGoogleFit(response.tokens);
                     window.history.replaceState({}, document.title, window.location.pathname);
                     setIsLoggedIn(true);
@@ -171,13 +171,11 @@ export const Go = () => {
                     fetchDataFromGoogleFit(parsedToken);
                     setIsLoggedIn(true);
                 } else {
-                    //вот здесь refresh токен, надо с помощью него изменить access токен на актуальный 
                     console.log(parsedToken.refresh_token)
                     refreshToken(parsedToken.refresh_token)
                 }
             }
         }
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
