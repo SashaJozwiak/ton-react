@@ -20,7 +20,7 @@ export const Go = () => {
         setAccessToken(parsedObject);
         localStorage.setItem('accessToken', JSON.stringify(parsedObject));
         fetchDataFromGoogleFit(parsedObject);
-        window.history.replaceState({}, document.title, window.location.pathname);
+        //window.history.replaceState({}, document.title, window.location.pathname);
         setIsLoggedIn(true);
     }
 
@@ -34,7 +34,7 @@ export const Go = () => {
     const client = new OAuth2Client({
         clientId: '645228011309-5k6c1t23q8ibk25d2l5sqbimpmtsgiq4.apps.googleusercontent.com',
         clientSecret: import.meta.env.VITE_SECRET_KEY,
-        redirectUri: 'https://sashajozwiak.github.io/ton-react/'
+        redirectUri: 'https://t.me/ton_react_bot/ton_react'
     });
 
     async function fetchDataFromGoogleFit(token: Credentials) {
@@ -113,7 +113,7 @@ export const Go = () => {
                     localStorage.setItem('accessToken', JSON.stringify(response.tokens));
 
                     fetchDataFromGoogleFit(response.tokens);
-                    window.history.replaceState({}, document.title, window.location.pathname);
+                    //window.history.replaceState({}, document.title, window.location.pathname);
                     setIsLoggedIn(true);
                 })
                 .catch((error) => console.error('Error:', error));
