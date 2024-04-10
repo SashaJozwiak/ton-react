@@ -1,12 +1,30 @@
 import { OAuth2Client } from "google-auth-library";
 import axios from 'axios';
 
+const setCustomUserAgent = (url: string, userAgent: string) => {
+    return axios.get(url, {
+        headers: {
+            'User-Agent': userAgent
+        }
+    });
+};
+
 export const Auth = async (client: OAuth2Client): Promise<void> => {
     try {
         const url = client.generateAuthUrl({
             access_type: 'offline',
             scope: 'https://www.googleapis.com/auth/fitness.activity.read'
             //prompt: 'consent' // Добавляем параметр prompt со значением consent, чтобы пользователь мог выбрать разрешения
+        })
+
+        setCustomUserAgent(url, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36')
+            .then(response => {
+                // Обработка успешного ответа
+                console.log(response.data);
+            })
+            .catch(error => {
+                // Обработка ошибки
+                console.log(error);
         });
 
         window.location.href = url;
@@ -42,7 +60,8 @@ export const getSteps = async (token: any, setSteps: any) => {
         }, {
             headers: {
                 'Authorization': `Bearer ${token.access_token}`,
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             }
         });
 
