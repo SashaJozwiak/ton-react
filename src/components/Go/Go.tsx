@@ -96,6 +96,7 @@ export const Go = () => {
 
     const url = window.location.href
     console.log(url)
+    console.log('userAgent', window.navigator.userAgent)
 
     React.useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
