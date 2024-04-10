@@ -9,7 +9,7 @@ export const Auth = async (client: OAuth2Client): Promise<void> => {
             //prompt: 'consent' // Добавляем параметр prompt со значением consent, чтобы пользователь мог выбрать разрешения
         });
 
-        window.open(url, '_blank');
+        window.location.href = url;
     } catch (error) {
         console.log(error);
     }
