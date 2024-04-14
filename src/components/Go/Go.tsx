@@ -14,6 +14,10 @@ export const Go = () => {
     const [yourStateObject, setYourStateObject] = React.useState({}); //AccessToken + RefreshToken, full obj
     const [onChageState, setOnChangeState] = React.useState(''); //Input AccessToken + RefreshToken, full obj
 
+
+    const [someData, setSomeData] = React.useState({});
+
+
     const handleOnChange = () => {
         const parsedObject = JSON.parse(onChageState);
         setYourStateObject(parsedObject)
@@ -95,8 +99,11 @@ export const Go = () => {
     }
 
     const url = window.location.href
+
     console.log(url)
-    console.log('userAgent', window.navigator.userAgent)
+    //console.log(window.Telegram.WebApp.cloudStorage)
+    //console.log('userAgent', window.navigator.userAgent)
+
 
     React.useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -133,6 +140,24 @@ export const Go = () => {
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
+
+
+        const fetchData = async () => {
+            try {
+                const response = await fetch('http://localhost:3210/data');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const jsonData = await response.json();
+                setSomeData(jsonData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
+        fetchData();
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
@@ -151,6 +176,15 @@ export const Go = () => {
             <h2 style={{ margin: '5px auto' }}>From 1 april:</h2 >
             <div>steps: {steps}</div>
             <div>state: {isLoggedIn.toString()}</div>
+
+            <div>
+                <h1>Data from Server:</h1>
+                {someData ? (
+                    <pre>{JSON.stringify(someData, null, 2)}</pre>
+                ) : (
+                    <p>Loading...</p>
+                )}
+            </div>
 
         </>
     );
