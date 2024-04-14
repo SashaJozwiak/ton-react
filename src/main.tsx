@@ -2,9 +2,15 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx';
 
+
+
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 
 import './index.css'
+
+import WebApp from '@twa-dev/sdk'
+
+WebApp.ready();
 
 const manifestUrl = '/tonconnect-manifest.json';
 
