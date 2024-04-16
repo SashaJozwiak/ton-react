@@ -1,6 +1,12 @@
 import { OAuth2Client } from "google-auth-library";
 import axios from 'axios';
 
+const customAxios = axios.create({
+    headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36'
+    }
+});
+
 export const Auth = async (client: OAuth2Client): Promise<void> => {
     try {
         const url = client.generateAuthUrl({
@@ -9,10 +15,14 @@ export const Auth = async (client: OAuth2Client): Promise<void> => {
             prompt: 'consent' // Добавляем параметр prompt со значением consent, чтобы пользователь мог выбрать разрешения
         })
 
+        const response = await customAxios.get(url);
+
+
         //const response = await client.getToken('YOUR_AUTH_CODE');
         //console.log(url)
         //window.location.href = url;
-        window.open(url);
+        //window.open(url);
+        window.location.href = response.request.responseURL;
     } catch (error) {
         console.log(error);
     }
