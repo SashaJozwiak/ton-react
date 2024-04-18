@@ -9,8 +9,8 @@ import { Go } from './components/Go/Go';
 
 import eruda from 'eruda'
 
-eruda.init();
-
+eruda.init();//just for debug
+console.log('go')
 
 function App() {
   //const { connected } = useTonConnect();
