@@ -14,11 +14,18 @@ import { useEffect, useState } from 'react';
 eruda.init();//just for debug
 console.log('go')
 
+interface AuthData {
+  id: number;
+  user_id: string;
+  access_token: string;
+  refresh_token: string;
+}
+
 function App() {
   //const { connected } = useTonConnect();
   //const { value, address, sendIncrement } = useCounterContract();
 
-  const [authData, setAuthData] = useState<object>({});
+  const [authData, setAuthData] = useState<AuthData[]>([]);
   const [userId, setUserId] = useState<number>(0);
 
   useEffect(() => {
@@ -31,6 +38,8 @@ function App() {
       setUserId(757322479)
     }
 
+    console.log(`http://localhost:3000/profile?userId=${userId}`)
+
     const fetchUserData = async () => {
       try {
         const response = await fetch(`http://localhost:3000/profile?userId=${userId}`);
@@ -39,6 +48,7 @@ function App() {
         }
         const jsonData = await response.json();
         setAuthData(jsonData);
+        console.log(jsonData)
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -50,6 +60,8 @@ function App() {
   }, [])
 
   console.log(authData)
+  console.log(authData[0])
+  console.log(authData[0].id)
 
   //console.log(value, address);
   return (
@@ -85,7 +97,7 @@ function App() {
       <Main userId={userId} />
       <p>{userId} - {typeof userId}</p>
       {!userId && <p>не получил userId</p>}
-      {/* <p>{authData}</p> */}
+      {authData.length > 0 ? <pre>{authData[0].id}</pre> : 'no data'}
 
     </div>
   );
