@@ -14,8 +14,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData }) => {
             <h1>Hello World</h1>
             <p>main: {userId}</p>
             {!userId && <p>не получил userId</p>}
-            {authData.length > 0 ? <pre>{authData[0].id}</pre> : 'no data'}
+            {authData && <pre>{authData[0].id}</pre>}
         </div>
-
     )
 }
