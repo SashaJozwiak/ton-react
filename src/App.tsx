@@ -18,6 +18,7 @@ function App() {
   //const { connected } = useTonConnect();
   //const { value, address, sendIncrement } = useCounterContract();
 
+  const [authData, setAuthData] = useState<object>({});
   const [userId, setUserId] = useState<number>(0);
 
   useEffect(() => {
@@ -30,7 +31,25 @@ function App() {
       setUserId(757322479)
     }
 
+    const fetchUserData = async () => {
+      try {
+        const response = await fetch(`http://localhost:3000/profile?userId=${userId}`);
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const jsonData = await response.json();
+        setAuthData(jsonData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchUserData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  console.log(authData)
 
   //console.log(value, address);
   return (
@@ -66,6 +85,7 @@ function App() {
       <Main userId={userId} />
       <p>{userId} - {typeof userId}</p>
       {!userId && <p>не получил userId</p>}
+      {/* <p>{authData}</p> */}
 
     </div>
   );
