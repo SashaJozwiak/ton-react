@@ -57,7 +57,7 @@ function App() {
     fetchUserData();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [userId])
 
   console.log(authData)
 
