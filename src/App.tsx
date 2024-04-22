@@ -18,7 +18,7 @@ function App() {
   //const { connected } = useTonConnect();
   //const { value, address, sendIncrement } = useCounterContract();
 
-  const [userId, setUserId] = useState(0);
+  const [userId, setUserId] = useState<number>(0);
 
   useEffect(() => {
 
@@ -26,26 +26,9 @@ function App() {
       const getUserId = WebApp.initDataUnsafe.user.id
       setUserId(getUserId)
     } else {
-      console.log('no user')
+      console.log('test user')
+      setUserId(757322479)
     }
-
-
-
-
-    /* const fetchData2 = async () => {
-      try {
-        const response = await fetch('http://localhost:3000/profile?');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const jsonData = await response.json();
-        setSomeData2(jsonData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    }; */
-
-    //fetchData2();
 
   }, [])
 
@@ -54,6 +37,7 @@ function App() {
     <div className='App'>
 
       <div className='Container'>
+        some text
 
         {/* <TonConnectButton /> */}
 
@@ -79,8 +63,8 @@ function App() {
       {/* <GoogleAuthButton /> */}
       {/* <Go /> */}
 
-      <Main />
-      <p>{userId}</p>
+      <Main userId={userId} />
+      <p>{userId} - {typeof userId}</p>
       {!userId && <p>не получил userId</p>}
 
     </div>
