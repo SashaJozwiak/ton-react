@@ -42,7 +42,7 @@ function App() {
 
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/profile?userId=${userId}`);
+        const response = await fetch(`http://localhost:3000/profile?userId=4445`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
