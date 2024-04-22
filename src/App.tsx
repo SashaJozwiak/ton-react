@@ -97,7 +97,7 @@ function App() {
       <Main userId={userId} />
       <p>{userId} - {typeof userId}</p>
       {!userId && <p>не получил userId</p>}
-      {/* {authData.length > 0 ? <pre>{authData[0].id}</pre> : 'no data'} */}
+      {authData.length > 0 ? <pre>{authData[0].id}</pre> : 'no data'}
 
     </div>
   );
