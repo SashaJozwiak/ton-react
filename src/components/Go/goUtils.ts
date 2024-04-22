@@ -25,8 +25,7 @@ export const getSteps = async (token: any, setSteps: any) => {
     try {
         const response = await axios.get('https://www.googleapis.com/fitness/v1/users/me/dataSources', {
             headers: {
-                Authorization: `Bearer ${token.access_token}`,
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+                Authorization: `Bearer ${token}`
             },
         });
 
@@ -45,9 +44,8 @@ export const getSteps = async (token: any, setSteps: any) => {
             "endTimeMillis": endUnixTimestamp * 1000,
         }, {
             headers: {
-                'Authorization': `Bearer ${token.access_token}`,
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json',
-                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
             }
         });
 

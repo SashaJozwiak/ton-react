@@ -15,7 +15,6 @@ eruda.init();//just for debug
 console.log('go')
 
 export interface AuthData {
-  length: number;
   id: number;
   user_id: string;
   access_token: string;
@@ -26,7 +25,7 @@ function App() {
   //const { connected } = useTonConnect();
   //const { value, address, sendIncrement } = useCounterContract();
 
-  const [authData, setAuthData] = useState<AuthData[]>([]);
+  const [authData, setAuthData] = useState<AuthData | null>(null);
   const [userId, setUserId] = useState<number>(0);
 
   useEffect(() => {
@@ -47,16 +46,14 @@ function App() {
           throw new Error('Network response was not ok');
         }
         const jsonData = await response.json();
-        setAuthData(jsonData);
-        console.log(jsonData)
+        setAuthData(jsonData[0]);
+        console.log(jsonData[0])
       } catch (error) {
         console.error('Error fetching data:', error);
       }
     };
 
     fetchUserData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId])
 
   console.log(authData)
@@ -65,10 +62,10 @@ function App() {
   return (
     <div className='App'>
 
-      <Main userId={userId} authData={authData[0]} />
+      <Main userId={userId} authData={authData} />
       <p>{userId} - {typeof userId}</p>
       {!userId && <p>не получил userId</p>}
-      {authData.length > 0 ? <pre>{authData[0].id}</pre> : 'no data'}
+      {authData && <pre>{authData.id}</pre>}
 
       <div className='Container'>
         some text
