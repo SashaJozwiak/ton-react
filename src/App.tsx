@@ -38,11 +38,10 @@ function App() {
       setUserId(757322479)
     }
 
-    console.log(`http://localhost:3000/profile?userId=${userId}`)
-
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`http://localhost:3000/profile?userId=4445`);
+        console.log(`in fetch data — http://localhost:3000/profile?userId=${userId}`)
+        const response = await fetch(`http://localhost:3000/profile?userId=757322479`);
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }
@@ -60,8 +59,6 @@ function App() {
   }, [])
 
   console.log(authData)
-  //console.log(authData[0])
-  //console.log(authData[0].id)
 
   //console.log(value, address);
   return (
