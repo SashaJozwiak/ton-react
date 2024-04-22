@@ -14,9 +14,8 @@ export const Go = () => {
     const [yourStateObject, setYourStateObject] = React.useState({}); //AccessToken + RefreshToken, full obj
     const [onChageState, setOnChangeState] = React.useState(''); //Input AccessToken + RefreshToken, full obj
 
-
     const [someData, setSomeData] = React.useState({});
-
+    const [someData2, setSomeData2] = React.useState({});
 
     const handleOnChange = () => {
         const parsedObject = JSON.parse(onChageState);
@@ -155,7 +154,21 @@ export const Go = () => {
             }
         };
 
+        const fetchData2 = async () => {
+            try {
+                const response = await fetch('http://localhost:3000/data');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const jsonData = await response.json();
+                setSomeData2(jsonData);
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+
         fetchData();
+        fetchData2();
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
@@ -184,6 +197,9 @@ export const Go = () => {
                 ) : (
                     <p>Loading...</p>
                 )}
+                {someData2 ? (
+                    <pre>{JSON.stringify(someData2, null, 2)}</pre>
+                ) : <p>Loading...</p>}
             </div>
 
         </>
