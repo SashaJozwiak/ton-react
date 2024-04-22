@@ -1,6 +1,6 @@
 import './App.css';
 
-import '@twa-dev/sdk';
+import WebApp from '@twa-dev/sdk';
 
 //import { TonConnectButton } from '@tonconnect/ui-react';
 //import { useTonConnect } from './hooks/useTonConnect';
@@ -18,11 +18,18 @@ function App() {
   //const { connected } = useTonConnect();
   //const { value, address, sendIncrement } = useCounterContract();
 
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState(0);
 
   useEffect(() => {
 
-    setUserId(window.Telegram.WebApp.initDataUnsafe.user.id)
+    if (WebApp.initDataUnsafe.user) {
+      const getUserId = WebApp.initDataUnsafe.user.id
+      setUserId(getUserId)
+    } else {
+      console.log('no user')
+    }
+
+
 
 
     /* const fetchData2 = async () => {
@@ -73,6 +80,7 @@ function App() {
       {/* <Go /> */}
 
       <Main />
+      <p>{userId}</p>
       {!userId && <p>не получил userId</p>}
 
     </div>
