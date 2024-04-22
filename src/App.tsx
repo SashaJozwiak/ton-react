@@ -14,7 +14,8 @@ import { useEffect, useState } from 'react';
 eruda.init();//just for debug
 console.log('go')
 
-interface AuthData {
+export interface AuthData {
+  length: number;
   id: number;
   user_id: string;
   access_token: string;
@@ -64,6 +65,11 @@ function App() {
   return (
     <div className='App'>
 
+      <Main userId={userId} authData={authData[0]} />
+      <p>{userId} - {typeof userId}</p>
+      {!userId && <p>не получил userId</p>}
+      {authData.length > 0 ? <pre>{authData[0].id}</pre> : 'no data'}
+
       <div className='Container'>
         some text
 
@@ -91,10 +97,7 @@ function App() {
       {/* <GoogleAuthButton /> */}
       {/* <Go /> */}
 
-      <Main userId={userId} />
-      <p>{userId} - {typeof userId}</p>
-      {!userId && <p>не получил userId</p>}
-      {authData.length > 0 ? <pre>{authData[0].id}</pre> : 'no data'}
+
 
     </div>
   );
