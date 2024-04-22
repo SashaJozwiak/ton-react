@@ -60,8 +60,8 @@ function App() {
   }, [])
 
   console.log(authData)
-  console.log(authData[0])
-  console.log(authData[0].id)
+  //console.log(authData[0])
+  //console.log(authData[0].id)
 
   //console.log(value, address);
   return (
