@@ -10,8 +10,6 @@ interface MainProps {
 }
 
 export const Main: React.FC<MainProps> = ({ userId, authData }) => {
-
-    //const [steps, setSteps] = useState();
     const [activData, setActivData] = useState<ActivityData>({
         steps: 0,
         cardio: 0,
@@ -30,14 +28,14 @@ export const Main: React.FC<MainProps> = ({ userId, authData }) => {
 
     useEffect(() => {
         async function refressAcc() {
-            await refreshAccessToken(authData!.refresh_token, 757322479)
+            await refreshAccessToken(authData!.refresh_token, userId)
         }
 
         if (authData !== null) {
             //console.log(authData.expiry_date)
             const unixExpire = new Date(authData.expiry_date).getTime();
             console.log(unixExpire)
-            if (unixExpire + 300000 < Date.now()) {
+            if (unixExpire - 300000 < Date.now()) {
                 console.log('token expired');
                 refressAcc();
             }

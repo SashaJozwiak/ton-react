@@ -26,7 +26,7 @@ export const Go = () => {
         //window.history.replaceState({}, document.title, window.location.pathname);
         setIsLoggedIn(true);
     }
-
+    //test
     const copyObjectToClipboard = () => {
         const objectToCopy = yourStateObject;
         const jsonString = JSON.stringify(objectToCopy);
