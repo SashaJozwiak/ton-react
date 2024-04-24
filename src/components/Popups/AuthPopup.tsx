@@ -10,7 +10,7 @@ const BlockingPopup = ({ isPopupOpen, userId }) => {
                         {/* Здесь добавьте содержимое вашего popup */}
                         <h2>Popup Content</h2>
                         <p>This is a blocking popup!</p>
-                        <a href={`http://localhost:3000/auth?userId=${userId}`}>Close</a>
+                        <a href={`http://localhost:3000/auth?userId=${userId}`} target="_blank">Close</a>
                     </div>
                 </div>
             )}
