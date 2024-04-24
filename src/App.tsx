@@ -57,6 +57,7 @@ function App() {
         setAuthData(jsonData[0]);
         setIsLoading(false)
         setError(false)
+        setIsPopupOpen(false)
       } catch (error) {
 
         setIsPopupOpen(true)
