@@ -54,7 +54,7 @@ function App() {
           throw new Error('Network response was not ok');
         }
         const jsonData = await response.json();
-        setAuthData(jsonData[0]);
+        await setAuthData(jsonData[0]);
         setIsLoading(false)
         setError(false)
         setIsPopupOpen(false)
