@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { OAuth2Client } from "google-auth-library";
 import axios from 'axios';
 
@@ -35,7 +36,8 @@ export const getSteps = async (token: any, setSteps: any) => {
         const stepsResponse = await axios.post('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate', {
             "aggregateBy": [{
                 "dataTypeName": "com.google.step_count.delta",
-                //"dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps"
+                //"dataSourceId": "derived:com.google.step_count.delta:com.google.android.gms:estimated_steps",
+                //"dataSourceId": "derived:com.google.step_count.delta:estimated_steps",
             }],
             "bucketByTime": {
                 "durationMillis": 86400000
@@ -49,11 +51,22 @@ export const getSteps = async (token: any, setSteps: any) => {
             }
         });
 
-        console.log(stepsResponse.data)
+        //filter manually added
+        const excludedBuckets: number[] = [];
+        const filteredSteps = stepsResponse.data.bucket.filter((item: any, index: number) => {
+            const isUserInput = item.dataset[0].point[0].originDataSourceId.endsWith(':user_input');
+            if (isUserInput) {
+                excludedBuckets.push(index);
+            }
+            return !isUserInput;
+        });
+
+        console.log('new steps: ', filteredSteps)
+        console.log('excluded buckets: ', excludedBuckets)
 
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        const totalSteps = stepsResponse.data.bucket.reduce((total: any, bucket: { dataset: { point: any[]; }[]; }) => {
+        const totalSteps = filteredSteps.reduce((total: any, bucket: { dataset: { point: any[]; }[]; }) => {
             // Для каждой корзины с шагами, добавляем количество шагов к общей сумме
             return total + bucket.dataset[0].point.reduce((sum, point) => {
                 // Суммируем значения шагов для каждого часа

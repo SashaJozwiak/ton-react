@@ -4,10 +4,28 @@
   --tg-theme-button-text-color: black;
 }
 
+* {
+  padding: 0px; 
+  margin: 0px; 
+  border: none; 
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  //overflow: hidden;
+}
+
+
 .App {
   height: 100vh;
   background-color: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
+
+  min-height: 100vh;
+  height: 100vh;
+  //overflow-y: auto;
+  //overflow-x: hidden;
 }
 
 .Container {
@@ -19,6 +37,9 @@
   align-items: center;
   margin: 0 auto;
   text-align: center;
+  border: 1px solid grey;
+
+
 }
 
 .Button {
