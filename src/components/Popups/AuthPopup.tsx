@@ -1,7 +1,7 @@
-//import React from 'react';
+//import React from 'react';;
 import './AuthPopup.css';
 
-const BlockingPopup = ({ isPopupOpen }) => {
+const BlockingPopup = ({ isPopupOpen, userId }) => {
     return (
         <>
             {isPopupOpen && (
@@ -10,7 +10,7 @@ const BlockingPopup = ({ isPopupOpen }) => {
                         {/* Здесь добавьте содержимое вашего popup */}
                         <h2>Popup Content</h2>
                         <p>This is a blocking popup!</p>
-                        <button>Close</button>
+                        <a href={`http://localhost:3000/auth?userId=${userId}`}>Close</a>
                     </div>
                 </div>
             )}

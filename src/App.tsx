@@ -59,7 +59,6 @@ function App() {
         setError(false)
         setIsPopupOpen(false)
       } catch (error) {
-
         setIsPopupOpen(true)
         setError(true)
         console.error('Error fetching data:', error);
@@ -75,7 +74,7 @@ function App() {
   //console.log(value, address);
   return (
     <div className='App'>
-      <BlockingPopup isPopupOpen={isPopupOpen} />
+      <BlockingPopup isPopupOpen={isPopupOpen} userId={userId} />
 
       {isLoading ? (
         <div>
