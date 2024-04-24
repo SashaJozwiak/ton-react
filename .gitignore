@@ -12,7 +12,7 @@ dist
 dist-ssr
 *.local
 *.env
-
+.env
 
 # Editor directories and files
 .vscode/*
@@ -25,4 +25,4 @@ dist-ssr
 *.sln
 *.sw?
 
-/src/components/Go/*
+/src/components/Go/
