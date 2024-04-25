@@ -6,10 +6,11 @@ import { refreshAccessToken } from '../../utils/queries/refreshAccessToken';
 
 interface MainProps {
     userId: number;
+    setUserId: (userId: number) => void;
     authData: AuthData | null;
 }
 
-export const Main: React.FC<MainProps> = ({ userId, authData }) => {
+export const Main: React.FC<MainProps> = ({ userId, setUserId, authData }) => {
     const [activData, setActivData] = useState<ActivityData>({
         steps: 0,
         cardio: 0,
@@ -38,8 +39,8 @@ export const Main: React.FC<MainProps> = ({ userId, authData }) => {
             if (unixExpire - 300000 < Date.now()) {
                 console.log('token expired');
                 refressAcc();
+                setUserId(userId)
             }
-
             fetchDataFromGoogleFit(authData.access_token)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps

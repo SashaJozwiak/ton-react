@@ -1,5 +1,5 @@
 import './App.css';
-
+import '@twa-dev/sdk';
 import WebApp from '@twa-dev/sdk';
 
 //import { TonConnectButton } from '@tonconnect/ui-react';
@@ -82,7 +82,7 @@ function App() {
         </div>
       ) :
         <div>
-          <Main userId={userId} authData={authData} />
+          <Main userId={userId} setUserId={setUserId} authData={authData} />
 
           <p>{userId} - тип: {typeof userId}</p>
 
