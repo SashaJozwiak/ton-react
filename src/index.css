@@ -13,23 +13,23 @@
 
 body {
   height: 100vh;
-  //overflow: hidden;
 }
-
 
 .App {
   height: 100vh;
   background-color: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
 
+  background-image: url("./assets/hot-blur-webp.webp");
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
+
   min-height: 100vh;
   height: 100vh;
-  //overflow-y: auto;
-  //overflow-x: hidden;
 }
 
 .Container {
-  //padding: 2rem;
   max-width: 500px;
   display: flex;
   flex-direction: column;
@@ -38,8 +38,6 @@ body {
   margin: 0 auto;
   text-align: center;
   border: 1px solid grey;
-
-
 }
 
 .Button {
