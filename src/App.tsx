@@ -36,7 +36,7 @@ function App() {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
 
-  const [routes, setRoutes] = useState('');
+  const [routes, setRoutes] = useState('main');
 
   const fetchUserData = async () => {
     try {
