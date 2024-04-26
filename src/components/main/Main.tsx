@@ -10,7 +10,6 @@ import { calculateLvl, sumPointsFn } from '../../utils/math/points';
 
 interface MainProps {
     userId: number;
-    /* setUserId: (userId: number) => void; */
     authData: AuthData | null;
     fetchUserData: () => void;
 }
@@ -22,7 +21,7 @@ export interface IProgress {
     next_lvl: number,
 }
 
-export const Main: React.FC<MainProps> = ({ userId, /* setUserId, */ authData, fetchUserData }) => {
+export const Main: React.FC<MainProps> = ({ userId, authData, fetchUserData }) => {
     const [activData, setActivData] = useState<ActivityData>({
         steps: 0,
         cardio: 0,
@@ -82,15 +81,14 @@ export const Main: React.FC<MainProps> = ({ userId, /* setUserId, */ authData, f
     console.log(progress)
     return (
         <div style={{ fontFamily: 'monospace' }}>
-            <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)' }}>🏆 Demo season 🏃</h1>
-            <p style={{ marginBottom: '2rem' }}>from April 1, 2024</p>
+
             {/* <p>main_userId: {userId}</p> */}
             {!userId && <p>не получил userId</p>}
 
             {/* {authData && <pre>bdId:{authData.id}</pre>} */}
 
 
-            <div style={{ padding: '3vh 0', borderRadius: '0.5rem', margin: '1rem 1rem 1.5rem 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
+            <div style={{ padding: '1rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 1.5rem 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
                 <h1 style={{ fontSize: '3rem', color: 'rgb(14 165 233)', textShadow: '1px 2px 2px rgba(0,0,0,0.3), 0px -4px 10px rgba(255,255,255,0.3)' }}>{sumPoints}</h1>
             </div>
             <div style={{ marginBottom: '2rem' }}>

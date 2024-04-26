@@ -1,5 +1,4 @@
 import { ActivityData } from '../queries/fetchData';
-//import { IProgress } from '../../components/main/Main';
 
 export function sumPointsFn(activData: ActivityData, setSumPoints: (sumPoints: number) => void) {
     const sum = +(((activData.steps + activData.calories + (activData.cardio * 1000)) / 1000).toFixed(3)) || 0.000;

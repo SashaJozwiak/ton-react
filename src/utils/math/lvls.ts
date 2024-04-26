@@ -1,4 +1,3 @@
-//
 export const lvls = [
     { lvl: 0, add: 0, need: 0 },
     { lvl: 1, add: 3.521, need: 3.521 },
