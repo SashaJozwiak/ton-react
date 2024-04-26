@@ -68,7 +68,7 @@ export const getActivities = async (token: string): Promise<ActivityData> => {
         const excludedBuckets: number[] = [];
 
         const filteredSteps = stepsResponse.data.bucket.filter((item: any, index: number) => {
-            const isUserInput = item.dataset[0].point[0].originDataSourceId.endsWith(':user_input');
+            const isUserInput = item.dataset[0].point[0]?.originDataSourceId.endsWith(':user_input');
             if (isUserInput) {
                 excludedBuckets.push(index);
             }

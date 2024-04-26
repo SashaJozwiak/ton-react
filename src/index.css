@@ -13,20 +13,23 @@
 
 body {
   height: 100vh;
+  overflow: hidden;
 }
 
 .App {
-  height: 100vh;
+  height: 100dvh;
   background-color: var(--tg-theme-bg-color);
   color: var(--tg-theme-text-color);
 
-  background-image: url("./assets/hot-blur-webp.webp");
+  background-image: url("./assets/hot-blur-webp2.webp");
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
+  //background-size: 100vw 100vh;
 
-  min-height: 100vh;
-  height: 100vh;
+  //min-height: 100dvh;
+  height: 100dvh;
+
 }
 
 .Container {
