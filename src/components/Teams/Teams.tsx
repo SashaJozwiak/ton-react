@@ -3,9 +3,12 @@ const Teams = ({ userId }) => {
     console.log(userId)
     return (
         <div style={{ position: 'relative' }}>
-            <div>
+
                 <p>You're not on the team yet</p>
-                <input type="text" /* value={userId} */ placeholder='Search' style={{ margin: '0.4rem', border: '1px solid rgba(14, 165, 233, 0.4)', borderRadius: '0.25rem', padding: '0.3rem 0.3rem', width: '70vw' }} />
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', gap: '1px', alignItems: 'center', margin: '0 1rem' }}>
+                <input type="text" /* value={userId} */ placeholder='Search' style={{ margin: '0.4rem', border: '1px solid rgba(14, 165, 233, 0.4)', borderRadius: '0.25rem', padding: '0.5rem 0.3rem', width: '60vw' }} />
+                <p style={{ top: '1rem' }}>or</p>
+                <button style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0rem 0.5rem', height: '2rem' }}>Create</button>
             </div>
 
             <div>

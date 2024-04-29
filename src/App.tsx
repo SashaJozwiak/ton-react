@@ -105,8 +105,16 @@ function App() {
 
   return (
     <div className='App' style={{ fontFamily: 'monospace' }}>
+
       <BlockingPopup isPopupOpen={isPopupOpen} userId={userId} />
-      <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)' }}>🏆 Demo season 🏃</h1>
+
+      <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)' }}>
+        <button onClick={() => {
+          setAuthData(null)
+          console.log(authData)
+        }}
+          style={{ padding: '1rem' }}>X</button>
+        🏆 Demo season 🏃</h1>
       <p style={{ marginBottom: '2rem' }}>from April 1, 2024</p>
 
       {isLoading ? (
@@ -125,7 +133,8 @@ function App() {
 
       }
 
-      <Navbar routes={routes} setRoutes={setRoutes} />
+      {!isPopupOpen && <Navbar routes={routes} setRoutes={setRoutes} />}
+
 
       {/* <div className='Container'> */}
       {/* Container */}

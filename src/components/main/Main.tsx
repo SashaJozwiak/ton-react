@@ -29,7 +29,6 @@ export interface IProgress {
 
 export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activData, setActivData, sumPoints, setSumPoints, setRoutes }) => {
 
-
     const [progress, setProgress] = useState<IProgress>({
         current_lvl: 0,
         current_points: 0,

@@ -1,9 +1,7 @@
-//import { useState } from 'react';
+
 import './AuthPopup.css';
 
 const BlockingPopup = ({ isPopupOpen, userId }) => {
-    //const [ok, setOk] = useState<boolean>(false);
-
     return (
         <>
             {isPopupOpen && (
