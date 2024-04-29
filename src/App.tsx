@@ -21,7 +21,7 @@ import Battles from './components/Battles/Battles';
 
 eruda.init();//just for debug
 console.log('go')
-console.log(import.meta.env.VITE_HOST)
+console.log('host :', import.meta.env.VITE_HOST)
 export interface AuthData {
   id: number;
   user_id: string;
