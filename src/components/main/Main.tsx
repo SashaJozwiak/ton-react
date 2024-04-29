@@ -11,7 +11,12 @@ import { calculateLvl, sumPointsFn } from '../../utils/math/points';
 interface MainProps {
     userId: number;
     authData: AuthData | null;
-    fetchUserData: () => void;
+    setAuthData: (AuthData) => void;
+    activData: ActivityData;
+    setActivData: (ActivityData) => void;
+    sumPoints: number;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    setSumPoints: (pr: number) => void;
 }
 
 export interface IProgress {
@@ -21,13 +26,9 @@ export interface IProgress {
     next_lvl: number,
 }
 
-export const Main: React.FC<MainProps> = ({ userId, authData, fetchUserData }) => {
-    const [activData, setActivData] = useState<ActivityData>({
-        steps: 0,
-        cardio: 0,
-        calories: 0,
-    });
-    const [sumPoints, setSumPoints] = useState<number>(0);
+export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activData, setActivData, sumPoints, setSumPoints }) => {
+
+
     const [progress, setProgress] = useState<IProgress>({
         current_lvl: 0,
         current_points: 0,
@@ -45,12 +46,22 @@ export const Main: React.FC<MainProps> = ({ userId, authData, fetchUserData }) =
         }
     }
 
-    useEffect(() => {
-        async function refressAcc() {
-            await refreshAccessToken(authData!.refresh_token, userId)
-            await fetchUserData();
-        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    async function refressAcc() {
+        const newAccessToken = await refreshAccessToken(authData!.refresh_token, userId)
+        console.log('newAccessToken', newAccessToken)
 
+        await setAuthData((e: AuthData) => {
+            return {
+                ...e,
+                access_token: newAccessToken.tokens.access_token,
+                expiry_date: newAccessToken.tokens.expiry_date,
+            }
+        })
+        //await fetchUserData();
+    }
+
+    useEffect(() => {
         if (authData !== null) {
             //console.log(authData.expiry_date)
             const unixExpire = new Date(authData.expiry_date).getTime();
@@ -58,16 +69,18 @@ export const Main: React.FC<MainProps> = ({ userId, authData, fetchUserData }) =
             if (unixExpire - 300000 < Date.now()) {
                 console.log('token expired');
                 refressAcc();
-
-                //setUserId(userId)
             }
+
             fetchDataFromGoogleFit(authData.access_token)
         }
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }, [authData]) //or [authData]
 
     useEffect(() => {
+        console.log(activData, setSumPoints)
         sumPointsFn(activData, setSumPoints);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activData])
 
     useEffect(() => {
@@ -88,7 +101,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, fetchUserData }) =
             {/* {authData && <pre>bdId:{authData.id}</pre>} */}
 
 
-            <div style={{ padding: '1rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 1.5rem 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
+            <div style={{ padding: '0.5rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 1.5rem 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
                 <h1 style={{ fontSize: '3rem', color: 'rgb(14 165 233)', textShadow: '1px 2px 2px rgba(0,0,0,0.3), 0px -4px 10px rgba(255,255,255,0.3)' }}>{sumPoints}</h1>
             </div>
             <div style={{ marginBottom: '2rem' }}>
@@ -103,10 +116,10 @@ export const Main: React.FC<MainProps> = ({ userId, authData, fetchUserData }) =
                         <p>per day</p>
                     </div>
 
-                    <h2 style={{ fontFamily: 'monospace' }}>Level                    <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0.1rem 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
+                    <h1 style={{ fontFamily: 'monospace', color: 'rgb(100 116 139)' }}>Level                    <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0.1rem 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
                         {progress.current_lvl}
                     </span>
-                    </h2>
+                    </h1>
 
                     <div>
                         <p>{progress.next_lvl}</p>
@@ -115,22 +128,23 @@ export const Main: React.FC<MainProps> = ({ userId, authData, fetchUserData }) =
 
                 </div>
             </div>
-
-            <div style={{ display: 'flex', flexDirection: 'column', width: '80vw', margin: '0 auto 2rem', border: '0px solid grey', borderRadius: '0.25rem', padding: '0.5rem', boxShadow: 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', height: '40vh' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', width: '80vw', maxWidth: '1280px', margin: '0 auto 1rem', border: '0px solid grey', borderRadius: '0.25rem', padding: '1rem', boxShadow: 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' }}>
                 <h2 style={{ /* textDecoration: 'underline', */ color: 'rgba(14, 165, 233, 0.6)' }}>Onlife</h2>
-                <div>
-                    <p style={{ fontSize: '1rem' }}>Cardio: {activData.cardio && activData.cardio}</p>
-                    <p style={{ fontSize: '1rem' }}>Kcal: {activData.calories && activData.calories}</p>
-                    <p style={{ fontSize: '1rem' }}>Steps: {activData.steps && activData.steps}</p>
+                    <div>
+                        <p style={{ fontSize: '1rem' }}>Cardio: {activData.cardio && activData.cardio}</p>
+                        <p style={{ fontSize: '1rem' }}>Kcal: {activData.calories && activData.calories}</p>
+                        <p style={{ fontSize: '1rem' }}>Steps: {activData.steps && activData.steps}</p>
+                    </div>
                 </div>
-            </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', width: '80vw', margin: '0 auto', border: '0px solid grey', borderRadius: '0.25rem', padding: '0.5rem', boxShadow: 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', width: '80vw', maxWidth: '1280px', margin: '0 auto', border: '0px solid grey', borderRadius: '0.25rem', padding: '1rem', boxShadow: 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' }}>
                 <h2 style={{ /* textDecoration: 'underline', */ color: 'rgba(14, 165, 233, 0.6)' }}>Online</h2>
-                <div>
-                    <p style={{ fontSize: '1rem' }}>Frens: {0}</p>
-                    <p style={{ fontSize: '1rem' }}>Tasks: {0}</p>
-                    <p style={{ fontSize: '1rem' }}>Battles: {0}</p>
+                    <div>
+                        <p style={{ fontSize: '1rem' }}>Frens: {0}</p>
+                        <p style={{ fontSize: '1rem' }}>Tasks: {0}</p>
+                        <p style={{ fontSize: '1rem' }}>Battles: {0}</p>
+                    </div>
                 </div>
             </div>
         </div>

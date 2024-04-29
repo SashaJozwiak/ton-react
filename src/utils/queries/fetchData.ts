@@ -111,7 +111,6 @@ export const getActivities = async (token: string): Promise<ActivityData> => {
             }, 0);
         }, 0);
 
-
         const activityData: ActivityData = {
             steps: sumSteps,
             cardio: sumCardio,
