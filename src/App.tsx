@@ -16,6 +16,8 @@ import { ActivityData } from './utils/queries/fetchData';
 import BlockingPopup from './components/Popups/AuthPopup';
 import Navbar from './components/Navbar/Navbar';
 import Tasks from './components/Tasks/Tasks';
+import Teams from './components/Teams/Teams';
+import Battles from './components/Battles/Battles';
 
 eruda.init();//just for debug
 console.log('go')
@@ -113,9 +115,10 @@ function App() {
         </div>
       ) :
         <div>
-          {routes === 'main' && <Main userId={userId} authData={authData} setAuthData={setAuthData} activData={activData} setActivData={setActivData} sumPoints={sumPoints} setSumPoints={setSumPoints} />}
+          {routes === 'main' && <Main userId={userId} authData={authData} setAuthData={setAuthData} activData={activData} setActivData={setActivData} sumPoints={sumPoints} setSumPoints={setSumPoints} setRoutes={setRoutes} />}
+          {routes === 'teams' && <Teams userId={userId} />}
           {routes === 'tasks' && <Tasks userId={userId} />}
-          {routes === 'battles' && <p>Battles</p>}
+          {routes === 'battles' && <Battles />}
 
           {error && <p>Вам нужно авторизоваться</p>}
         </div>

@@ -17,6 +17,7 @@ interface MainProps {
     sumPoints: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setSumPoints: (pr: number) => void;
+    setRoutes: (pr: string) => void;
 }
 
 export interface IProgress {
@@ -26,7 +27,7 @@ export interface IProgress {
     next_lvl: number,
 }
 
-export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activData, setActivData, sumPoints, setSumPoints }) => {
+export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activData, setActivData, sumPoints, setSumPoints, setRoutes }) => {
 
 
     const [progress, setProgress] = useState<IProgress>({
@@ -101,11 +102,14 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
             {/* {authData && <pre>bdId:{authData.id}</pre>} */}
 
 
-            <div style={{ padding: '0.5rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 1.5rem 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
+            <div style={{ position: 'relative', padding: '0.5rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 1.5rem 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
+                <button
+                    onClick={() => { setRoutes('teams') }}
+                    style={{ position: 'absolute', top: '-2.2rem', right: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold' }}>Team</button>
                 <h1 style={{ fontSize: '3rem', color: 'rgb(14 165 233)', textShadow: '1px 2px 2px rgba(0,0,0,0.3), 0px -4px 10px rgba(255,255,255,0.3)' }}>{sumPoints}</h1>
             </div>
-            <div style={{ marginBottom: '2rem' }}>
 
+            <div style={{ marginBottom: '2rem' }}>
                 <div style={{ margin: '5px 1em 5px' }} className='progress'>
                     <div style={{ width: `${(progress.current_points - progress.start_lvl) / (progress.next_lvl - progress.start_lvl) * 100}%` }} className="progress-bar"></div>
                 </div>
@@ -142,7 +146,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
                 <h2 style={{ /* textDecoration: 'underline', */ color: 'rgba(14, 165, 233, 0.6)' }}>Online</h2>
                     <div>
                         <p style={{ fontSize: '1rem' }}>Frens: {0}</p>
-                        <p style={{ fontSize: '1rem' }}>Tasks: {0}</p>
+                        <p style={{ fontSize: '1rem' }}>Tasks: {100}</p>
                         <p style={{ fontSize: '1rem' }}>Battles: {0}</p>
                     </div>
                 </div>
