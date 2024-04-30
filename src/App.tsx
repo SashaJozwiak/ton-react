@@ -7,7 +7,7 @@ import WebApp from '@twa-dev/sdk';
 //import { useCounterContract } from './hooks/useCounterContract';
 //import { Go } from './components/Go/Go';
 
-import eruda from 'eruda'
+//import eruda from 'eruda'
 import { Main } from './components/main/Main';
 import { useEffect, useState } from 'react';
 
@@ -19,9 +19,10 @@ import Tasks from './components/Tasks/Tasks';
 import Teams from './components/Teams/Teams';
 import Battles from './components/Battles/Battles';
 
-eruda.init();//just for debug
+//eruda.init();//just for debug
 console.log('go')
 console.log('host :', import.meta.env.VITE_HOST)
+
 export interface AuthData {
   id: number;
   user_id: string;
@@ -57,8 +58,8 @@ function App() {
 
   const fetchUserData = async () => {
     try {
-      console.log(`in fetch data — http://localhost:3000/profile?userId=${userId}`)
-      const response = await fetch(`http://localhost:3000/profile?userId=${userId}`);
+      console.log(`in fetch data — https://www.fitton.online/profile?userId=${userId}`)
+      const response = await fetch(`https://www.fitton.online/profile?userId=${userId}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }

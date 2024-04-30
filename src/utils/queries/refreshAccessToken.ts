@@ -1,7 +1,7 @@
 export async function refreshAccessToken(refreshToken: string, userId: number) {
     console.log(refreshToken)
     try {
-        const newAccess = await fetch(`http://localhost:3000/refreshToken?refreshToken=${refreshToken}&userId=${userId}`);
+        const newAccess = await fetch(`https://www.fitton.online/refreshToken?refreshToken=${refreshToken}&userId=${userId}`);
         const newAccessData = await newAccess.json();
         console.log(newAccessData);
         return newAccessData;
