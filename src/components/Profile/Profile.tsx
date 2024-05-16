@@ -34,9 +34,8 @@ const Profile = ({ userId }) => {
     }, [])
 
     return (
-
         <div>
-            <BackButton />
+            <BackButton onClick={() => window.history.back()} />
             <h1>Profile</h1>
         </div>
     )
