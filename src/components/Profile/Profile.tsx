@@ -1,6 +1,8 @@
 import WebApp from "@twa-dev/sdk";
 import { useEffect, useState } from "react";
 
+const BackButton = WebApp.BackButton;
+BackButton.onClick(() => window.history.back());
 
 const Profile = ({ userId }) => {
 
@@ -9,7 +11,6 @@ const Profile = ({ userId }) => {
     console.log(userId)
     console.log(WebApp.initDataUnsafe)
     console.log(WebApp.initDataUnsafe.user)
-
 
     console.log('userAppData', userAppData);
 
