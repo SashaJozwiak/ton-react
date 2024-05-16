@@ -3,7 +3,7 @@ import { BackButton } from "@twa-dev/sdk/react";
 import { useEffect, useState } from "react";
 
 import { TonConnectButton } from '@tonconnect/ui-react';
-//import { useTonConnect } from './hooks/useTonConnect';
+//import { useTonConnect } from '../../hooks/useTonConnect';
 
 import loader from '../../assets/loading-gif.gif'
 
@@ -13,6 +13,8 @@ interface UserData {
 }
 
 const Profile = ({ userId, setRoutes }) => {
+    //const { connected } = useTonConnect();
+
     const [userAppData, setUserAppData] = useState<UserData>({ username: undefined });
 
     console.log('userId', userId);
