@@ -1,8 +1,6 @@
 import WebApp from "@twa-dev/sdk";
+import { BackButton } from "@twa-dev/sdk/react";
 import { useEffect, useState } from "react";
-
-const BackButton = WebApp.BackButton;
-BackButton.onClick(() => window.history.back());
 
 const Profile = ({ userId }) => {
 
@@ -36,7 +34,9 @@ const Profile = ({ userId }) => {
     }, [])
 
     return (
+
         <div>
+            <BackButton />
             <h1>Profile</h1>
         </div>
     )
