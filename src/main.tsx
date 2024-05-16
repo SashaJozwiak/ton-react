@@ -13,6 +13,7 @@ import WebApp from '@twa-dev/sdk'
 WebApp.ready();
 
 const manifestUrl = '/tonconnect-manifest.json';
+console.log('manifestUrl', manifestUrl)
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
