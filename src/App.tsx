@@ -7,7 +7,7 @@ import WebApp from '@twa-dev/sdk';
 //import { useCounterContract } from './hooks/useCounterContract';
 //import { Go } from './components/Go/Go';
 
-//import eruda from 'eruda'
+import eruda from 'eruda'
 import { Main } from './components/main/Main';
 import { useEffect, useState } from 'react';
 
@@ -19,7 +19,7 @@ import Tasks from './components/Tasks/Tasks';
 import Teams from './components/Teams/Teams';
 import Battles from './components/Battles/Battles';
 
-//eruda.init();//just for debug
+eruda.init();//just for debug
 console.log('go')
 console.log('host :', import.meta.env.VITE_HOST)
 
