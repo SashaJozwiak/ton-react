@@ -2,7 +2,7 @@ import WebApp from "@twa-dev/sdk";
 import { BackButton } from "@twa-dev/sdk/react";
 import { useEffect, useState } from "react";
 
-const Profile = ({ userId }) => {
+const Profile = ({ userId, setRoutes }) => {
 
     const [userAppData, setUserAppData] = useState({});
 
@@ -35,7 +35,7 @@ const Profile = ({ userId }) => {
 
     return (
         <div>
-            <BackButton onClick={() => window.history.back()} />
+            <BackButton onClick={() => setRoutes('main')} />
             <h1>Profile</h1>
         </div>
     )
