@@ -60,4 +60,4 @@ const Teams = ({ userId }) => {
     )
 }
 
-export default Teams
+export default Teams;

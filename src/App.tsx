@@ -18,6 +18,7 @@ import Navbar from './components/Navbar/Navbar';
 import Tasks from './components/Tasks/Tasks';
 import Teams from './components/Teams/Teams';
 import Battles from './components/Battles/Battles';
+import Profile from './components/Profile/Profile';
 
 eruda.init();//just for debug
 console.log('go')
@@ -58,8 +59,8 @@ function App() {
 
   const fetchUserData = async () => {
     try {
-      console.log(`in fetch data — https://www.fitton.online/profile?userId=${userId}`)
-      const response = await fetch(`https://www.fitton.online/profile?userId=${userId}`);
+      console.log(`in fetch data — https://fitton.online/profile?userId=${userId}`)
+      const response = await fetch(`https://fitton.online/profile?userId=${userId}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
@@ -121,12 +122,12 @@ function App() {
         <div>
           {routes === 'main' && <Main userId={userId} authData={authData} setAuthData={setAuthData} activData={activData} setActivData={setActivData} sumPoints={sumPoints} setSumPoints={setSumPoints} setRoutes={setRoutes} />}
           {routes === 'teams' && <Teams userId={userId} />}
+          {routes === 'profile' && <Profile userId={userId} />}
           {routes === 'tasks' && <Tasks userId={userId} />}
           {routes === 'battles' && <Battles />}
 
           {error && <p>Вам нужно авторизоваться</p>}
         </div>
-
       }
 
       {!isPopupOpen && <Navbar routes={routes} setRoutes={setRoutes} />}
