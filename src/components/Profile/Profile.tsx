@@ -7,7 +7,6 @@ import { TonConnectButton } from '@tonconnect/ui-react';
 
 import loader from '../../assets/loading-gif.gif'
 
-
 interface UserData {
     username: string | undefined;
 }

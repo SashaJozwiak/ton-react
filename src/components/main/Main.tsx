@@ -47,7 +47,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    async function refressAcc() {
+    async function refreshAcc() {
         const newAccessToken = await refreshAccessToken(authData!.refresh_token, userId)
         console.log('newAccessToken', newAccessToken)
 
@@ -68,7 +68,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
             console.log(unixExpire)
             if (unixExpire - 300000 < Date.now()) {
                 console.log('token expired');
-                refressAcc();
+                refreshAcc();
             }
 
             fetchDataFromGoogleFit(authData.access_token)

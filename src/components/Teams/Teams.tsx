@@ -1,8 +1,11 @@
-const Teams = ({ userId }) => {
+import { BackButton } from "@twa-dev/sdk/react";
+
+const Teams = ({ userId, setRoutes }) => {
 
     console.log(userId)
     return (
         <div style={{ position: 'relative' }}>
+            <BackButton onClick={() => setRoutes('main')} />
 
                 <p>You're not on the team yet</p>
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', gap: '1px', alignItems: 'center', margin: '0 1rem' }}>
