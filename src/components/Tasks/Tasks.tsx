@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
 import { getATasks } from '../../utils/queries/fetchTasksData';
 
+import { checkChannelMembership } from '../../utils/queries/tasks/testIsEntry';
+
 interface ITasks {
     task_id: number;
     task_name: string;
@@ -13,6 +15,8 @@ const Tasks = ({ userId }) => {
 
     const [completeTasks, setCompleteTasks] = React.useState<ITasks[]>([]);
     const [uncompleteTasks, setUncompleteTasks] = React.useState<ITasks[]>([]);
+
+    const [isEntry, setIsEntry] = React.useState<boolean>(false);
 
     const fetchTasks = async () => {
         try {
@@ -27,6 +31,20 @@ const Tasks = ({ userId }) => {
     useEffect(() => {
         fetchTasks();
         // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userId])
+
+    useEffect(() => {
+        checkChannelMembership(userId) // Передаем ID пользователя
+            .then(isMember => {
+                if (isMember) {
+                    setIsEntry(true);
+                } else {
+                    setIsEntry(false);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     }, [userId])
 
     console.log('complete: ', completeTasks);
@@ -51,6 +69,8 @@ const Tasks = ({ userId }) => {
                     </div>
                 )
             })}
+            <h2>Tests</h2>
+            <p>is entry?{isEntry ? ' yes' : ' no'}</p>
         </div >
     )
 }
