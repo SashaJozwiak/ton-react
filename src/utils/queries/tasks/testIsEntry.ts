@@ -2,7 +2,7 @@ import axios from 'axios'; // Импортируем библиотеку для
 
 export const checkChannelMembership = async (userId) => {
 
-    console.log(import.meta.env.VITE_SECRET_BOT_TOKEN)
+    //console.log(import.meta.env.VITE_SECRET_BOT_TOKEN)
     const chatId = '@fitton_online';
     const botToken = import.meta.env.VITE_SECRET_BOT_TOKEN;
 
