@@ -25,9 +25,9 @@ body {
   background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
-  //background-size: 100vw 100vh;
+  /* background-size: 100vw 100vh; */
 
-  //min-height: 100dvh;
+  /* min-height: 100dvh; */
   height: 100dvh;
 
 }
