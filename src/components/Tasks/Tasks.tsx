@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
-import { getATasks } from '../../utils/queries/fetchTasksData';
 
+import { useTonAddress } from '@tonconnect/ui-react';
+
+import { getATasks } from '../../utils/queries/fetchTasksData';
 import { checkChannelMembership } from '../../utils/queries/tasks/testIsEntry';
 
 interface ITasks {
@@ -12,6 +14,8 @@ interface ITasks {
 
 const Tasks = ({ userId }) => {
     //const [tasks, setTasks] = React.useState<ITasks[]>([]);
+
+    const userFriendlyAddress = useTonAddress();
 
     const [completeTasks, setCompleteTasks] = React.useState<ITasks[]>([]);
     const [uncompleteTasks, setUncompleteTasks] = React.useState<ITasks[]>([]);
@@ -71,6 +75,7 @@ const Tasks = ({ userId }) => {
             })}
             <h2>Tests</h2>
             <p>is entry?{isEntry ? ' yes' : ' no'}</p>
+            <p>address: {userFriendlyAddress}</p>
         </div >
     )
 }
