@@ -38,7 +38,7 @@ const Tasks = ({ userId }) => {
     }, [userId])
 
     useEffect(() => {
-        checkChannelMembership(userId) // Передаем ID пользователя
+        checkChannelMembership(userId)
             .then(isMember => {
                 if (isMember) {
                     setIsEntry(true);
@@ -51,13 +51,19 @@ const Tasks = ({ userId }) => {
             });
     }, [userId])
 
+    const checkTask = (taskId: number) => {
+        console.log('taskId: ', taskId);
+    }
+
     console.log('complete: ', completeTasks);
     console.log('uncomplete: ', uncompleteTasks);
     return (
         <div>
             {uncompleteTasks.map((task) => {
                 return (
-                    <div key={task.task_id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '1rem', padding: '1rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px' }}>
+                    <div key={task.task_id}
+                        onClick={() => { checkTask(task.task_id) }}
+                        style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '1rem', padding: '1rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px', cursor: 'pointer' }}>
                         <h3>{task.task_name}</h3>
                         <h3 style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.05rem 0.3rem' }}
                         >+{task.task_price}</h3>
@@ -75,7 +81,7 @@ const Tasks = ({ userId }) => {
             })}
             <h2>Tests</h2>
             <p>is entry?{isEntry ? ' yes' : ' no'}</p>
-            <p>address: {userFriendlyAddress}</p>
+            <p>address: {userFriendlyAddress ? 'yes' : 'no'}</p>
         </div >
     )
 }
