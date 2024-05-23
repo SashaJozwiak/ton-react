@@ -6,7 +6,7 @@ export const checkWallet = async (userId: number, taskId: number) => {
 
     if (isWallet) {
         try {
-            await fetch('https://fitton:3000/tasks', {
+            await fetch('https://fitton.online/tasks', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

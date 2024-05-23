@@ -4,6 +4,7 @@ import { useTonAddress } from '@tonconnect/ui-react';
 
 import { getATasks } from '../../utils/queries/fetchTasksData';
 import { checkChannelMembership } from '../../utils/queries/tasks/testIsEntry';
+import { checkWallet } from '../../utils/queries/tasks/checkTasks';
 
 interface ITasks {
     task_id: number;
@@ -51,8 +52,12 @@ const Tasks = ({ userId }) => {
             });
     }, [userId])
 
-    const checkTask = (taskId: number) => {
+    const checkTask = async (taskId: number) => {
         console.log('taskId: ', taskId);
+        switch (taskId) {
+            case 1: await checkWallet(userId, taskId);
+                break;
+        }
     }
 
     console.log('complete: ', completeTasks);
