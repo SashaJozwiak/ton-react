@@ -13,8 +13,7 @@ interface ITasks {
     status: string;
 }
 
-const Tasks = ({ userId }) => {
-    //const [tasks, setTasks] = React.useState<ITasks[]>([]);
+const Tasks = ({ userId, setRoutes }) => {
 
     const userFriendlyAddress = useTonAddress();
 
@@ -22,6 +21,8 @@ const Tasks = ({ userId }) => {
     const [uncompleteTasks, setUncompleteTasks] = React.useState<ITasks[]>([]);
 
     const [isEntry, setIsEntry] = React.useState<boolean>(false);
+
+    const [rerender, setRerender] = React.useState<boolean>(false);
 
     const fetchTasks = async () => {
         try {
@@ -35,8 +36,9 @@ const Tasks = ({ userId }) => {
 
     useEffect(() => {
         fetchTasks();
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userId])
+    }, [rerender])
 
     useEffect(() => {
         checkChannelMembership(userId)
@@ -55,10 +57,18 @@ const Tasks = ({ userId }) => {
     const checkTask = async (taskId: number) => {
         console.log('taskId: ', taskId);
         switch (taskId) {
-            case 1: await checkWallet(userId, taskId);
+            case 1:
+                console.log('wtf');
+                await checkWallet(userId, taskId, userFriendlyAddress, setRoutes);
                 break;
+            default:
+                console.log('no task id');
         }
+        await fetchTasks()
+        setRerender(!rerender);
     }
+
+    console.log('renderer: ', rerender)
 
     console.log('complete: ', completeTasks);
     console.log('uncomplete: ', uncompleteTasks);
@@ -67,7 +77,7 @@ const Tasks = ({ userId }) => {
             {uncompleteTasks.map((task) => {
                 return (
                     <div key={task.task_id}
-                        onClick={() => { checkTask(task.task_id) }}
+                        onClick={() => checkTask(task.task_id)}
                         style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '1rem', padding: '1rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px', cursor: 'pointer' }}>
                         <h3>{task.task_name}</h3>
                         <h3 style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.05rem 0.3rem' }}

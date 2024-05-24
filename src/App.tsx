@@ -123,7 +123,7 @@ function App() {
           {routes === 'main' && <Main userId={userId} authData={authData} setAuthData={setAuthData} activData={activData} setActivData={setActivData} sumPoints={sumPoints} setSumPoints={setSumPoints} setRoutes={setRoutes} />}
           {routes === 'teams' && <Teams userId={userId} setRoutes={setRoutes} />}
           {routes === 'profile' && <Profile userId={userId} setRoutes={setRoutes} />}
-          {routes === 'tasks' && <Tasks userId={userId} />}
+          {routes === 'tasks' && <Tasks userId={userId} setRoutes={setRoutes} />}
           {routes === 'battles' && <Battles />}
 
           {error && <p>Вам нужно авторизоваться</p>}
