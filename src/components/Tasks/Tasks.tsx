@@ -4,7 +4,7 @@ import { useTonAddress } from '@tonconnect/ui-react';
 
 import { getATasks } from '../../utils/queries/fetchTasksData';
 import { checkChannelMembership } from '../../utils/queries/tasks/testIsEntry';
-import { checkWallet } from '../../utils/queries/tasks/checkTasks';
+import { checkSubscription, checkWallet } from '../../utils/queries/tasks/checkTasks';
 
 interface ITasks {
     task_id: number;
@@ -58,8 +58,10 @@ const Tasks = ({ userId, setRoutes }) => {
         console.log('taskId: ', taskId);
         switch (taskId) {
             case 1:
-                console.log('wtf');
                 await checkWallet(userId, taskId, userFriendlyAddress, setRoutes);
+                break;
+            case 2:
+                await checkSubscription(userId, taskId);
                 break;
             default:
                 console.log('no task id');
