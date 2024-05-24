@@ -1,6 +1,5 @@
 import { checkChannelMembership } from "./testIsEntry";
 
-
 export const checkWallet = async (
     userId: number,
     taskId: number,
@@ -26,14 +25,15 @@ export const checkWallet = async (
         console.log('User is don\'t have wallet')
         setRoutes('profile')
     }
-}
+};
 
 export const checkSubscription = async (
     userId: number,
     taskId: number,
 ) => {
-    checkChannelMembership(userId).then(async isMember => {
-        if (!isMember) {
+    try {
+        const isMember = await checkChannelMembership(userId);
+        if (isMember) {
             console.log('subscribed')
             try {
                 console.log('subscribed in trycatch')
@@ -53,8 +53,7 @@ export const checkSubscription = async (
             console.log('no subscribed')
             window.open('https://t.me/fitton_online', '_blank');
         }
-    })
-        .catch(error => {
-            console.error('Error:', error);
-        });
-}
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};

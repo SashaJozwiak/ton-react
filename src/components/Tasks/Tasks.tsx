@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react'
-
 import { useTonAddress } from '@tonconnect/ui-react';
 
 import { getATasks } from '../../utils/queries/fetchTasksData';
-import { checkChannelMembership } from '../../utils/queries/tasks/testIsEntry';
 import { checkSubscription, checkWallet } from '../../utils/queries/tasks/checkTasks';
 
 interface ITasks {
@@ -14,14 +12,10 @@ interface ITasks {
 }
 
 const Tasks = ({ userId, setRoutes }) => {
-
     const userFriendlyAddress = useTonAddress();
 
     const [completeTasks, setCompleteTasks] = React.useState<ITasks[]>([]);
     const [uncompleteTasks, setUncompleteTasks] = React.useState<ITasks[]>([]);
-
-    const [isEntry, setIsEntry] = React.useState<boolean>(false);
-
     const [rerender, setRerender] = React.useState<boolean>(false);
 
     const fetchTasks = async () => {
@@ -36,23 +30,8 @@ const Tasks = ({ userId, setRoutes }) => {
 
     useEffect(() => {
         fetchTasks();
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [rerender])
-
-    useEffect(() => {
-        checkChannelMembership(userId)
-            .then(isMember => {
-                if (isMember) {
-                    setIsEntry(true);
-                } else {
-                    setIsEntry(false);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
-    }, [userId])
+    }, [userId, rerender])
 
     const checkTask = async (taskId: number) => {
         console.log('taskId: ', taskId);
@@ -70,10 +49,6 @@ const Tasks = ({ userId, setRoutes }) => {
         setRerender(!rerender);
     }
 
-    console.log('renderer: ', rerender)
-
-    console.log('complete: ', completeTasks);
-    console.log('uncomplete: ', uncompleteTasks);
     return (
         <div>
             {uncompleteTasks.map((task) => {
@@ -96,9 +71,6 @@ const Tasks = ({ userId, setRoutes }) => {
                     </div>
                 )
             })}
-            <h2>Tests</h2>
-            <p>is entry?{isEntry ? ' yes' : ' no'}</p>
-            <p>address: {userFriendlyAddress ? 'yes' : 'no'}</p>
         </div >
     )
 }
