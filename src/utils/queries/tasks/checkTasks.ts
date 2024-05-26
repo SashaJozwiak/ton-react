@@ -53,15 +53,16 @@ export const checkSubscription = async (
             }
         } else {
             console.log('no subscribed')
-            window.open('https://t.me/fitton_online', '_blank');
-            /* const openLink = (url: string) => {
+            /* window.open('https://t.me/fitton_online', '_blank'); */
+            const openLink = (url: string) => {
                 const a = document.createElement('a');
                 a.href = url;
                 a.target = '_blank';
                 a.click();
             };
 
-            openLink('https://t.me/fitton_online'); */
+            openLink('https://t.me/fitton_online');
+            console.log('no subscribed after link')
         }
     } catch (error) {
         console.error('Error:', error);
