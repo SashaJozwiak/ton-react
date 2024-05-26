@@ -40,6 +40,7 @@ const Tasks = ({ userId, setRoutes }) => {
                 await checkWallet(userId, taskId, userFriendlyAddress, setRoutes);
                 break;
             case 2:
+                console.log('check subscription id2');
                 await checkSubscription(userId, taskId);
                 break;
             default:
