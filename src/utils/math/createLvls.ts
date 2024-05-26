@@ -9,8 +9,8 @@ const arr: Array<lvl> = [];
 for (let i = 0; i <= sum; i++) {
     const obj: lvl = {
         lvl: i,
-        add: i === 0 ? 0 : +(i * 0.2 + 3.321).toFixed(3),
-        need: i === 0 ? 0 : +(i * 0.2 + 3.321).toFixed(3),
+        add: i === 0 ? 0 : +(i * 0.7 + 3.321).toFixed(3),
+        need: i === 0 ? 0 : +(i * 0.7 + 3.321).toFixed(3),
     };
     arr.push(obj);
 }

@@ -4,7 +4,10 @@
   /* padding: 2rem; */
   text-align: center;
 }
-
+button {
+  all: unset;
+  cursor: pointer;
+}
 /* .logo {
   height: 6em;
   padding: 1.5em;
