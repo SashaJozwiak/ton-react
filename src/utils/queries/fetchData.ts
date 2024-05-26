@@ -9,7 +9,7 @@ export interface ActivityData {
 }
 
 export const getActivities = async (token: string): Promise<ActivityData> => {
-    const startUnixTimestamp = 1711929600; //1 апреля 2024 года
+    const startUnixTimestamp = 1714521601; //1 апреля 2024 года 1711929601 change for season start
     const endUnixTimestamp = Math.floor(new Date().getTime() / 1000);
 
     try {

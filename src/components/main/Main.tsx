@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { AuthData } from '../../App';
 import { getActivities } from '../../utils/queries/fetchData';
 import { ActivityData } from '../../utils/queries/fetchData';
+import { getBalance } from '../../utils/queries/getBalance';
 import { refreshAccessToken } from '../../utils/queries/refreshAccessToken';
 import { lvls } from '../../utils/math/lvls';
 
@@ -18,6 +19,8 @@ interface MainProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setSumPoints: (pr: number) => void;
     setRoutes: (pr: string) => void;
+    onLifeBalance: Record<string, number>;
+    setOnLifeBalance: (pr: Record<string, number>) => void;
 }
 
 export interface IProgress {
@@ -27,7 +30,7 @@ export interface IProgress {
     next_lvl: number,
 }
 
-export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activData, setActivData, sumPoints, setSumPoints, setRoutes }) => {
+export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activData, setActivData, sumPoints, setSumPoints, setRoutes, onLifeBalance, setOnLifeBalance }) => {
 
     const [progress, setProgress] = useState<IProgress>({
         current_lvl: 0,
@@ -39,8 +42,11 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
     async function fetchDataFromGoogleFit(token: string) {
         try {
             const activity = await getActivities(token)
-            setActivData(activity)
-            console.log(activity)
+            const getOnLifeBalance = await getBalance(userId)
+            //console.log('onlife: ', getOnLifeBalance)
+            await setActivData(activity)
+            await setOnLifeBalance(getOnLifeBalance)
+            //console.log(activity)
         } catch (error) {
             console.error('Error fetching user data from Google Fit:', error);
         }
@@ -75,16 +81,17 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
         }
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authData]) //or [authData]
+    }, []) //or [authData]
 
     useEffect(() => {
         console.log(activData, setSumPoints)
         sumPointsFn(activData, setSumPoints);
+
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activData])
 
     useEffect(() => {
-        const differenceMilliseconds = new Date().getTime() - new Date('2024-04-01').getTime();
+        const differenceMilliseconds = new Date().getTime() - new Date('2024-05-01').getTime();// change for season start
         const passedDays = Math.floor(differenceMilliseconds / 86400000);
         const pointsPerDay = sumPoints / passedDays;
         console.log(differenceMilliseconds, passedDays, pointsPerDay)
@@ -151,9 +158,9 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
                 <div style={{ display: 'flex', flexDirection: 'column', width: '80vw', maxWidth: '1280px', margin: '0 auto', border: '0px solid grey', borderRadius: '0.25rem', padding: '1rem', boxShadow: 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' }}>
                 <h2 style={{ /* textDecoration: 'underline', */ color: 'rgba(14, 165, 233, 0.6)' }}>Online</h2>
                     <div>
-                        <p style={{ fontSize: '1rem' }}>Frens: {0}</p>
-                        <p style={{ fontSize: '1rem' }}>Tasks: {100}</p>
-                        <p style={{ fontSize: '1rem' }}>Battles: {0}</p>
+                        <p style={{ fontSize: '1rem' }}>Frens: {onLifeBalance.frens}</p>
+                        <p style={{ fontSize: '1rem' }}>Tasks: {onLifeBalance.tasks}</p>
+                        <p style={{ fontSize: '1rem' }}>Battles: {onLifeBalance.battles}</p>
                     </div>
                 </div>
             </div>

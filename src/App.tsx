@@ -29,6 +29,12 @@ export interface AuthData {
   expiry_date: 'string';
 }
 
+/* export interface onLifeBalance {
+  battles:number;
+  frens:number;
+  tasks:number;
+} */
+
 function App() {
   //const { connected } = useTonConnect();
   //const { value, address, sendIncrement } = useCounterContract();
@@ -50,6 +56,14 @@ function App() {
     cardio: 0,
     calories: 0,
   });
+
+  const [onLifeBalance, setOnLifeBalance] = useState<Record<string, number>>({
+    battles: 0,
+    frens: 0,
+    tasks: 0,
+  });
+
+  console.log(onLifeBalance)
 
   const [sumPoints, setSumPoints] = useState<number>(0);
 
@@ -105,7 +119,7 @@ function App() {
 
       <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)' }}>
         🏆 Demo season 🏃</h1>
-      <p style={{ marginBottom: '2rem' }}>from April 1, 2024</p>
+      <p style={{ marginBottom: '2rem' }}>from May 1, 2024</p>
 
       {isLoading ? (
         <div>
@@ -113,7 +127,8 @@ function App() {
         </div>
       ) :
         <div>
-          {routes === 'main' && <Main userId={userId} authData={authData} setAuthData={setAuthData} activData={activData} setActivData={setActivData} sumPoints={sumPoints} setSumPoints={setSumPoints} setRoutes={setRoutes} />}
+          {routes === 'main' && <Main userId={userId} authData={authData} setAuthData={setAuthData} activData={activData} setActivData={setActivData} sumPoints={sumPoints} setSumPoints={setSumPoints} setRoutes={setRoutes}
+            onLifeBalance={onLifeBalance} setOnLifeBalance={setOnLifeBalance} />}
           {routes === 'teams' && <Teams userId={userId} setRoutes={setRoutes} />}
           {routes === 'profile' && <Profile userId={userId} setRoutes={setRoutes} />}
           {routes === 'tasks' && <Tasks userId={userId} setRoutes={setRoutes} />}
