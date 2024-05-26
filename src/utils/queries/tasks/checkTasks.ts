@@ -52,14 +52,13 @@ export const checkSubscription = async (
         } else {
             console.log('no subscribed')
             //window.open('https://t.me/fitton_online', '_blank');
-            const openLink = (url) => {
+            const openLink = (url: string) => {
                 const a = document.createElement('a');
                 a.href = url;
                 a.target = '_blank';
                 a.click();
             };
 
-            // Используйте openLink вместо window.open
             openLink('https://t.me/fitton_online');
         }
     } catch (error) {
