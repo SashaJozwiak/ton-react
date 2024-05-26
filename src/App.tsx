@@ -1,7 +1,4 @@
-import './App.css';
-import '@twa-dev/sdk';
-import WebApp from '@twa-dev/sdk';
-
+//import '@twa-dev/sdk';
 //import { TonConnectButton } from '@tonconnect/ui-react';
 //import { useTonConnect } from './hooks/useTonConnect';
 //import { useCounterContract } from './hooks/useCounterContract';
@@ -10,19 +7,18 @@ import WebApp from '@twa-dev/sdk';
 import eruda from 'eruda'
 import { Main } from './components/main/Main';
 import { useEffect, useState } from 'react';
+import WebApp from '@twa-dev/sdk';
 
 import { ActivityData } from './utils/queries/fetchData';
-
 import BlockingPopup from './components/Popups/AuthPopup';
 import Navbar from './components/Navbar/Navbar';
 import Tasks from './components/Tasks/Tasks';
 import Teams from './components/Teams/Teams';
 import Battles from './components/Battles/Battles';
 import Profile from './components/Profile/Profile';
+import './App.css';
 
 eruda.init();//just for debug
-console.log('go')
-console.log('host :', import.meta.env.VITE_HOST)
 
 export interface AuthData {
   id: number;
@@ -91,7 +87,6 @@ function App() {
         console.error('Error fetching user data:', error);
       }
     };
-
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -102,12 +97,10 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
-
   console.log(authData)
 
   return (
     <div className='App' style={{ fontFamily: 'monospace' }}>
-
       <BlockingPopup isPopupOpen={isPopupOpen} userId={userId} />
 
       <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)' }}>
@@ -129,38 +122,7 @@ function App() {
           {error && <p>Вам нужно авторизоваться</p>}
         </div>
       }
-
       {!isPopupOpen && <Navbar routes={routes} setRoutes={setRoutes} />}
-
-
-      {/* <div className='Container'> */}
-      {/* Container */}
-
-        {/* <TonConnectButton /> */}
-
-        {/*  <div className='Card'>
-          <b>Counter Address</b>
-          <div className='Hint'>{address?.slice(0, 20) + '...'}</div>
-        </div>
-
-        <div className='Card'>
-          <b>Counter Value</b>
-          <div>{value ?? 'Loading...'}</div>
-        </div>
-
-        <a
-          className={`Button ${connected ? 'Active' : 'Disabled'}`}
-          onClick={() => {
-            sendIncrement();
-          }}
-        >
-          Increment
-        </a> */}
-      {/* </div> */}
-      {/* <GoogleAuthButton /> */}
-      {/* <Go /> */}
-
-
     </div>
   );
 }
