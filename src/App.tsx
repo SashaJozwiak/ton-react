@@ -94,7 +94,7 @@ function App() {
           setUserId(getUserId);
         } else {
           console.log('test user');
-          setUserId(5531877002);
+          setUserId(757322479);
         }
         //await fetchUserData();
       } catch (error) {

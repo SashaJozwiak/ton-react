@@ -48,7 +48,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
             await setOnLifeBalance(getOnLifeBalance)
             //console.log(activity)
         } catch (error) {
-            console.error('Error fetching user data from Google Fit:', error);
+            console.error('Error fetching user data from Google Fit and db online balance:', error);
         }
     }
 
