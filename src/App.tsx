@@ -105,6 +105,8 @@ function App() {
     if (!WebApp.isExpanded) {
       WebApp.expand();
       console.log('expanded');
+    } else {
+      console.log('before expanded')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
