@@ -102,6 +102,9 @@ function App() {
       }
     };
     fetchData();
+    if (!WebApp.isExpanded) {
+      WebApp.expand();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

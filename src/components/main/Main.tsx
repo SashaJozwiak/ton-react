@@ -46,7 +46,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
             //console.log('onlife: ', getOnLifeBalance)
             await setActivData(activity)
             await setOnLifeBalance(getOnLifeBalance)
-            //console.log(activity)
+            console.log('refresh datas')
         } catch (error) {
             console.error('Error fetching user data from Google Fit and db online balance:', error);
         }
@@ -80,8 +80,9 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
             fetchDataFromGoogleFit(authData.access_token)
         }
 
+        //console.log('auth data rendered')
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []) //or [authData]
+    }, [authData]) //or [authData]
 
     useEffect(() => {
         console.log(activData, setSumPoints)
