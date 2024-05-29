@@ -104,6 +104,7 @@ function App() {
     fetchData();
     if (!WebApp.isExpanded) {
       WebApp.expand();
+      console.log('expanded');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
