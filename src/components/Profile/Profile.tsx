@@ -16,8 +16,21 @@ const Profile = ({ userId, setRoutes }) => {
 
     const [userAppData, setUserAppData] = useState<UserData>({ username: undefined });
 
+    const [link, setLink] = useState<string>('https://t.me/zwiak');
+    const [copied, setCopied] = useState<boolean>(false);
+
+
     console.log('userId', userId);
     console.log('userAppData', userAppData);
+
+    const handleCopyClick = () => {
+        navigator.clipboard.writeText(link).then(() => {
+            setCopied(true)
+        }).catch(err => {
+            setCopied(false)
+            console.error('Error copying link', err);
+        });
+    }
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,6 +54,19 @@ const Profile = ({ userId, setRoutes }) => {
             <h2>Hi, {userAppData?.username || <img src={loader} alt="loader" width='5%'></img>}</h2>
 
             <TonConnectButton />
+            <div style={{ marginTop: '1em', display: 'flex', flexDirection: 'column' }}>
+                <h2 >Invite friends</h2>
+                <input
+                    type="text"
+                    readOnly={true}
+                    style={{ margin: '0.4rem', border: '1px solid rgba(14, 165, 233, 0.4)', borderRadius: '0.25rem', padding: '0.5rem 0.3rem', width: '60vw', textAlign: 'center', background: 'lightgray' }}
+                    value={link}
+                    onChange={(e) => setLink(e.target.value)}
+                />
+                <button onClick={handleCopyClick}
+                    style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0rem 0.5rem', height: '2rem', fontSize: '1rem', color: 'white' }}
+                >Copy Link{copied && ' ✅'}</button>
+            </div>
         </div>
     )
 }

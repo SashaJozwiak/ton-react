@@ -103,6 +103,7 @@ function App() {
     };
     fetchData();
     if (!WebApp.isExpanded) {
+
       WebApp.expand();
       console.log('expanded');
     } else {

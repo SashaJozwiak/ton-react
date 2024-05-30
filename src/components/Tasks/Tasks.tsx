@@ -52,17 +52,27 @@ const Tasks = ({ userId, setRoutes }) => {
 
     return (
         <div>
+
             {uncompleteTasks.map((task) => {
                 return (
                     <button key={task.task_id}
                         onClick={() => checkTask(task.task_id)}
                         style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '85%', margin: '1rem auto', padding: '1rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px', cursor: 'pointer' }}>
                         <h3>{task.task_name}</h3>
-                        <h3 style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.05rem 0.3rem' }}
+                        <h3 style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.05rem 0.3rem', color: 'white' }}
                         >+{task.task_price}</h3>
                     </button>
+
+
                 )
             })}
+            <button
+                onClick={() => setRoutes('profile')}
+                style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '85%', margin: '1rem auto', padding: '1rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px', cursor: 'pointer' }}>
+                <h3>Invite friends</h3>
+                <h3 style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.05rem 0.3rem', color: 'white' }}
+                >+100/per</h3>
+            </button>
             <h2>Complete:</h2>
             {completeTasks.map((task) => {
                 return (
