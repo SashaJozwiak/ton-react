@@ -18,7 +18,7 @@ const Profile = ({ userId, setRoutes }) => {
 
     const [userAppData, setUserAppData] = useState<UserData>({ username: undefined, first_name: undefined, last_name: undefined });
 
-    const [link, setLink] = useState<string>('https://t.me/zwiak');
+    const [link, setLink] = useState<string>('https://t.me/example');
     const [copied, setCopied] = useState<boolean>(false);
 
 
