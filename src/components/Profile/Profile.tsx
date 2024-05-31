@@ -37,6 +37,7 @@ const Profile = ({ userId, setRoutes }) => {
             try {
                 if (WebApp.initDataUnsafe.user) {
                     const getUserData = WebApp.initDataUnsafe.user;
+                    console.log('userData', getUserData);
                     setUserAppData({ username: getUserData.username });
                 } else {
                     console.log('not init');
