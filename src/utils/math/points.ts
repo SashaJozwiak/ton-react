@@ -2,7 +2,8 @@ import { ActivityData } from '../queries/fetchData';
 
 export function sumPointsFn(activData: ActivityData, setSumPoints: (sumPoints: number) => void) {
     const sum = +(((activData.steps + activData.calories + (activData.cardio * 1000)) / 1000).toFixed(3)) || 0.000;
-    setSumPoints(sum || 0.000);
+    const sumFinally = sum > 10000 ? sum.toFixed(0) : sum;
+    setSumPoints(+sumFinally || 0.000);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

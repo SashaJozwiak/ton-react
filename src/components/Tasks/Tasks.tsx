@@ -73,7 +73,7 @@ const Tasks = ({ userId, setRoutes }) => {
                 <h3 style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.05rem 0.3rem', color: 'white' }}
                 >+100/per</h3>
             </button>
-            <h2>Complete:</h2>
+            {completeTasks.length > 0 && <h2>Complete:</h2>}
             {completeTasks.map((task) => {
                 return (
                     <div key={task.task_id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '1rem auto', width: '80%', padding: '1rem', borderRadius: '0.25rem', background: 'rgba(80, 80, 80, 0.3)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px', color: 'gray' }}>

@@ -6,8 +6,12 @@ import { getBalance } from '../../utils/queries/getBalance';
 import { refreshAccessToken } from '../../utils/queries/refreshAccessToken';
 import { lvls } from '../../utils/math/lvls';
 
-import './Main.css';
 import { calculateLvl, sumPointsFn } from '../../utils/math/points';
+
+import loader from '../../assets/loading-gif.gif'
+
+import './Main.css';
+
 
 interface MainProps {
     userId: number;
@@ -68,6 +72,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
     }
 
     useEffect(() => {
+
         if (authData !== null) {
             //console.log(authData.expiry_date)
             const unixExpire = new Date(authData.expiry_date).getTime();
@@ -112,15 +117,15 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
             <div style={{ position: 'relative', padding: '0.5rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 1.5rem 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
                 <button
                     onClick={() => { setRoutes('teams') }}
-                    style={{ position: 'absolute', top: '-2.2rem', right: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold' }}>Team
+                    style={{ position: 'absolute', top: '-4.5vh', right: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', fontSize: 'calc(2vh)' }}>Teams
                 </button>
 
                 <button
                     onClick={() => { setRoutes('profile') }}
-                    style={{ position: 'absolute', top: '-2.2rem', left: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold' }}>Profile
+                    style={{ position: 'absolute', top: '-4.5vh', left: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', fontSize: 'calc(2vh)' }}>Profile
                 </button>
 
-                <h1 style={{ fontSize: '3rem', color: 'rgb(14 165 233)', textShadow: '1px 2px 2px rgba(0,0,0,0.3), 0px -4px 10px rgba(255,255,255,0.3)' }}>{sumPoints}</h1>
+                <h1 style={{ fontSize: '6.5vh', color: 'rgb(14 165 233)', textShadow: '1px 2px 2px rgba(0,0,0,0.3), 0px -4px 10px rgba(255,255,255,0.3)' }}>{sumPoints <= 0 ? <img src={loader} alt='loading' width='10%' /> : sumPoints}</h1>
             </div>
 
             <div style={{ marginBottom: '2rem' }}>
@@ -147,17 +152,30 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
                 </div>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', height: '40vh' }}>
-                <div style={{ display: 'flex', flexDirection: 'column', width: '80vw', maxWidth: '1280px', margin: '0 auto 1rem', border: '0px solid grey', borderRadius: '0.25rem', padding: '1rem', boxShadow: 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' }}>
-                <h2 style={{ /* textDecoration: 'underline', */ color: 'rgba(14, 165, 233, 0.6)' }}>Onlife</h2>
+                <div style={{ display: 'flex', flexDirection: 'column', width: '80vw', maxWidth: '1280px', gap: '0.1rem', margin: '0 auto 1rem', border: '0px solid grey', borderRadius: '0.25rem', padding: '1rem', boxShadow: 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' }}>
+                    <h2 style={{ textDecoration: 'underline', textUnderlineOffset: '0.15em', color: 'rgba(14, 165, 233, 0.6)', marginBottom: '0.2rem' }}>Onlife</h2>
                     <div>
-                        <p style={{ fontSize: '1rem' }}>Cardio: {activData.cardio && activData.cardio}</p>
-                        <p style={{ fontSize: '1rem' }}>Kcal: {activData.calories && activData.calories}</p>
-                        <p style={{ fontSize: '1rem' }}>Steps: {activData.steps && activData.steps}</p>
+                        <p style={{ fontSize: '1rem', marginBottom: '0.15rem' }}>Cardio:
+                            <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
+                                {activData.cardio && activData.cardio}
+                            </span>
+
+                        </p>
+                        <p style={{ fontSize: '1rem', marginBottom: '0.1rem' }}>Kcal:
+                            <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
+                                {activData.calories && activData.calories}
+                            </span>
+                        </p>
+                        <p style={{ fontSize: '1rem' }}>Steps:
+                            <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
+                                {activData.steps && activData.steps}
+                            </span>
+                        </p>
                     </div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', width: '80vw', maxWidth: '1280px', margin: '0 auto', border: '0px solid grey', borderRadius: '0.25rem', padding: '1rem', boxShadow: 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' }}>
-                <h2 style={{ /* textDecoration: 'underline', */ color: 'rgba(14, 165, 233, 0.6)' }}>Online</h2>
+                    <h2 style={{ textDecoration: 'underline', textUnderlineOffset: '0.15em', color: 'rgba(14, 165, 233, 0.6)' }}>Online</h2>
                     <div>
                         <p style={{ fontSize: '1rem' }}>Frens: {onLifeBalance.frens}</p>
                         <p style={{ fontSize: '1rem' }}>Tasks: {onLifeBalance.tasks}</p>

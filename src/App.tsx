@@ -124,9 +124,9 @@ function App() {
     <div className='App' style={{ fontFamily: 'monospace' }}>
       <BlockingPopup isPopupOpen={isPopupOpen} userId={userId} />
 
-      <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)' }}>
-        🏆 Demo season 🏃</h1>
-      <p style={{ marginBottom: '2rem' }}>from May 1, 2024</p>
+      <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)', fontSize: '4vh' }}>
+        🏆 Fitton<span style={{ fontSize: '2.5vh', position: 'relative', top: '-2vh' }}>&alpha;</span> 🏃</h1>
+      <p style={{ marginBottom: '2rem', fontSize: '2vh' }}>&nbsp;&nbsp;from May 1, 2024</p>
 
       {isLoading ? (
         <div>

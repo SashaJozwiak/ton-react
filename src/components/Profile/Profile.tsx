@@ -54,7 +54,7 @@ const Profile = ({ userId, setRoutes }) => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
             <BackButton onClick={() => setRoutes('main')} />
-            <h2>Hi, {userAppData?.first_name || userAppData?.last_name || userAppData?.username || <img src={loader} alt="loader" width='5%'></img>}</h2>
+            <h2>Hi, {userAppData?.first_name || userAppData?.last_name || userAppData?.username || <img src={loader} alt="loader" width='5%' />}</h2>
 
             <TonConnectButton />
             <div style={{ marginTop: '1em', display: 'flex', flexDirection: 'column' }}>
