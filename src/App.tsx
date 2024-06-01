@@ -124,11 +124,11 @@ function App() {
     <div className='App' style={{ fontFamily: 'monospace' }}>
       <BlockingPopup isPopupOpen={isPopupOpen} userId={userId} />
 
-      <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)', fontSize: '4vh' }}>
+      <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)', fontSize: 'calc(3vw + 3vh)' }}>
         🏆 Fitton
         {!isPopupOpen && <span style={{ position: 'relative', top: '-2vh', fontSize: '2.5vh', color: 'rgb(14, 165, 233)' }}>&alpha;</span>}
         🏃</h1>
-      <p style={{ marginBottom: '2rem', fontSize: '2vh' }}>&nbsp;&nbsp;from May 1, 2024</p>
+      <p style={{ marginBottom: '2rem', fontSize: 'calc(2.2vw + 1vh)' }}>&nbsp;&nbsp;from May 1, 2024</p>
 
       {isLoading ? (
         <div>

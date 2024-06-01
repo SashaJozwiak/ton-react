@@ -117,12 +117,12 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
             <div style={{ position: 'relative', padding: '0.5rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 1.5rem 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
                 <button
                     onClick={() => { setRoutes('teams') }}
-                    style={{ position: 'absolute', top: '-4.5vh', right: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', fontSize: 'calc(2vh)' }}>Teams
+                    style={{ position: 'absolute', top: '-50%', right: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', fontSize: 'calc(1.5vh + 1.5vw)' }}>Teams
                 </button>
 
                 <button
                     onClick={() => { setRoutes('profile') }}
-                    style={{ position: 'absolute', top: '-4.5vh', left: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', fontSize: 'calc(2vh)' }}>Profile
+                    style={{ position: 'absolute', top: '-50%', left: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', fontSize: 'calc(1.5vh + 1.5vw)' }}>Profile
                 </button>
 
                 <h1 style={{ fontSize: '6.5vh', color: 'rgb(14 165 233)', textShadow: '1px 2px 2px rgba(0,0,0,0.3), 0px -4px 10px rgba(255,255,255,0.3)' }}>{sumPoints <= 0 ? <img src={loader} alt='loading' width='10%' /> : sumPoints}</h1>
@@ -135,8 +135,8 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '0 1rem' }}>
                     <div>
-                        <p>{progress.start_lvl}</p>
-                        <p>per day</p>
+                        <p style={{ fontSize: 'calc(1.5vw + 1.5vh)' }}>{progress.start_lvl}</p>
+                        <p style={{ fontSize: 'calc(1.2vw + 1.2vh)' }}>per day</p>
                     </div>
 
                     <h1 style={{ fontFamily: 'monospace', color: 'rgb(100 116 139)' }}>Level                    <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0.1rem 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
@@ -145,8 +145,8 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
                     </h1>
 
                     <div>
-                        <p>{progress.next_lvl}</p>
-                        <p>per day</p>
+                        <p style={{ fontSize: 'calc(1.5vw + 1.5vh)' }}>{progress.next_lvl}</p>
+                        <p style={{ fontSize: 'calc(1.2vw + 1.2vh)' }}>per day</p>
                     </div>
 
                 </div>
