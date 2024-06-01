@@ -125,7 +125,9 @@ function App() {
       <BlockingPopup isPopupOpen={isPopupOpen} userId={userId} />
 
       <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)', fontSize: '4vh' }}>
-        🏆 Fitton<span style={{ position: 'relative', top: '-2vh', fontSize: '2.5vh', color: 'rgb(14, 165, 233)' }}>&alpha;</span> 🏃</h1>
+        🏆 Fitton
+        {!isPopupOpen && <span style={{ position: 'relative', top: '-2vh', fontSize: '2.5vh', color: 'rgb(14, 165, 233)' }}>&alpha;</span>}
+        🏃</h1>
       <p style={{ marginBottom: '2rem', fontSize: '2vh' }}>&nbsp;&nbsp;from May 1, 2024</p>
 
       {isLoading ? (
