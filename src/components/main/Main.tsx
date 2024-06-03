@@ -87,7 +87,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
     }, [activData])
 
     useEffect(() => {
-        const differenceMilliseconds = new Date().getTime() - new Date('2024-05-01').getTime();// change for season start
+        const differenceMilliseconds = new Date().getTime() - new Date('2024-06-01').getTime();// change for season start
         const passedDays = Math.floor(differenceMilliseconds / 86400000);
         const pointsPerDay = sumPoints / passedDays;
         console.log(differenceMilliseconds, passedDays, pointsPerDay)

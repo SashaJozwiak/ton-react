@@ -9,7 +9,7 @@ export interface ActivityData {
 }
 
 export const getActivities = async (token: string): Promise<ActivityData> => {
-    const startUnixTimestamp = 1714521601; //1 апреля 2024 года 1711929601 change for season start
+    const startUnixTimestamp = 1717200001; //1 мая 2024 года 1711929601 change for season start
     const endUnixTimestamp = Math.floor(new Date().getTime() / 1000);
 
     try {
@@ -21,7 +21,7 @@ export const getActivities = async (token: string): Promise<ActivityData> => {
             "bucketByTime": {
                 "durationMillis": 86400000
             },
-            "startTimeMillis": startUnixTimestamp * 1000, // 1 апреля 2024
+            "startTimeMillis": startUnixTimestamp * 1000, // 1 июня 2024
             "endTimeMillis": endUnixTimestamp * 1000,
         }, {
             headers: {
@@ -98,7 +98,7 @@ export const getActivities = async (token: string): Promise<ActivityData> => {
         const sumCardio = filteredCardio.reduce((total: any, bucket: any) => {
             return total + bucket.dataset.reduce((datasetTotal: any, dataset: any) => {
                 return datasetTotal + dataset.point.reduce((pointTotal: any, point: any) => {
-                    return pointTotal + (point.value[1].intVal || 0);
+                    return pointTotal + (point.value[0].fpVal || 0);
                 }, 0);
             }, 0);
         }, 0);
