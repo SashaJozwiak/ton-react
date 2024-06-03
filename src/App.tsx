@@ -27,6 +27,8 @@ export interface AuthData {
   refresh_token: string;
   email: string;
   expiry_date: 'string';
+  ref_by: string | null;
+  ref_team_by: number | null;
 }
 
 /* export interface onLifeBalance {
@@ -118,7 +120,7 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
-  console.log(authData)
+  console.log('authData: ', authData?.ref_team_by)
 
   return (
     <div className='App' style={{ fontFamily: 'monospace' }}>
@@ -128,7 +130,7 @@ function App() {
         🏆 Fitton
         {!isPopupOpen && <span style={{ position: 'relative', top: '-2vh', fontSize: '2.5vh', color: 'rgb(14, 165, 233)' }}>&alpha;</span>}
         🏃</h1>
-      <p style={{ marginBottom: '2rem', fontSize: 'calc(2.2vw + 1vh)' }}>&nbsp;&nbsp;from May 1, 2024</p>
+      <p style={{ marginBottom: '2rem', fontSize: 'calc(2.2vw + 1vh)' }}>&nbsp;&nbsp;from June 1, 2024</p>
 
       {isLoading ? (
         <div>
@@ -139,7 +141,7 @@ function App() {
           {routes === 'main' && <Main userId={userId} authData={authData} setAuthData={setAuthData} activData={activData} setActivData={setActivData} sumPoints={sumPoints} setSumPoints={setSumPoints} setRoutes={setRoutes}
             onLifeBalance={onLifeBalance} setOnLifeBalance={setOnLifeBalance} />}
           {routes === 'teams' && <Teams userId={userId} setRoutes={setRoutes} />}
-          {routes === 'profile' && <Profile userId={userId} setRoutes={setRoutes} />}
+          {routes === 'profile' && <Profile userId={userId} setRoutes={setRoutes} authData={authData} />}
           {routes === 'tasks' && <Tasks userId={userId} setRoutes={setRoutes} />}
           {routes === 'battles' && <Battles />}
 

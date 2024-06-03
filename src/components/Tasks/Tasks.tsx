@@ -71,7 +71,7 @@ const Tasks = ({ userId, setRoutes }) => {
                 style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '85%', margin: '1rem auto', padding: '1rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px', cursor: 'pointer' }}>
                 <h3>Invite friends</h3>
                 <h3 style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.05rem 0.3rem', color: 'white' }}
-                >+100/per</h3>
+                >+150/per</h3>
             </button>
             {completeTasks.length > 0 && <h2>Complete:</h2>}
             {completeTasks.map((task) => {
