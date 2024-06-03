@@ -1,17 +1,13 @@
 import { useEffect, useState } from 'react';
 import { AuthData } from '../../App';
-import { getActivities } from '../../utils/queries/fetchData';
-import { ActivityData } from '../../utils/queries/fetchData';
+import { ActivityData, getActivities } from '../../utils/queries/fetchData';
 import { getBalance } from '../../utils/queries/getBalance';
 import { refreshAccessToken } from '../../utils/queries/refreshAccessToken';
-import { lvls } from '../../utils/math/lvls';
 
+import { lvls } from '../../utils/math/lvls';
 import { calculateLvl, sumPointsFn } from '../../utils/math/points';
 
-import loader from '../../assets/loading-gif.gif'
-
 import './Main.css';
-
 
 interface MainProps {
     userId: number;
@@ -26,7 +22,6 @@ interface MainProps {
     onLifeBalance: Record<string, number>;
     setOnLifeBalance: (pr: Record<string, number>) => void;
 }
-
 export interface IProgress {
     current_lvl: number,
     current_points: number,
@@ -60,7 +55,6 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
     async function refreshAcc() {
         const newAccessToken = await refreshAccessToken(authData!.refresh_token, userId)
         console.log('newAccessToken', newAccessToken)
-
         await setAuthData((e: AuthData) => {
             return {
                 ...e,
@@ -81,18 +75,14 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
                 console.log('token expired');
                 refreshAcc();
             }
-
             fetchDataFromGoogleFit(authData.access_token)
         }
-
-        //console.log('auth data rendered')
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authData]) //or [authData]
 
     useEffect(() => {
         console.log(activData, setSumPoints)
         sumPointsFn(activData, setSumPoints);
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activData])
 
@@ -107,13 +97,6 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
     console.log(progress)
     return (
         <div style={{ fontFamily: 'monospace' }}>
-
-            {/* <p>main_userId: {userId}</p> */}
-            {!userId && <p>не получил userId</p>}
-
-            {/* {authData && <pre>bdId:{authData.id}</pre>} */}
-
-
             <div style={{ position: 'relative', padding: '0.5rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 1.5rem 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
                 <button
                     onClick={() => { setRoutes('teams') }}
@@ -125,7 +108,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
                     style={{ position: 'absolute', top: '-50%', left: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', fontSize: 'calc(1.5vh + 1.5vw)' }}>Profile
                 </button>
 
-                <h1 style={{ fontSize: '6.5vh', color: 'rgb(14 165 233)', textShadow: '1px 2px 2px rgba(0,0,0,0.3), 0px -4px 10px rgba(255,255,255,0.3)' }}>{sumPoints <= 0 ? <img src={loader} alt='loading' width='10%' /> : sumPoints}</h1>
+                <h1 style={{ fontSize: '6.5vh', color: 'rgb(14 165 233)', textShadow: '1px 2px 2px rgba(0,0,0,0.3), 0px -4px 10px rgba(255,255,255,0.3)' }}>{sumPoints || 0}</h1>
             </div>
 
             <div style={{ marginBottom: '2rem' }}>
