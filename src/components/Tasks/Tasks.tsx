@@ -43,6 +43,9 @@ const Tasks = ({ userId, setRoutes }) => {
                 console.log('check subscription id2');
                 await checkSubscription(userId, taskId);
                 break;
+            case 4:
+                setRoutes('teams');
+                break;
             default:
                 console.log('no task id');
         }

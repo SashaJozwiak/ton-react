@@ -4,7 +4,7 @@
 //import { useCounterContract } from './hooks/useCounterContract';
 //import { Go } from './components/Go/Go';
 
-import eruda from 'eruda'
+//import eruda from 'eruda'
 import { Main } from './components/main/Main';
 import { useEffect, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
@@ -18,7 +18,7 @@ import Battles from './components/Battles/Battles';
 import Profile from './components/Profile/Profile';
 import './App.css';
 
-eruda.init();//just for debug
+//eruda.init();//just for debug
 
 export interface AuthData {
   id: number;
@@ -130,7 +130,7 @@ function App() {
         🏆 Fitton
         {!isPopupOpen && <span style={{ position: 'relative', top: '-2vh', fontSize: '2.5vh', color: 'rgb(14, 165, 233)' }}>&alpha;</span>}
         🏃</h1>
-      <p style={{ marginBottom: '2rem', fontSize: 'calc(2.2vw + 1vh)' }}>&nbsp;&nbsp;from June 1, 2024</p>
+      <p style={{ marginBottom: '2rem', fontSize: 'calc(2.2vw + 1vh)' }}>&nbsp;&nbsp;Season June,'24</p>
 
       {isLoading ? (
         <div>
