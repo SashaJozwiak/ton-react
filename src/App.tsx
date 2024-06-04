@@ -130,7 +130,7 @@ function App() {
         🏆 Fitton
         {!isPopupOpen && <span style={{ position: 'relative', top: '-2vh', fontSize: '2.5vh', color: 'rgb(14, 165, 233)' }}>&alpha;</span>}
         🏃</h1>
-      <p style={{ marginBottom: '2rem', fontSize: 'calc(2.2vw + 1vh)' }}>&nbsp;&nbsp;Season June,'24</p>
+      <p style={{ marginBottom: '2rem', fontSize: 'calc(2.2vw + 1vh)' }}>&nbsp;&nbsp;Season: June,'24</p>
 
       {isLoading ? (
         <div>

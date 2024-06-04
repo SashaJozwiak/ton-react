@@ -158,11 +158,23 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', width: '80vw', maxWidth: '1280px', margin: '0 auto', border: '0px solid grey', borderRadius: '0.25rem', padding: '1rem', boxShadow: 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' }}>
-                    <h2 style={{ textDecoration: 'underline', textUnderlineOffset: '0.15em', color: 'rgba(14, 165, 233, 0.6)' }}>Online</h2>
+                    <h2 style={{ textDecoration: 'underline', textUnderlineOffset: '0.15em', color: 'rgba(14, 165, 233, 0.6)', marginBottom: '0.2rem' }}>Online</h2>
                     <div>
-                        <p style={{ fontSize: '1rem' }}>Frens: {onLifeBalance.frens}</p>
-                        <p style={{ fontSize: '1rem' }}>Tasks: {onLifeBalance.tasks}</p>
-                        <p style={{ fontSize: '1rem' }}>Battles: {onLifeBalance.battles}</p>
+                        <p style={{ fontSize: '1rem', marginBottom: '0.15rem' }}>Frens:
+                            <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
+                                {onLifeBalance.frens}
+                            </span>
+                        </p>
+                        <p style={{ fontSize: '1rem', marginBottom: '0.15rem' }}>Tasks:
+                            <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
+                                {onLifeBalance.tasks}
+                            </span>
+                        </p>
+                        <p style={{ fontSize: '1rem' }}>Battles:
+                            <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
+                                {onLifeBalance.battles}
+                            </span>
+                        </p>
                     </div>
                 </div>
             </div>
