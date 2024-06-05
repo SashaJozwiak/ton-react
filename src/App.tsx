@@ -140,7 +140,7 @@ function App() {
         <div>
           {routes === 'main' && <Main userId={userId} authData={authData} setAuthData={setAuthData} activData={activData} setActivData={setActivData} sumPoints={sumPoints} setSumPoints={setSumPoints} setRoutes={setRoutes}
             onLifeBalance={onLifeBalance} setOnLifeBalance={setOnLifeBalance} />}
-          {routes === 'teams' && <Teams userId={userId} setRoutes={setRoutes} />}
+          {routes === 'teams' && <Teams userId={userId} setRoutes={setRoutes} /* myTeamId={authData?.ref_team_by} */ />}
           {routes === 'profile' && <Profile userId={userId} setRoutes={setRoutes} authData={authData} />}
           {routes === 'tasks' && <Tasks userId={userId} setRoutes={setRoutes} />}
           {routes === 'battles' && <Battles />}

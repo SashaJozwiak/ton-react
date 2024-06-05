@@ -1,53 +1,94 @@
 import { BackButton } from "@twa-dev/sdk/react";
 
-import { getTeams } from "../../utils/queries/teams/getTeams";
+import { getTeams, getTeamId } from "../../utils/queries/teams/getTeams";
+import { inOutTeam } from "../../utils/queries/teams/postTeams";
+
 import { useEffect, useState } from "react";
 
 import './Teams.css';
 
+
 interface ITeam {
     team_id: number;
     team_name: string;
-    /* team_score: number;
-    team_members: string[];
-    team_owner: string;
-    team_created_at: string;
-    team_updated_at: string;
-    team_deleted_at: string; */
 }
 
 const Teams = ({ userId, setRoutes }) => {
 
     const [allTeams, setTeams] = useState<ITeam[]>([]);
-    console.log(userId)
+    const [myTeam, setMyTeam] = useState<ITeam | null>(null);
+    const [myTeamId, setMyTeamId] = useState<number | null>(null);
+
+    const [teamChanged, setTeamChanged] = useState<boolean>(false);
 
     const getTeamsFn = async () => {
         const teams = await getTeams();
+        const getMyTeamId = await getTeamId(userId);
         setTeams(teams)
-        console.log(teams)
+        setMyTeamId(getMyTeamId)
+        console.log('Fetched teams:', teams);
     }
 
+    const joinOrLeaveTeam = async (value: string, teamId: number) => {
+        const inout = value === 'Join' ? 'in' : 'out';
+        console.log('InOut:', inout);
+        await inOutTeam(userId, teamId, inout);
+        await getTeamsFn()
+        setTeamChanged(!teamChanged);
+    }
+    console.log('render')
     useEffect(() => {
+        console.log('Fetching teams...');
         getTeamsFn();
-    }, [])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [teamChanged])
+
+    useEffect(() => {
+        const getMyTeam = allTeams.find(team => team.team_id === myTeamId);
+        if (getMyTeam) {
+            console.log('Found my team:', getMyTeam);
+            setMyTeam(getMyTeam)
+        } else {
+            console.log('No team found for myTeamId:', myTeamId);
+            setMyTeam(null);
+        }
+
+    }, [allTeams, myTeamId])
 
     return (
         <div style={{ position: 'relative' }}>
             <BackButton onClick={() => setRoutes('main')} />
-                <p>You're not on the team yet</p>
-            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', gap: '1px', alignItems: 'center', margin: '0 1rem' }}>
+
+            {myTeam ? (
+                <div key={myTeam.team_id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '0.5rem 1rem', padding: '0.5rem', border: '1px solid rgb(14, 165, 233)', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px' }}>
+                    <h3 style={{ flex: '1', textAlign: 'left', fontSize: '0.8rem' }}>{myTeam.team_name}</h3>
+                    <p style={{ flex: '1' }}>score</p>
+                    <button
+                        onClick={(e) => joinOrLeaveTeam((e.target as HTMLButtonElement).textContent || "", myTeam.team_id)}
+                        style={{ flex: '0.3', background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.3rem 0.5rem', fontWeight: 'bold' }}
+                    >Leave</button>
+                </div>
+            ) : <p>You're not on the team yet</p>}
+
+
+            <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '1px', alignItems: 'center', margin: '0 1rem' }}>
                 <input type="text" /* value={userId} */ placeholder='Search' style={{ margin: '0.4rem', border: '1px solid rgba(14, 165, 233, 0.4)', borderRadius: '0.25rem', padding: '0.5rem 0.3rem', width: '60vw' }} />
-                <p style={{ top: '1rem' }}>or</p>
-                <button className='white' style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0rem 0.5rem', height: '2rem' }}><h3>Create</h3></button>
+                <p style={{ top: '1rem', margin: '0 auto' }}>/</p>
+                <button
+                    onClick={() => console.log('click')}
+                    className='white' style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0rem 0.5rem', height: '2rem' }}><h3>Create</h3>
+                </button>
             </div>
 
             {allTeams.map((team: ITeam) => {
                 return (
-                    <div key={team.team_id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '0.5rem 1rem', padding: '0.5rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px' }}>
-                        <p style={{ flex: '1', textAlign: 'left' }}>{team.team_name}</p>
-                        <h3 style={{ flex: '1' }}>score</h3>
-                        <h3 className='white' style={{ flex: '0.3', background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.05rem 0.3rem' }}
-                        >Join</h3>
+                    <div key={team.team_id} className={team.team_id === myTeamId ? "myTeam" : ""} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '0.5rem 1rem', padding: '0.5rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px' }}>
+                        <h3 style={{ flex: '1', textAlign: 'left', fontSize: '0.8rem' }}>{team.team_name}</h3>
+                        <p style={{ flex: '1' }}>score</p>
+                        <button
+                            onClick={(e) => joinOrLeaveTeam((e.target as HTMLButtonElement).textContent || "", team.team_id)}
+                            className={team.team_id === myTeamId ? "black" : "white"} style={{ flex: '0.3', background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.3rem 0.5rem' }}
+                        >{team.team_id === myTeamId ? "Leave" : "Join"}</button>
                     </div>
                 )
             })}

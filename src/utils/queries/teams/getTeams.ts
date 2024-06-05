@@ -7,3 +7,13 @@ export const getTeams = async () => {
         console.log('fetch teams errror: ', e);
     }
 }
+
+export const getTeamId = async (userId: number) => {
+    try {
+        const response = await fetch(`https://fitton.online/teams/getMyTeam?userId=${userId}`);
+        const result = await response.json();
+        return result;
+    } catch (e) {
+        console.log('fetch teams errror: ', e);
+    }
+}
