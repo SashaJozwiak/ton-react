@@ -4,7 +4,7 @@
 //import { useCounterContract } from './hooks/useCounterContract';
 //import { Go } from './components/Go/Go';
 
-//import eruda from 'eruda'
+import eruda from 'eruda'
 import { Main } from './components/main/Main';
 import { useEffect, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
@@ -18,7 +18,7 @@ import Battles from './components/Battles/Battles';
 import Profile from './components/Profile/Profile';
 import './App.css';
 
-//eruda.init();//just for debug
+eruda.init();//just for debug
 
 export interface AuthData {
   id: number;
