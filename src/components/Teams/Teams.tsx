@@ -50,7 +50,7 @@ const Teams = ({ userId, setRoutes }) => {
         });
 
         // Sort teams by score in descending order
-        teamsWithScores.sort((a, b) => b.score - a.score);
+        teamsWithScores.sort((a: ITeam, b: ITeam) => (b.score ?? 0) - (a.score ?? 0));
 
         setTeams(teamsWithScores);
         setMyTeamId(getMyTeamId);
@@ -89,9 +89,9 @@ const Teams = ({ userId, setRoutes }) => {
             <BackButton onClick={() => setRoutes('main')} />
 
             {myTeam ? (
-                <div key={myTeam.team_id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '0.5rem 1rem', padding: '0.5rem', border: '1px solid rgb(14, 165, 233)', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px' }}>
-                    <h3 style={{ flex: '1', textAlign: 'left', fontSize: '0.8rem' }}>{myTeam.team_name}</h3>
-                    <p style={{ flex: '1' }}>{myTeam.score || 0}</p>
+                <div key={myTeam.team_id} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '0.5rem 1rem', padding: '0.5rem', border: '2px solid rgb(14, 165, 233)', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px' }}>
+                    <h3 className='teamname' style={{ flex: '1.3', textAlign: 'left', fontSize: '0.9rem' }}>{myTeam.team_name}</h3>
+                    <p style={{ flex: '1', fontWeight: 'bold', fontSize: '1rem' }}>{myTeam.score || 0}</p>
                     <button
                         onClick={(e) => joinOrLeaveTeam((e.target as HTMLButtonElement).textContent || "", myTeam.team_id)}
                         style={{ flex: '0.3', background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.3rem 0.5rem', fontWeight: 'bold' }}
@@ -110,11 +110,14 @@ const Teams = ({ userId, setRoutes }) => {
                 </button>
             </div>
 
-            {allTeams.map((team: ITeam) => {
+            {allTeams.map((team: ITeam, indx) => {
                 return (
                     <div key={team.team_id} className={team.team_id === myTeamId ? "myTeam" : ""} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '0.5rem 1rem', padding: '0.5rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px' }}>
-                        <h3 style={{ flex: '1', textAlign: 'left', fontSize: '0.8rem' }}>{team.team_name}</h3>
-                        <p style={{ flex: '1' }}>{team.score || 0}</p>
+                        <h3 className='teamname' style={{ flex: '1.3', textAlign: 'left', fontSize: '0.9rem' }}>
+                            <p style={{ display: 'inline-block', color: 'white', background: 'rgb(14, 165, 233)', border: '1px solid gray', borderRadius: '20%', padding: '1.5% 3%' }}>{indx + 1}</p>&nbsp;
+                            {team.team_name}
+                        </h3>
+                        <p style={{ flex: '1', fontSize: '1rem' }}>{team.score || 0}</p>
                         <button
                             onClick={(e) => joinOrLeaveTeam((e.target as HTMLButtonElement).textContent || "", team.team_id)}
                             className={team.team_id === myTeamId ? "black" : "white"} style={{ flex: '0.3', background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0.3rem 0.5rem' }}
