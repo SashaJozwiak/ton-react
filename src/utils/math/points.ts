@@ -1,9 +1,18 @@
 import { ActivityData } from '../queries/fetchData';
 
-export function sumPointsFn(activData: ActivityData, setSumPoints: (sumPoints: number) => void) {
+export function sumPointsFn(
+    activData: ActivityData,
+    setSumPoints: (sumPoints: number) => void,
+    onLifeBalance: Record<string, number>
+): void {
+    console.log('calc summ: ', activData, onLifeBalance)
     const sum = +(((activData.steps + activData.calories + (activData.cardio * 100)) / 1000).toFixed(3)) || 0.000;
-    const sumFinally = sum > 10000 ? sum.toFixed(0) : sum;
-    setSumPoints(+sumFinally || 0.000);
+    const sumFinallyLife = sum > 10000 ? sum.toFixed(0) : sum;
+
+    const sumFinallyOnline = (onLifeBalance.battles +
+        onLifeBalance.frens + onLifeBalance.tasks) / 100;
+
+    setSumPoints((+sumFinallyLife) + sumFinallyOnline || 0.000);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

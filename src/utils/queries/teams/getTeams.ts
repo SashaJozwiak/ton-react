@@ -17,3 +17,15 @@ export const getTeamId = async (userId: number) => {
         console.log('fetch teams errror: ', e);
     }
 }
+
+export const getAllScores = async () => {
+    try {
+        const response = await fetch('https://fitton.online/teams/scores');
+        const result = await response.json();
+        console.log('result!:  ', result);
+
+        return result;
+    } catch (e) {
+        console.log('fetch scores errror:  ', e);
+    }
+}

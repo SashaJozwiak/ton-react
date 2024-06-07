@@ -17,6 +17,7 @@ import Teams from './components/Teams/Teams';
 import Battles from './components/Battles/Battles';
 import Profile from './components/Profile/Profile';
 import './App.css';
+import { postOnlifeBalance } from './utils/queries/postBalance';
 
 eruda.init();//just for debug
 
@@ -120,7 +121,18 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userId]);
+
+  useEffect(() => {
+    if (sumPoints > 0) {
+      const addFitAndSumBalance = postOnlifeBalance(userId, activData, Math.round(sumPoints))
+      console.log(addFitAndSumBalance)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sumPoints]);
+
+
   console.log('authData: ', authData?.ref_team_by)
+  console.log('onLifeData: ', onLifeBalance, 'activData: ', activData);
 
   return (
     <div className='App' style={{ fontFamily: 'monospace' }}>

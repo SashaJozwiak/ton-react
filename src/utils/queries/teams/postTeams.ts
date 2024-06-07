@@ -1,4 +1,3 @@
-
 export const inOutTeam = async (userId: string, teamId: number, inOut: string) => {
 
     try {

@@ -81,10 +81,12 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
     }, [authData]) //or [authData]
 
     useEffect(() => {
-        console.log(activData, setSumPoints)
-        sumPointsFn(activData, setSumPoints);
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [activData])
+        console.log('prepare sum: ', activData, onLifeBalance)
+        if (activData.steps + activData.calories + activData.cardio + onLifeBalance.battles +
+            onLifeBalance.frens + onLifeBalance.tasks !== 0) {
+            sumPointsFn(activData, setSumPoints, onLifeBalance);
+        }
+    }, [activData, onLifeBalance, setOnLifeBalance, setSumPoints])
 
     useEffect(() => {
         const differenceMilliseconds = new Date().getTime() - new Date('2024-06-01').getTime();// change for season start
