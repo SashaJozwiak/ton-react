@@ -12,7 +12,7 @@ export const postOnlifeBalance = async (userId: number, activData: ActivityData,
         });
         const result = await response.json();
         //console.log(result);
-        //return result;
+        return result;
     } catch (e) {
         console.log('fetch teams errror: ', e);
     }

@@ -82,13 +82,6 @@ const Teams = ({ userId, setRoutes }) => {
             setMyTeam(null);
         }
 
-        /* if (allTeams) {
-            const getScores = getAllScores();
-            console.log('Fetched scores:', getScores);
-        } */
-
-
-
     }, [allTeams, myTeamId])
 
     return (
@@ -129,7 +122,6 @@ const Teams = ({ userId, setRoutes }) => {
                     </div>
                 )
             })}
-
         </div >
     )
 }
