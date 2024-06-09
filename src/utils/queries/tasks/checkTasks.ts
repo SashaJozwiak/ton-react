@@ -1,3 +1,4 @@
+import { getTeamId } from "../teams/getTeams";
 import { checkChannelMembership } from "./testIsEntry";
 
 export const checkWallet = async (
@@ -68,4 +69,33 @@ export const checkSubscription = async (
     } catch (error) {
         console.error('Error:', error);
     }
+};
+
+
+export const checkTeams = async (
+    userId: number,
+    taskId: number,
+    setRoutes: (arg0: string) => void
+) => {
+
+    const teamId = await getTeamId(userId);
+    if (teamId) {
+        try {
+            console.log('subscribed in trycatch')
+            const response = await fetch('https://fitton.online/tasks', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ userId, taskId }),
+            });
+            const result = await response.json();
+            console.log('Response from server:', result);
+        } catch (error) {
+            console.log(error)
+        }
+    } else {
+        setRoutes('teams');
+    }
+
 };

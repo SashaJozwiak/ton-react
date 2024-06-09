@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useTonAddress } from '@tonconnect/ui-react';
 
 import { getATasks } from '../../utils/queries/fetchTasksData';
-import { checkSubscription, checkWallet } from '../../utils/queries/tasks/checkTasks';
+import { checkSubscription, checkTeams, checkWallet } from '../../utils/queries/tasks/checkTasks';
 
 interface ITasks {
     task_id: number;
@@ -44,7 +44,7 @@ const Tasks = ({ userId, setRoutes }) => {
                 await checkSubscription(userId, taskId);
                 break;
             case 4:
-                setRoutes('teams');
+                await checkTeams(userId, taskId, setRoutes);
                 break;
             default:
                 console.log('no task id');

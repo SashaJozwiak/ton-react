@@ -22,15 +22,7 @@ const Teams = ({ userId, setRoutes }) => {
 
     const [teamChanged, setTeamChanged] = useState<boolean>(false);
 
-    //const [score, setScore] = useState<number>(0);
-
-    /* const getTeamsFn = async () => {
-        const teams = await getTeams();
-        const getMyTeamId = await getTeamId(userId);
-        setTeams(teams)
-        setMyTeamId(getMyTeamId)
-        console.log('Fetched teams:', teams);
-    } */
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     const getTeamsFn = async () => {
         const teams = await getTeams();
@@ -64,7 +56,16 @@ const Teams = ({ userId, setRoutes }) => {
         await getTeamsFn()
         setTeamChanged(!teamChanged);
     }
-    console.log('render')
+    const handleInputChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+    const handleCreateTeam = () => {
+        console.log('Creating team with name:', searchTerm);
+        // Add create team logic 
+    };
+
+    //console.log('render')
 
     useEffect(() => {
         console.log('Fetching teams...');
@@ -84,6 +85,10 @@ const Teams = ({ userId, setRoutes }) => {
 
     }, [allTeams, myTeamId])
 
+    const filteredTeams = allTeams.filter(team =>
+        team.team_name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+
     return (
         <div style={{ position: 'relative' }}>
             <BackButton onClick={() => setRoutes('main')} />
@@ -102,15 +107,19 @@ const Teams = ({ userId, setRoutes }) => {
             </div>}
 
             <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '1px', alignItems: 'center', margin: '0 1rem' }}>
-                <input type="text" /* value={userId} */ placeholder='Search' style={{ margin: '0.4rem', border: '1px solid rgba(14, 165, 233, 0.4)', borderRadius: '0.25rem', padding: '0.5rem 0.3rem', width: '60vw' }} />
+                <input
+                    value={searchTerm}
+                    onChange={handleInputChange}
+                    type="text" /* value={userId} */ placeholder='Search' style={{ margin: '0.4rem', border: '1px solid rgba(14, 165, 233, 0.4)', borderRadius: '0.25rem', padding: '0.5rem 0.3rem', width: '60vw' }} />
                 <p style={{ top: '1rem', margin: '0 auto' }}>/</p>
                 <button
-                    onClick={() => console.log('click')}
-                    className='white' style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0rem 0.5rem', height: '2rem' }}><h3>Create</h3>
+                    onClick={handleCreateTeam}
+                    disabled={!(filteredTeams.length === 0)}
+                    className='white' style={{ background: 'rgb(14, 165, 233)', borderRadius: '0.25rem', padding: '0rem 0.5rem', height: '2rem', opacity: filteredTeams.length === 0 ? 1 : 0.5 }}><h3>Create</h3>
                 </button>
             </div>
 
-            {allTeams.map((team: ITeam, indx) => {
+            {filteredTeams.map((team: ITeam, indx: number) => {
                 return (
                     <div key={team.team_id} className={team.team_id === myTeamId ? "myTeam" : ""} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '0.5rem 1rem', padding: '0.5rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px' }}>
                         <h3 className='teamname' style={{ flex: '1.3', textAlign: 'left', fontSize: '0.9rem' }}>

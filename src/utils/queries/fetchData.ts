@@ -13,7 +13,6 @@ export const getActivities = async (token: string): Promise<ActivityData> => {
     const endUnixTimestamp = Math.floor(new Date().getTime() / 1000);
 
     try {
-        // Получаем данные о шагах
         const stepsResponse = await axios.post('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate', {
             "aggregateBy": [{
                 "dataTypeName": "com.google.step_count.delta",
@@ -30,7 +29,6 @@ export const getActivities = async (token: string): Promise<ActivityData> => {
             }
         });
 
-        // Получаем данные о кардиобаллах
         const cardioResponse = await axios.post('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate', {
             "aggregateBy": [{
                 "dataTypeName": "com.google.heart_minutes",
@@ -47,7 +45,6 @@ export const getActivities = async (token: string): Promise<ActivityData> => {
             }
         });
 
-        // Получаем данные о калориях
         const caloriesResponse = await axios.post('https://www.googleapis.com/fitness/v1/users/me/dataset:aggregate', {
             "aggregateBy": [{
                 "dataTypeName": "com.google.calories.expended",
@@ -83,10 +80,12 @@ export const getActivities = async (token: string): Promise<ActivityData> => {
             return !excludedBuckets.includes(index);
         });
 
-        console.log('filteredSteps: ', filteredSteps)
-        console.log('filteredCardio: ', filteredCardio)
-        console.log('filteredCalories: ', filteredCalories)
+        console.log('excludedBuckets', excludedBuckets);
+        console.log('filteredSteps: ', filteredSteps);
+        console.log('filteredCardio: ', filteredCardio);
+        console.log('filteredCalories: ', filteredCalories);
 
+        //sums after filtering handling adds
         const sumSteps = filteredSteps.reduce((total: any, bucket: any) => {
             return total + bucket.dataset.reduce((datasetTotal: any, dataset: any) => {
                 return datasetTotal + dataset.point.reduce((pointTotal: any, point: any) => {
@@ -116,13 +115,9 @@ export const getActivities = async (token: string): Promise<ActivityData> => {
             cardio: sumCardio,
             calories: +sumCalories.toFixed(),
         };
-
-        console.log(excludedBuckets)
-
         return activityData;
     } catch (error) {
         console.error('Error fetching activity data:', error);
-
         throw error;
     }
 };
