@@ -29,7 +29,7 @@ interface MainProps {
 
 export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activData, setActivData, sumPoints, setSumPoints, setRoutes, onLifeBalance, setOnLifeBalance, progress, setProgress }) => {
 
-    async function fetchDataFromGoogleFit(token, userId) {
+    async function fetchDataFromGoogleFit(token: string, userId: number) {
         try {
             console.log('Fetching activities...');
             const activity = await getActivities(token);
@@ -71,7 +71,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
                 console.log('token expired');
                 refreshAcc();
             }
-            fetchDataFromGoogleFit(authData.access_token)
+            fetchDataFromGoogleFit(authData.access_token, userId)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [authData]) //or [authData]
