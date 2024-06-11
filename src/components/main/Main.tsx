@@ -29,14 +29,19 @@ interface MainProps {
 
 export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activData, setActivData, sumPoints, setSumPoints, setRoutes, onLifeBalance, setOnLifeBalance, progress, setProgress }) => {
 
-    async function fetchDataFromGoogleFit(token: string) {
+    async function fetchDataFromGoogleFit(token, userId) {
         try {
-            const activity = await getActivities(token)
-            const getOnLifeBalance = await getBalance(userId)
-            //console.log('onlife: ', getOnLifeBalance)
-            await setActivData(activity)
-            await setOnLifeBalance(getOnLifeBalance)
-            console.log('refresh datas')
+            console.log('Fetching activities...');
+            const activity = await getActivities(token);
+            console.log('Activities fetched:', activity);
+
+            console.log('Fetching balance...');
+            const getOnLifeBalance = await getBalance(userId);
+            console.log('Balance fetched:', getOnLifeBalance);
+
+            setActivData(activity);
+            setOnLifeBalance(getOnLifeBalance);
+            console.log('Data refresh complete');
         } catch (error) {
             console.error('Error fetching user data from Google Fit and db online balance:', error);
         }
