@@ -32,6 +32,15 @@ export interface AuthData {
   ref_team_by: number | null;
 }
 
+
+export interface IProgress {
+  current_lvl: number,
+  current_points: number,
+  start_lvl: number,
+  next_lvl: number,
+}
+
+
 /* export interface onLifeBalance {
   battles:number;
   frens:number;
@@ -69,6 +78,13 @@ function App() {
   console.log(onLifeBalance)
 
   const [sumPoints, setSumPoints] = useState<number>(0);
+
+  const [progress, setProgress] = useState<IProgress>({
+    current_lvl: 0,
+    current_points: 0,
+    start_lvl: 0,
+    next_lvl: 0,
+  });
 
   const fetchUserData = async () => {
     try {
@@ -138,27 +154,26 @@ function App() {
     <div className='App' style={{ fontFamily: 'monospace' }}>
       <BlockingPopup isPopupOpen={isPopupOpen} userId={userId} />
 
-      <h1 style={{ paddingTop: '1rem', color: 'rgb(100 116 139)', fontSize: 'calc(3vw + 3vh)' }}>
+      <h1 style={{ paddingTop: '0.5rem', color: 'rgb(100 116 139)', fontSize: 'calc(3vw + 3vh)' }}>
         🏆Fitton
         {!isPopupOpen && <span style={{ position: 'relative', top: '-2vh', fontSize: '2.5vh', color: 'rgb(14, 165, 233)' }}>&alpha;</span>}
         🏃</h1>
-      <p style={{ marginBottom: '2rem', fontSize: 'calc(2.2vw + 1vh)' }}>&nbsp;&nbsp;Season: June'24</p>
+      <p style={{ marginBottom: '1.5rem', fontSize: 'calc(2.2vw + 1vh)' }}>&nbsp;&nbsp;Season: June'24</p>
 
       {isLoading ? (
         <div>
           Loading...
         </div>
       ) :
-        <div>
-          {routes === 'main' && <Main userId={userId} authData={authData} setAuthData={setAuthData} activData={activData} setActivData={setActivData} sumPoints={sumPoints} setSumPoints={setSumPoints} setRoutes={setRoutes}
-            onLifeBalance={onLifeBalance} setOnLifeBalance={setOnLifeBalance} />}
-          {routes === 'teams' && <Teams userId={userId} setRoutes={setRoutes} /* myTeamId={authData?.ref_team_by} */ />}
+        <>
+          {routes === 'main' && <Main userId={userId} authData={authData} setAuthData={setAuthData} activData={activData} setActivData={setActivData} sumPoints={sumPoints} setSumPoints={setSumPoints} setRoutes={setRoutes} onLifeBalance={onLifeBalance} setOnLifeBalance={setOnLifeBalance} progress={progress} setProgress={setProgress} />}
+          {routes === 'teams' && <Teams userId={userId} setRoutes={setRoutes}  /* myTeamId={authData?.ref_team_by} */ />}
           {routes === 'profile' && <Profile userId={userId} setRoutes={setRoutes} authData={authData} />}
           {routes === 'tasks' && <Tasks userId={userId} setRoutes={setRoutes} />}
-          {routes === 'battles' && <Battles />}
+          {routes === 'battles' && <Battles activData={activData} progress={progress} />}
 
           {error && <p>Вам нужно авторизоваться</p>}
-        </div>
+        </>
       }
       {!isPopupOpen && <Navbar routes={routes} setRoutes={setRoutes} />}
     </div>

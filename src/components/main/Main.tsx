@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect/* , useState */ } from 'react';
 import { AuthData } from '../../App';
 import { ActivityData, getActivities } from '../../utils/queries/fetchData';
 import { getBalance } from '../../utils/queries/getBalance';
@@ -6,6 +6,8 @@ import { refreshAccessToken } from '../../utils/queries/refreshAccessToken';
 
 import { lvls } from '../../utils/math/lvls';
 import { calculateLvl, sumPointsFn } from '../../utils/math/points';
+
+import { IProgress } from '../../App';
 
 import './Main.css';
 
@@ -21,22 +23,11 @@ interface MainProps {
     setRoutes: (pr: string) => void;
     onLifeBalance: Record<string, number>;
     setOnLifeBalance: (pr: Record<string, number>) => void;
-}
-export interface IProgress {
-    current_lvl: number,
-    current_points: number,
-    start_lvl: number,
-    next_lvl: number,
+    progress: IProgress;
+    setProgress: (pr: IProgress) => void;
 }
 
-export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activData, setActivData, sumPoints, setSumPoints, setRoutes, onLifeBalance, setOnLifeBalance }) => {
-
-    const [progress, setProgress] = useState<IProgress>({
-        current_lvl: 0,
-        current_points: 0,
-        start_lvl: 0,
-        next_lvl: 0,
-    });
+export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activData, setActivData, sumPoints, setSumPoints, setRoutes, onLifeBalance, setOnLifeBalance, progress, setProgress }) => {
 
     async function fetchDataFromGoogleFit(token: string) {
         try {
@@ -94,7 +85,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
         const pointsPerDay = sumPoints / passedDays;
         console.log(differenceMilliseconds, passedDays, pointsPerDay)
         calculateLvl(lvls, pointsPerDay, setProgress)
-    }, [sumPoints])
+    }, [setProgress, sumPoints])
 
     console.log(progress)
     return (
