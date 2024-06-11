@@ -1,43 +1,52 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ActivityData } from '../../utils/queries/fetchData';
 
-import chel from '../../assets/battles/chel_edit2_tr.png'
-//import heart from '../../assets/battles/heart_1.png'
-//import stomach from '../../assets/battles/stomach_1.png'
-//import leg from '../../assets/battles/leg_1.png'
+import { calcEnemy } from '../../utils/math/calcEnemy';
+import { battlePoints, getBattlesDataFn, setKicks } from '../../utils/queries/battles/battlePoints';
+
+import chel from '../../assets/battles/chel_edit2_tr.png';
+import enemyPic from '../../assets/battles/chel_edit_tr.png';
 import loader from '../../assets/loading-gif.gif'
 
-import './Battles.css';
 import { IProgress } from '../../App';
-import { calcEnemy } from '../../utils/math/calcEnemy';
 
+import './Battles.css';
+import Timer from '../Timer/Timer';
 
 interface BattlesProps {
     activData: ActivityData;
     progress: IProgress;
+    userId: number;
+    AllBattlePoints: number;
 }
-
 interface IEnemy {
     level: number | null;
     cardio: number | null;
     calories: number | null;
     steps: number | null;
 }
-
 interface IBattleStatus {
     search: boolean;
     inBattle: boolean;
 }
-
 enum IBattleResult {
     init = 'init',
     win = 'win',
     lose = 'lose',
 }
+interface IBattlesDataCount {
+    battles_count: number;
+    last_battle_date: number;
+}
 
-const Battles: React.FC<BattlesProps> = ({ activData, progress }) => {
+const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattlePoints }) => {
 
-    //const [battlesCount, setBattlesCount] = useState(0);
+    const [localBattlePoints, setLocalBattlePoints] = useState(AllBattlePoints);
+    const [battlesDataCount, setBattlesDataCount] = useState<IBattlesDataCount>({
+        battles_count: 0,
+        last_battle_date: 0
+    });
+
     const [battleStatus, setBattlesStatus] = useState<IBattleStatus>({
         search: false,
         inBattle: false
@@ -50,6 +59,7 @@ const Battles: React.FC<BattlesProps> = ({ activData, progress }) => {
         steps: null
     });
 
+    const [kickCount, setKickCount] = useState<number>(0);
     const [kickValue, setKickedValue] = useState<string>('');
     const [result, setResult] = useState<IBattleResult>(IBattleResult.init);
 
@@ -78,8 +88,7 @@ const Battles: React.FC<BattlesProps> = ({ activData, progress }) => {
         }, delay);
     };
 
-    const fightFn = (type: string) => {
-        console.log(type);
+    const fightFn = async (type: string) => {
         setKickedValue(type);
         setBattlesStatus((prev) => {
             return {
@@ -90,26 +99,71 @@ const Battles: React.FC<BattlesProps> = ({ activData, progress }) => {
         const isWin = activData[type] > enemy[type] ? true : false;
 
         if (isWin) {
+            await battlePoints(userId, 10)
+            setLocalBattlePoints((prev) => prev + 10)
             setResult(IBattleResult.win);
         } else {
+            await battlePoints(userId, -2)
+            setLocalBattlePoints((prev) => prev - 2)
             setResult(IBattleResult.lose);
         }
+
+        await setKicks(userId, 1);
+        setKickCount(prev => prev - 1)
 
         setTimeout(() => {
             setResult(IBattleResult.init);
         }, 2500);
     };
 
-    console.log(progress.current_lvl)
+    const getBattlesData = async () => {
+        const battlesData = await getBattlesDataFn(userId);
+        console.log(battlesData)
+        const { battles_count, last_battle_date } = battlesData;
+        setBattlesDataCount({
+            battles_count: battles_count,
+            last_battle_date: new Date(last_battle_date).getTime()
+        })
+    }
+
+    const resetCountKicks = async (userId: number, value: number) => {
+        await setKicks(userId, value);
+    }
+
+    useEffect(() => {
+
+        getBattlesData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+
+    useEffect(() => {
+        const kicks: number = progress.current_lvl <= 10 ? progress.current_lvl : ((progress.current_lvl - 10) / 5) + 10;
+        const currentDate: number = Date.now();
+        const lastBattleDate: number = new Date(battlesDataCount.last_battle_date).getTime();
+
+        setKickCount((+kicks.toFixed()) - battlesDataCount.battles_count);
+        //console.log('reset Count Kicks :', currentDate - lastBattleDate)
+        const differentTime = (currentDate - lastBattleDate) / 3600000
+        if (differentTime >= 86400000 /* 158 */) {
+            //if been 24 hours
+            //console.log('reset Count Kicks :', currentDate - lastBattleDate)
+            resetCountKicks(userId, 0);
+        }
+
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [battlesDataCount])
+
+    console.log('BattlesCountData: ', battlesDataCount)
     return (
         <div
             className={battleStatus.search ? 'disabled_search' : ''}
-            style={{ display: 'flex', flexDirection: 'column', marginTop: '-0.5rem' }}>
+            style={{ display: 'flex', flexDirection: 'column', marginTop: '-0.5rem', gap: '0.5rem' }}>
 
             <h3 style={{ fontSize: '1rem', fontFamily: 'monospace', color: 'rgb(100 116 139)' }}>You have <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0.1rem 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
-                ꝏ
+                {kickCount}
             </span>
-                <p style={{ display: 'inline' }}> battles</p>
+                <p style={{ display: 'inline' }}> kicks</p>
             </h3>
             <div style={{ display: 'flex', marginTop: '1rem', alignItems: 'center', justifyContent: 'space-evenly' }}>
 
@@ -124,10 +178,7 @@ const Battles: React.FC<BattlesProps> = ({ activData, progress }) => {
                             {progress.current_lvl}
                         </span>
                     </h2>
-
                     <img width='105%' src={chel} alt="man picture" />
-
-
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
@@ -142,8 +193,8 @@ const Battles: React.FC<BattlesProps> = ({ activData, progress }) => {
                         <button
                             onClick={() => fightFn('cardio')}
                             disabled={!battleStatus.inBattle}
-                            style={{ marginTop: '5%', padding: '1vh 3vw', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px red, 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', opacity: battleStatus.inBattle ? 1 : 0.5 }}
-                        >Fight</button>
+                            style={{ marginTop: '5%', padding: '1vh 3vw', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px red, 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', opacity: battleStatus.inBattle ? 1 : 0.25 }}
+                        >Kick</button>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem', color: 'rgb(100, 116, 139)' }}>
@@ -156,8 +207,8 @@ const Battles: React.FC<BattlesProps> = ({ activData, progress }) => {
                         <button
                             onClick={() => fightFn('calories')}
                             disabled={!battleStatus.inBattle}
-                            style={{ marginTop: '5%', padding: '1vh 3vw', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px red, 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', opacity: battleStatus.inBattle ? 1 : 0.5 }}
-                        >Fight</button>
+                            style={{ marginTop: '5%', padding: '1vh 3vw', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px red, 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', opacity: battleStatus.inBattle ? 1 : 0.25 }}
+                        >Kick</button>
                     </div>
 
                     <div style={{ display: 'flex', flexDirection: 'column', gap: '0.1rem', color: 'rgb(100, 116, 139)' }}>
@@ -170,31 +221,36 @@ const Battles: React.FC<BattlesProps> = ({ activData, progress }) => {
                         <button
                             onClick={() => fightFn('steps')}
                             disabled={!battleStatus.inBattle}
-                            style={{ marginTop: '5%', padding: '1vh 3vw', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px red, 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', opacity: battleStatus.inBattle ? 1 : 0.5 }}
-                        >Fight</button>
+                            style={{ marginTop: '5%', padding: '1vh 3vw', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px red, 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', opacity: battleStatus.inBattle ? 1 : 0.25 }}
+                        >Kick</button>
                     </div>
                 </div>
 
                 <div>
                     <h2>Level:
                         <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0.1rem 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
-                            {enemy.level || '??'}
+                            {enemy.level || '?'}
                         </span>
                     </h2>
                     <img
                         className={!battleStatus.inBattle ? 'disabled_search' : ''}
-                        width='105%' src={chel} alt="man picture" />
+                        width='105%' src={battleStatus.inBattle ? chel : enemyPic} alt="man picture" />
                 </div>
             </div>
 
+            <h3 style={{ fontSize: '1rem', fontFamily: 'monospace', color: 'rgb(100 116 139)' }}>Your total battle points  <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0.1rem 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
+                {localBattlePoints}
+            </span>
+            </h3>
+
             <button
                 onClick={() => searchEnemyFn(progress.current_lvl)}
-                disabled={battleStatus.inBattle || battleStatus.search}
-                className={battleStatus.inBattle || battleStatus.search ? 'disabled_search' : ''}
-                style={{ padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgb(14 165 233), 0 0px 0px rgb(14 165 233)', color: 'rgb(14 165 233)', fontWeight: 'bold', fontSize: '1rem', width: '80%', margin: '0.3rem auto' }}>SEARCH BATTLE
+                disabled={battleStatus.inBattle || battleStatus.search || kickCount === 0}
+                className={battleStatus.inBattle || battleStatus.search || kickCount === 0 ? 'disabled_btn' : ''}
+                style={{ padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgb(14 165 233), 0 0px 0px rgb(14 165 233)', color: 'rgb(14 165 233)', fontWeight: 'bold', fontSize: '1rem', width: '80%', margin: '0.3rem auto' }}>{kickCount === 0 ? <Timer lastBattleDate={battlesDataCount.last_battle_date} /> : 'SEARCH BATTLE'}
             </button>
         </div>
     )
 }
 
-export default Battles
+export default Battles;

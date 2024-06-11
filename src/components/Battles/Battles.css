@@ -96,6 +96,10 @@
     }
   }
 
-.disabled_search{
+.disabled_search {
     opacity: 0.5;
+}
+
+.disabled_btn {
+    opacity: 0.25;
 }

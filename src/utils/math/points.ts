@@ -6,13 +6,11 @@ export function sumPointsFn(
     onLifeBalance: Record<string, number>
 ): void {
     console.log('calc summ: ', activData, onLifeBalance)
-    const sum = +(((activData.steps + activData.calories + (activData.cardio * 100)) / 1000).toFixed(3)) || 0.000;
-    const sumFinallyLife = sum > 10000 ? sum.toFixed(0) : sum;
-
+    const sum = +(((activData.steps + activData.calories + (activData.cardio * 101)) / 1001).toFixed(2)) || 0.000;
     const sumFinallyOnline = (onLifeBalance.battles +
         onLifeBalance.frens + onLifeBalance.tasks) / 100;
-
-    setSumPoints((+sumFinallyLife) + sumFinallyOnline || 0.000);
+    const res = (+sum) + sumFinallyOnline
+    setSumPoints(+res.toFixed(2) || 0.000);
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

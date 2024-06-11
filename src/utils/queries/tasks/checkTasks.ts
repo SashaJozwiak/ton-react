@@ -7,7 +7,6 @@ export const checkWallet = async (
     userFriendlyAddress: string,
     setRoutes: (arg0: string) => void
 ) => {
-
     if (userFriendlyAddress) {
         try {
             console.log(userId, taskId)
@@ -77,7 +76,6 @@ export const checkTeams = async (
     taskId: number,
     setRoutes: (arg0: string) => void
 ) => {
-
     const teamId = await getTeamId(userId);
     if (teamId) {
         try {
@@ -97,5 +95,4 @@ export const checkTeams = async (
     } else {
         setRoutes('teams');
     }
-
 };

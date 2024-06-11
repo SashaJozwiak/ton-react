@@ -170,7 +170,7 @@ function App() {
           {routes === 'teams' && <Teams userId={userId} setRoutes={setRoutes}  /* myTeamId={authData?.ref_team_by} */ />}
           {routes === 'profile' && <Profile userId={userId} setRoutes={setRoutes} authData={authData} />}
           {routes === 'tasks' && <Tasks userId={userId} setRoutes={setRoutes} />}
-          {routes === 'battles' && <Battles activData={activData} progress={progress} />}
+          {routes === 'battles' && <Battles userId={userId} activData={activData} progress={progress} AllBattlePoints={onLifeBalance.battles} />}
 
           {error && <p>Вам нужно авторизоваться</p>}
         </>
