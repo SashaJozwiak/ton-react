@@ -7,7 +7,6 @@ interface TimerProps {
 const Timer: React.FC<TimerProps> = ({ lastBattleDate }) => {
     const [timeLeft, setTimeLeft] = useState<number>(/* 24 * 60 * 60 * 1000 */0);
 
-
     useEffect(() => {
         const interval = setInterval(() => {
             const currentDate = Date.now();

@@ -131,17 +131,22 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
         getBattlesData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
+
     useEffect(() => {
         const kicks: number = progress.current_lvl <= 10 ? progress.current_lvl : ((progress.current_lvl - 10) / 5) + 10;
         const currentDate: number = Date.now();
         const lastBattleDate: number = new Date(battlesDataCount.last_battle_date).getTime();
 
         setKickCount((+kicks.toFixed()) - battlesDataCount.battles_count);
-        //console.log('reset Count Kicks :', currentDate - lastBattleDate)
-        const differentTime = (currentDate - lastBattleDate) / 3600000
+
+        const differentTime = (currentDate - lastBattleDate)
+        console.log('currentDate: ', currentDate)
+        console.log('lastBattleDate: ', lastBattleDate)
+
+        console.log('differentTime: ', currentDate - lastBattleDate)
         if (differentTime >= 86400000 /* 158 */) {
             //if been 24 hours
-            //console.log('reset Count Kicks :', currentDate - lastBattleDate)
+            console.log('reset Count Kicks2: ', currentDate - lastBattleDate)
             resetCountKicks(userId, 0);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
