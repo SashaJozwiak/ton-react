@@ -107,7 +107,6 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
             setLocalBattlePoints((prev) => prev - 2)
             setResult(IBattleResult.lose);
         }
-
         await setKicks(userId, 1);
         setKickCount(prev => prev - 1)
 
@@ -125,17 +124,13 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
             last_battle_date: new Date(last_battle_date).getTime()
         })
     }
-
     const resetCountKicks = async (userId: number, value: number) => {
         await setKicks(userId, value);
     }
-
     useEffect(() => {
-
         getBattlesData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
     useEffect(() => {
         const kicks: number = progress.current_lvl <= 10 ? progress.current_lvl : ((progress.current_lvl - 10) / 5) + 10;
         const currentDate: number = Date.now();
@@ -149,8 +144,6 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
             //console.log('reset Count Kicks :', currentDate - lastBattleDate)
             resetCountKicks(userId, 0);
         }
-
-
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [battlesDataCount])
 

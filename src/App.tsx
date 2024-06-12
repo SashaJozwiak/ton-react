@@ -2,7 +2,6 @@
 //import { TonConnectButton } from '@tonconnect/ui-react';
 //import { useTonConnect } from './hooks/useTonConnect';
 //import { useCounterContract } from './hooks/useCounterContract';
-//import { Go } from './components/Go/Go';
 
 import eruda from 'eruda'
 import { Main } from './components/main/Main';

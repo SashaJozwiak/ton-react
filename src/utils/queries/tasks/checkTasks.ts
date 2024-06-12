@@ -70,7 +70,6 @@ export const checkSubscription = async (
     }
 };
 
-
 export const checkTeams = async (
     userId: number,
     taskId: number,

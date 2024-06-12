@@ -1,12 +1,10 @@
+import { useEffect, useState } from "react";
 import { BackButton } from "@twa-dev/sdk/react";
 
 import { getTeams, getTeamId, getAllScores } from "../../utils/queries/teams/getTeams";
-import { inOutTeam } from "../../utils/queries/teams/postTeams";
-
-import { useEffect, useState } from "react";
+import { createTeam, inOutTeam } from "../../utils/queries/teams/postTeams";
 
 import './Teams.css';
-
 
 interface ITeam {
     team_id: number;
@@ -15,7 +13,6 @@ interface ITeam {
 }
 
 const Teams = ({ userId, setRoutes }) => {
-
     const [allTeams, setTeams] = useState<ITeam[]>([]);
     const [myTeam, setMyTeam] = useState<ITeam | null>(null);
     const [myTeamId, setMyTeamId] = useState<number | null>(null);
@@ -60,12 +57,12 @@ const Teams = ({ userId, setRoutes }) => {
         setSearchTerm(event.target.value);
     };
 
-    const handleCreateTeam = () => {
+    const handleCreateTeam = async () => {
         console.log('Creating team with name:', searchTerm);
-        // Add create team logic 
+        // Add create team logic
+        await createTeam(userId, searchTerm);
+        setTeamChanged(!teamChanged);
     };
-
-    //console.log('render')
 
     useEffect(() => {
         console.log('Fetching teams...');

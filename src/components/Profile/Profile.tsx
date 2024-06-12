@@ -1,30 +1,14 @@
 //import WebApp from "@twa-dev/sdk";
 import { BackButton } from "@twa-dev/sdk/react";
 import { useEffect, useState } from "react";
-
 import { TonConnectButton } from '@tonconnect/ui-react';
 //import { useTonConnect } from '../../hooks/useTonConnect';
 
-//import loader from '../../assets/loading-gif.gif'
-
-/* interface UserData {
-    username: string | undefined;
-    first_name: string | undefined;
-    last_name: string | undefined;
-} */
 
 const Profile = ({ userId, setRoutes, authData }) => {
-    //const { connected } = useTonConnect();
-
-    /*  const [userAppData, setUserAppData] = useState<UserData>({ username: undefined, first_name: undefined, last_name: undefined }); */
-
     const [isTeam, setIsTeam] = useState<boolean>(false);
     const [link, setLink] = useState<string>(`https://t.me/fitton_bot?start=${userId}`);
     const [copied, setCopied] = useState<boolean>(false);
-
-
-    console.log('userId', userId);
-    /* console.log('userAppData', userAppData); */
 
     const handleCopyClick = () => {
         navigator.clipboard.writeText(link).then(() => {
@@ -54,21 +38,6 @@ const Profile = ({ userId, setRoutes, authData }) => {
     }
 
     useEffect(() => {
-        /* const fetchData = async () => {
-            try {
-                if (WebApp.initDataUnsafe.user) {
-                    const getUserData = WebApp.initDataUnsafe.user;
-                    console.log('userData', getUserData);
-                    setUserAppData({ username: getUserData.username, first_name: getUserData.first_name, last_name: getUserData.last_name });
-                } else {
-                    console.log('not init');
-                }
-            } catch (error) {
-                console.error('Error fetching user data:', error);
-            }
-        };
-        fetchData(); */
-
         if (authData.ref_team_by) {
             console.log('authData team: ', authData.ref_team_by);
             setIsTeam(true);
@@ -80,13 +49,12 @@ const Profile = ({ userId, setRoutes, authData }) => {
             const link = `https://t.me/fitton_bot?start=${userId}`;
             setLink(link)
         }
-
     }, [authData, userId])
 
     return (
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '1rem' }}>
             <BackButton onClick={() => setRoutes('main')} />
-            <h2>Hi, champion!{/* {userAppData?.first_name || userAppData?.last_name || userAppData?.username || <img src={loader} alt="loader" width='5%' />} */}</h2>
+            <h2>Hi, champion!</h2>
 
             <TonConnectButton />
             <div style={{ marginTop: '1em', display: 'flex', flexDirection: 'column' }}>
@@ -96,7 +64,6 @@ const Profile = ({ userId, setRoutes, authData }) => {
                     readOnly={true}
                     style={{ margin: '0.4rem', border: '1px solid rgba(14, 165, 233, 0.4)', borderRadius: '0.25rem', padding: '0.5rem 0.3rem', width: '60vw', textAlign: 'center', background: 'lightgray' }}
                     value={link}
-                    //onChange={(e) => setLink(e.target.value)}
                 />
                 <div style={{ display: 'flex', alignItems: 'center', margin: '0 auto' }}>
                     <input type="checkbox" id='withteam' readOnly={true} disabled={!authData.ref_team_by} checked={isTeam}

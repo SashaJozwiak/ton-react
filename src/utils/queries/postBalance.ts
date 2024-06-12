@@ -1,7 +1,6 @@
 import { ActivityData } from "./fetchData";
 
 export const postOnlifeBalance = async (userId: number, activData: ActivityData, sumPoints: number) => {
-
     try {
         const response = await fetch('https://fitton.online/onLifeAndSumBalance', {
             method: 'POST',

@@ -16,7 +16,7 @@ interface MainProps {
     authData: AuthData | null;
     setAuthData: (AuthData) => void;
     activData: ActivityData;
-    setActivData: (ActivityData) => void;
+    setActivData: (arg0: ActivityData) => void;
     sumPoints: number;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     setSumPoints: (pr: number) => void;
