@@ -124,33 +124,37 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
             last_battle_date: new Date(last_battle_date).getTime()
         })
     }
+
     const resetCountKicks = async (userId: number, value: number) => {
         await setKicks(userId, value);
     }
+
     useEffect(() => {
         getBattlesData();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
     useEffect(() => {
+        if (battlesDataCount.last_battle_date !== 0) {
         const kicks: number = progress.current_lvl <= 10 ? progress.current_lvl : ((progress.current_lvl - 10) / 5) + 10;
         const currentDate: number = Date.now();
         const lastBattleDate: number = new Date(battlesDataCount.last_battle_date).getTime();
+            const currentKickCount = (+kicks.toFixed()) - battlesDataCount.battles_count;
+            setKickCount(currentKickCount);
 
-        setKickCount((+kicks.toFixed()) - battlesDataCount.battles_count);
+            const differentTimeInHours = (currentDate - lastBattleDate) / 3600000;
+            console.log('currentDate: ', currentDate);
+            console.log('lastBattleDate: ', lastBattleDate);
+            console.log('differentTime (in hours): ', differentTimeInHours);
 
-        const differentTime = (currentDate - lastBattleDate)
-        console.log('currentDate: ', currentDate)
-        console.log('lastBattleDate: ', lastBattleDate)
-
-        console.log('differentTime: ', currentDate - lastBattleDate)
-        if (differentTime >= 86400000 /* 158 */) {
+            if (differentTimeInHours >= 24) {
             //if been 24 hours
             console.log('reset Count Kicks2: ', currentDate - lastBattleDate)
             resetCountKicks(userId, 0);
         }
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [battlesDataCount])
+    }, [progress.current_lvl, battlesDataCount])
 
     console.log('BattlesCountData: ', battlesDataCount)
     return (
