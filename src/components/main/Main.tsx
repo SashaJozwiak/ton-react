@@ -94,8 +94,8 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
 
     console.log(progress)
     return (
-        <div style={{ fontFamily: 'monospace' }}>
-            <div style={{ position: 'relative', padding: '0.5rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 1.5rem 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
+        <div style={{ fontFamily: 'monospace', overflowY: 'scroll', paddingTop: '1.3rem', marginTop: '-1.3rem' }}>
+            <div style={{ position: 'relative', padding: '0.5rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 2vh 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
                 <button
                     onClick={() => { setRoutes('teams') }}
                     style={{ position: 'absolute', top: '-50%', right: '0', padding: '0.5rem', background: 'rgba(14, 165, 233, 0.15)', borderRadius: '0.25rem', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)', color: 'rgb(14 165 233)', fontWeight: 'bold', fontSize: 'calc(1.5vh + 1.5vw)' }}>Teams
@@ -109,15 +109,15 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
                 <h1 style={{ fontSize: '6.5vh', color: 'rgb(14 165 233)', textShadow: '1px 2px 2px rgba(0,0,0,0.3), 0px -4px 10px rgba(255,255,255,0.3)' }}>{sumPoints || 0}</h1>
             </div>
 
-            <div style={{ marginBottom: '2rem' }}>
+            <div style={{ marginBottom: '3vh' }}>
                 <div style={{ margin: '5px 1em 5px' }} className='progress'>
                     <div style={{ width: `${(progress.current_points - progress.start_lvl) / (progress.next_lvl - progress.start_lvl) * 100}%` }} className="progress-bar"></div>
                 </div>
 
                 <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '0 1rem' }}>
                     <div>
-                        <p style={{ fontSize: 'calc(1.5vw + 1.5vh)' }}>{progress.start_lvl}</p>
-                        <p style={{ fontSize: 'calc(1.2vw + 1.2vh)' }}>per day</p>
+                        <p style={{ fontSize: 'calc(1.6vw + 1.6vh)' }}>{progress.start_lvl}</p>
+                        <p style={{ fontSize: 'calc(1.3vw + 1.3vh)' }}>per day</p>
                     </div>
 
                     <h1 style={{ fontFamily: 'monospace', color: 'rgb(100 116 139)' }}>Level                    <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0.1rem 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
@@ -126,13 +126,13 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
                     </h1>
 
                     <div>
-                        <p style={{ fontSize: 'calc(1.5vw + 1.5vh)' }}>{progress.next_lvl}</p>
-                        <p style={{ fontSize: 'calc(1.2vw + 1.2vh)' }}>per day</p>
+                        <p style={{ fontSize: 'calc(1.6vw + 1.6vh)' }}>{progress.next_lvl}</p>
+                        <p style={{ fontSize: 'calc(1.3vw + 1.3vh)' }}>per day</p>
                     </div>
 
                 </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', height: '40vh' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', height: '46vh' }}>
                 <div style={{ display: 'flex', flexDirection: 'column', width: '80vw', maxWidth: '1280px', gap: '0.1rem', margin: '0 auto 1rem', border: '0px solid grey', borderRadius: '0.25rem', padding: '1rem', boxShadow: 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' }}>
                     <h2 style={{ textDecoration: 'underline', textUnderlineOffset: '0.15em', color: 'rgba(14, 165, 233, 0.6)', marginBottom: '0.2rem' }}>Onlife</h2>
                     <div>
