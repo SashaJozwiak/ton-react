@@ -39,12 +39,9 @@ export interface IProgress {
   next_lvl: number,
 }
 
-
-/* export interface onLifeBalance {
-  battles:number;
-  frens:number;
-  tasks:number;
-} */
+document.addEventListener('contextmenu', function (e) {
+  e.preventDefault();
+});
 
 function App() {
   //const { connected } = useTonConnect();
