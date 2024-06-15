@@ -163,7 +163,7 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
     return (
         <div
             className={battleStatus.search ? 'disabled_search' : ''}
-            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', marginTop: '-0.5rem', gap: '0.5rem', height: '77vh', overflow: 'scroll' }}>
+            style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-evenly', marginTop: '-0.5rem', gap: '0.5rem', height: '77vh', overflowY: 'scroll' }}>
 
             <h3 style={{ fontSize: '1rem', fontFamily: 'monospace', color: 'rgb(100 116 139)' }}>
                 You have&nbsp;

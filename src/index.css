@@ -4,6 +4,10 @@
   --tg-theme-button-text-color: black;
 }
 
+::-webkit-scrollbar {
+  display: none;
+}
+
 * {
   padding: 0px; 
   margin: 0px; 

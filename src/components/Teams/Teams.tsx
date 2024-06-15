@@ -116,7 +116,7 @@ const Teams = ({ userId, setRoutes }) => {
                 </button>
             </div>
 
-            <div style={{ overflow: 'scroll', height: '55vh' }}>
+            <div style={{ overflowY: 'scroll', height: '55vh' }}>
             {filteredTeams.map((team: ITeam, indx: number) => {
                 return (
                     <div key={team.team_id} className={team.team_id === myTeamId ? "myTeam" : ""} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', margin: '0.5rem 1rem', padding: '0.5rem', borderRadius: '0.25rem', background: 'rgba(14, 165, 233, 0.4)', boxShadow: 'rgba(0, 0, 0, 0.1) 0px 0px 5px, rgba(0, 0, 0, 0.1) 0px 0px 0px' }}>
