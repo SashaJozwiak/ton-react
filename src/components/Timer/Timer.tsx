@@ -30,7 +30,7 @@ const Timer: React.FC<TimerProps> = ({ lastBattleDate }) => {
 
     return (
         <>
-            <div style={{ opacity: '1.2' }}>
+            <div style={{ opacity: '1.2', color: 'black' }}>
                 {hours.toString().padStart(2, '0')}:
                 {minutes.toString().padStart(2, '0')}:
                 {seconds.toString().padStart(2, '0')}
