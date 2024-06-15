@@ -149,7 +149,7 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
             console.log('lastBattleDate: ', lastBattleDate);
             console.log('differentTime (in hours): ', differentTimeInHours);
 
-            if (differentTimeInHours >= 0.1) {
+            if (differentTimeInHours >= 12) {
             //if been 24 hours
             console.log('reset Count Kicks2: ', currentDate - lastBattleDate)
             resetCountKicks(userId, 0);
