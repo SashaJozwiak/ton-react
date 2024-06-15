@@ -96,7 +96,8 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
                 inBattle: false
             }
         })
-        const isWin = activData[type] > enemy[type] ? true : false;
+        //const isWin = activData[type] > enemy[type] ? true : false;
+        const isWin = activData[type] > (enemy[type] ?? 0);
 
         if (isWin) {
             await battlePoints(userId, 10)
@@ -107,8 +108,8 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
             setLocalBattlePoints((prev) => prev - 2)
             setResult(IBattleResult.lose);
         }
-        await setKicks(userId, 1);
         setKickCount(prev => prev - 1)
+        await setKicks(userId, 1);
 
         setTimeout(() => {
             setResult(IBattleResult.init);
@@ -138,6 +139,7 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
         if (battlesDataCount.last_battle_date !== 0) {
         const kicks: number = progress.current_lvl <= 10 ? progress.current_lvl : ((progress.current_lvl - 10) / 5) + 10;
         const currentDate: number = Date.now();
+            console.log('lastDataBattle: ', battlesDataCount.last_battle_date)
         const lastBattleDate: number = new Date(battlesDataCount.last_battle_date).getTime();
             const currentKickCount = (+kicks.toFixed()) - battlesDataCount.battles_count;
             setKickCount(currentKickCount);
@@ -147,11 +149,12 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
             console.log('lastBattleDate: ', lastBattleDate);
             console.log('differentTime (in hours): ', differentTimeInHours);
 
-            if (differentTimeInHours >= 24) {
+            if (differentTimeInHours >= 0.1) {
             //if been 24 hours
             console.log('reset Count Kicks2: ', currentDate - lastBattleDate)
             resetCountKicks(userId, 0);
-        }
+                setKickCount(0);
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [progress.current_lvl, battlesDataCount])
@@ -162,8 +165,10 @@ const Battles: React.FC<BattlesProps> = ({ userId, activData, progress, AllBattl
             className={battleStatus.search ? 'disabled_search' : ''}
             style={{ display: 'flex', flexDirection: 'column', marginTop: '-0.5rem', gap: '0.5rem' }}>
 
-            <h3 style={{ fontSize: '1rem', fontFamily: 'monospace', color: 'rgb(100 116 139)' }}>You have <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0.1rem 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
-                {kickCount}
+            <h3 style={{ fontSize: '1rem', fontFamily: 'monospace', color: 'rgb(100 116 139)' }}>
+                You have&nbsp;
+                <span style={{ border: '0px solid grey', color: 'rgb(14, 165, 233)', borderRadius: '0.3em', padding: '0.1rem 0.3rem', background: 'rgba(14, 165, 233, 0.15)' }}>
+                    {kickCount}
             </span>
                 <p style={{ display: 'inline' }}> kicks</p>
             </h3>

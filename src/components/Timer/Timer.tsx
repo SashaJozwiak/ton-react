@@ -11,7 +11,7 @@ const Timer: React.FC<TimerProps> = ({ lastBattleDate }) => {
         const interval = setInterval(() => {
             const currentDate = Date.now();
             const differentTime = currentDate - lastBattleDate;
-            const timeRemaining = 24 * 60 * 60 * 1000 - differentTime; // 24 hours - elapsed time
+            const timeRemaining = 12 * 60 * 60 * 1000 - differentTime; // 24 hours - elapsed time
 
             if (timeRemaining <= 0) {
                 clearInterval(interval);
