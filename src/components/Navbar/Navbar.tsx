@@ -1,10 +1,12 @@
+import './Navbar.css'
+
 
 const Navbar = ({ routes, setRoutes }) => {
 
     return (
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', maxWidth: '1280px' }} className="footer">
 
-            <div style={{ border: '0px solid rgb(14 165 233)', borderRadius: '1rem 1rem 0 0', width: '50%', boxShadow: `${routes === 'main' ? 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' : 'none'}`, background: `${routes === 'main' ? 'rgba(14, 165, 233, 0.4)' : 'transparent'}` }}
+            <div style={{ border: '0px solid rgb(14 165 233)', borderRadius: '1rem 1rem 0 0', width: '50%', boxShadow: `${routes === 'main' ? 'inset 2px 2px 5px rgba(154, 147, 140, 0.5), 1px 1px 5px rgba(255, 255, 255, 1)' : 'none'}`, background: `${routes === 'main' ? 'rgb(88 203 255 / 0.4)' : 'transparent'}` }}
                 onClick={() => setRoutes('main')}
             >
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="rgb(14 165 233)" style={{ paddingTop: '5%', width: '50px' /* padding: '0.5rem' */ }}>
