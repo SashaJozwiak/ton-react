@@ -1,22 +1,18 @@
-//import '@twa-dev/sdk';
-//import { TonConnectButton } from '@tonconnect/ui-react';
-//import { useTonConnect } from './hooks/useTonConnect';
-//import { useCounterContract } from './hooks/useCounterContract';
-
 //import eruda from 'eruda'
 import { Main } from './components/main/Main';
 import { useEffect, useState } from 'react';
 import WebApp from '@twa-dev/sdk';
 
-import { ActivityData } from './utils/queries/fetchData';
 import BlockingPopup from './components/Popups/AuthPopup';
 import Navbar from './components/Navbar/Navbar';
 import Tasks from './components/Tasks/Tasks';
 import Teams from './components/Teams/Teams';
 import Battles from './components/Battles/Battles';
 import Profile from './components/Profile/Profile';
-import './App.css';
+
+import { ActivityData } from './utils/queries/fetchData';
 import { postOnlifeBalance } from './utils/queries/postBalance';
+import './App.css';
 
 //eruda.init();//just for debug
 
@@ -44,18 +40,12 @@ document.addEventListener('contextmenu', function (e) {
 });
 
 function App() {
-  //const { connected } = useTonConnect();
-  //const { value, address, sendIncrement } = useCounterContract();
-
   //auth, routes
   const [isPopupOpen, setIsPopupOpen] = useState(false);
-
   const [authData, setAuthData] = useState<AuthData | null>(null);
   const [userId, setUserId] = useState<number>(0);
-
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-
   const [routes, setRoutes] = useState('main');
 
   //user data
@@ -64,17 +54,12 @@ function App() {
     cardio: 0,
     calories: 0,
   });
-
   const [onLifeBalance, setOnLifeBalance] = useState<Record<string, number>>({
     battles: 0,
     frens: 0,
     tasks: 0,
   });
-
-  console.log(onLifeBalance)
-
   const [sumPoints, setSumPoints] = useState<number>(0);
-
   const [progress, setProgress] = useState<IProgress>({
     current_lvl: 0,
     current_points: 0,
@@ -111,7 +96,6 @@ function App() {
           console.log('test user');
           setUserId(757322479);
         }
-        //await fetchUserData();
       } catch (error) {
         console.error('Error fetching user data:', error);
       }
@@ -141,7 +125,6 @@ function App() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sumPoints]);
-
 
   console.log('authData: ', authData?.ref_team_by)
   console.log('onLifeData: ', onLifeBalance, 'activData: ', activData);

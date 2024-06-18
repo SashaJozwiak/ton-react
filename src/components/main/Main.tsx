@@ -62,9 +62,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
     }
 
     useEffect(() => {
-
         if (authData !== null) {
-            //console.log(authData.expiry_date)
             const unixExpire = new Date(authData.expiry_date).getTime();
             console.log(unixExpire)
             if (unixExpire - 300000 < Date.now()) {
@@ -74,7 +72,7 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
             fetchDataFromGoogleFit(authData.access_token, userId)
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [authData]) //or [authData]
+    }, [authData])
 
     useEffect(() => {
         console.log('prepare sum: ', activData, onLifeBalance)
@@ -92,7 +90,6 @@ export const Main: React.FC<MainProps> = ({ userId, authData, setAuthData, activ
         calculateLvl(lvls, pointsPerDay, setProgress)
     }, [setProgress, sumPoints])
 
-    console.log(progress)
     return (
         <div style={{ fontFamily: 'monospace', overflowY: 'scroll', paddingTop: '1.3rem', marginTop: '-1.3rem' }}>
             <div style={{ position: 'relative', padding: '0.5rem 0', borderRadius: '0.5rem', margin: '1rem 1rem 2vh 1rem', width: '50', boxShadow: '0 0px 5px rgba(0,0,0,0.1), 0 0px 0px rgba(0,0,0,0.1)' }}>
